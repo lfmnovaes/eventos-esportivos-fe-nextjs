@@ -1,0 +1,78 @@
+'use client';
+
+import {Box, Typography} from '@mui/material';
+import Image from 'next/image';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Autoplay, EffectFade} from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+
+// TODO: Use the primary color coming from the store state
+const primaryColor: string = '#072342';
+
+const slideshowImages = [
+  '/slideshow1.jpg',
+  '/slideshow2.jpg',
+  '/slideshow3.jpg'
+];
+
+const slideshowText = [
+  'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+  'A empresa tem como missão levar ao consumidor final o melhor produto do mercado a um preço justo e competitivo. Seus gestores e funcionários estão altamente motivados e compromissados em fabricar no Brasil equipamentos de padrão europeu, tanto em performance como em qualidade. Os produtos fabricados pela TECHSPEED são diferenciados e com padrão de qualidade reconhecidamente refinado.',
+  'Buscamos implementar soluções incessantemente inovadoras, graças à manutenção de uma equipe de técnicos e engenheiros do mais alto nível. Um dos fatores que promovem o sucesso da TECHSPEED está no processo de pesquisa e desenvolvimento tecnológico, claramente evidenciados em todas as ações de lançamento de novos produtos.'
+];
+
+export default function SectionText() {
+  return (
+    <Box
+      component={'section'}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        height: '580px',
+        backgroundColor: '#fff',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '50%',
+          height: '100%',
+          backgroundColor: 'bg-blue-900',
+          clipPath: 'polygon(0 0, 50% 0, 100% 100%, 0% 100%)'
+        },
+        '& .swiper-slide': {backgroundColor: '#fff'}
+      }}
+    >
+      <div className="w-1/2 mx-8 overflow-hidden rounded-2xl border-4">
+        <Swiper
+          centeredSlides={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false
+          }}
+          modules={[Autoplay, EffectFade]}
+          effect="fade"
+        >
+          {slideshowImages.map((image, index) => (
+            <SwiperSlide key={index}>
+              <Image
+                src={image}
+                alt={`Slide ${index + 1}`}
+                fill
+                style={{objectFit: 'cover', objectPosition: 'center'}}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="flex flex-col w-1/2 gap-8 px-32">
+        {slideshowText.map((text, index) => (
+          <Typography key={index}>{text}</Typography>
+        ))}
+      </div>
+    </Box>
+  );
+}
