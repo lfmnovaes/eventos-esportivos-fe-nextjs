@@ -1,9 +1,9 @@
 'use client';
 
-import {Box, Typography} from '@mui/material';
-import Image from 'next/image';
-import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, EffectFade} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Box} from '@mui/material';
+import Image from 'next/image';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -27,10 +27,8 @@ export default function SectionText() {
   return (
     <Box
       component={'section'}
+      className="w-full flex items-center gap-28 relative px-16"
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        position: 'relative',
         height: '580px',
         backgroundColor: '#fff',
         '&::before': {
@@ -40,13 +38,15 @@ export default function SectionText() {
           left: 0,
           width: '50%',
           height: '100%',
-          backgroundColor: 'bg-blue-900',
+          backgroundColor: primaryColor,
           clipPath: 'polygon(0 0, 50% 0, 100% 100%, 0% 100%)'
-        },
-        '& .swiper-slide': {backgroundColor: '#fff'}
+        }
       }}
     >
-      <div className="w-1/2 mx-8 overflow-hidden rounded-2xl border-4">
+      <Box
+        className="container w-1/2 overflow-hidden rounded-3xl border-4"
+        sx={{borderColor: primaryColor}}
+      >
         <Swiper
           centeredSlides={true}
           autoplay={{
@@ -57,20 +57,20 @@ export default function SectionText() {
           effect="fade"
         >
           {slideshowImages.map((image, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide className="bg-white" key={index}>
               <Image
                 src={image}
                 alt={`Slide ${index + 1}`}
-                fill
-                style={{objectFit: 'cover', objectPosition: 'center'}}
+                height={420}
+                width={617}
               />
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
-      <div className="flex flex-col w-1/2 gap-8 px-32">
+      </Box>
+      <div className="container flex flex-col w-1/2 gap-6 text-black">
         {slideshowText.map((text, index) => (
-          <Typography key={index}>{text}</Typography>
+          <p key={index}>{text}</p>
         ))}
       </div>
     </Box>

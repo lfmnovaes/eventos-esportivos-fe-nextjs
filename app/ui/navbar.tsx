@@ -42,9 +42,8 @@ export default function Navbar({
   return (
     <AppBar
       position="fixed"
-      className={`${
-        isScrolled ? 'bg-transparent' : `bg-[${primaryColor}]`
-      } transition-all duration-300 flex items-center`}
+      className={'transition-all duration-300 flex items-center'}
+      sx={{backgroundColor: isScrolled ? 'transparent' : primaryColor}}
     >
       <Toolbar>{renderTitle()}</Toolbar>
     </AppBar>

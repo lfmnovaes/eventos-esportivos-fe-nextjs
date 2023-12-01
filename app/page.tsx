@@ -6,13 +6,14 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="flex min-h-screen flex-col items-center justify-between leading-5">
         <section className="w-full h-screen relative">
           <Image
             src="/hero-desktop.jpg"
             alt="Hero image"
             fill
             style={{objectFit: 'cover', objectPosition: 'center'}}
+            priority
           />
         </section>
         <SectionText />
