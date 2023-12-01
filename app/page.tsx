@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import Navbar from '@/app/ui/navbar';
-import SectionText from './ui/section-text';
+//import {SectionText, SectionEvents, SectionCalendar, Footer} from './ui';
+import SectionText from '@/app/ui/section-text';
+import SectionEvents from '@/app/ui/section-events';
+import SectionCalendar from '@/app/ui/section-calendar';
+import Footer from '@/app/ui/footer';
 
 export default function Home() {
   return (
@@ -17,7 +21,10 @@ export default function Home() {
           />
         </section>
         <SectionText />
+        <SectionEvents />
+        <SectionCalendar />
       </main>
+      <Footer />
     </>
   );
 }

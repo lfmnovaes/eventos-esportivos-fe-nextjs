@@ -61,8 +61,10 @@ export default function SectionText() {
               <Image
                 src={image}
                 alt={`Slide ${index + 1}`}
-                height={420}
-                width={617}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{width: '100%', height: 'auto'}}
               />
             </SwiperSlide>
           ))}

@@ -1,5 +1,5 @@
 import type {EventCardInfo} from '@/app/lib/definitions';
-import {Card, CardContent, CardMedia, Chip, Typography} from '@mui/material';
+import {Card, CardContent, CardMedia, Chip} from '@mui/material';
 import {
   Event as EventIcon,
   SportsScore as SportsScoreIcon,
@@ -50,10 +50,8 @@ export default function EventCard({eventInfo}: {eventInfo: EventCardInfo}) {
           size="small"
           className="my-2"
         />
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
         <div className="flex flex-col gap-2">
+          <p className="text-xl">{title}</p>
           <div className="flex items-center gap-2">
             <EventIcon />
             {`${dayjs(startDate).format('DD/MM/YYYY')} - ${dayjs(

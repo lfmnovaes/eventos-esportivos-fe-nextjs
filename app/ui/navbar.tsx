@@ -11,20 +11,20 @@ export default function Navbar({
 }: {
   title?: string | React.ReactElement;
 }) {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isAtTop, setIsAtTop] = useState<boolean>(true);
 
   useEffect(() => {
     const handleScroll = () => {
-      const isTop = window.scrollY < 100;
-      if (isTop !== isScrolled) {
-        setIsScrolled(isTop);
+      const isOnTop = window.scrollY < 100;
+      if (isOnTop !== isAtTop) {
+        setIsAtTop(isOnTop);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isScrolled]);
+  }, [isAtTop]);
 
   const renderTitle = () => {
     if (typeof title === 'string') {
@@ -43,7 +43,7 @@ export default function Navbar({
     <AppBar
       position="fixed"
       className={'transition-all duration-300 flex items-center'}
-      sx={{backgroundColor: isScrolled ? 'transparent' : primaryColor}}
+      sx={{backgroundColor: isAtTop ? 'transparent' : primaryColor}}
     >
       <Toolbar>{renderTitle()}</Toolbar>
     </AppBar>
