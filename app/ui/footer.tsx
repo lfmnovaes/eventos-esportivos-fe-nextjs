@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {Box, Divider, Grid, IconButton, Link, Typography} from '@mui/material';
+import {Box, Divider, IconButton} from '@mui/material';
 import {
   PlaceOutlined as PlaceOutlinedIcon,
   LanguageOutlined as LanguageOutlinedIcon,
@@ -52,10 +52,10 @@ export default function Footer() {
         <div className="flex flex-col gap-4">
           <p className="text-white text-sm">Nossas redes sociais</p>
           <div className="flex gap-2">
-            <IconButton style={{width: 'fit-content', padding: 0}}>
+            <IconButton className="w-fit p-0">
               <InstagramIcon className="h-8 w-8 text-white" />
             </IconButton>
-            <IconButton style={{width: 'fit-content', padding: 0}}>
+            <IconButton className="w-fit p-0">
               <InstagramIcon className="h-8 w-8 text-white" />
             </IconButton>
           </div>
