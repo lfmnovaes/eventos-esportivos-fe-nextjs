@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {Box, Divider, Grid, IconButton, Link, Typography} from '@mui/material';
 import {
   PlaceOutlined as PlaceOutlinedIcon,
@@ -13,93 +14,63 @@ const primaryColor: string = '#072342';
 export default function Footer() {
   return (
     <Box
-      display={'flex'}
-      flexDirection={'column'}
-      paddingY={'2rem'}
-      paddingX={'4rem'}
-      sx={{
-        backgroundColor: primaryColor
-      }}
+      component={'footer'}
+      className="flex flex-col py-8 px-16"
+      sx={{backgroundColor: primaryColor}}
     >
-      <Grid container direction="row" alignItems="flex-start">
-        <Grid item xs={4} display={'grid'} gap={'16px'}>
-          <Box component={'img'} src={'/logo.png'} />
-          <Typography color="white" variant="body1">
-            {'Onde estamos'}
-          </Typography>
-          <Box display={'flex'} gap={'8px'}>
-            <PlaceOutlinedIcon
-              sx={{height: '16px', width: '16px', color: 'white'}}
-            />
-            <Typography color="white" variant="body2">
-              {'Av. Centenário, nº 500 Pinheirinho'}
+      <div className="grid grid-cols-5 gap-4">
+        <div className="flex flex-col gap-4">
+          <Image src="/logo.png" alt="Logo" width={235} height={53} />
+          <p className="text-white">Onde estamos</p>
+          <div className="flex gap-2">
+            <PlaceOutlinedIcon className="h-4 w-4 text-white" />
+            <p className="text-white text-sm">
+              Av. Centenário, nº 500 Pinheirinho
               <br />
-              {'Criciúma, SC - 88804-000'}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={2} display={'grid'} gap={'16px'}>
-          <Typography color={'white'} variant={'body2'}>
-            {'Acesse nosso site'}
-          </Typography>
-          <Box display={'flex'} gap={'8px'}>
-            <LanguageOutlinedIcon
-              sx={{height: '16px', width: '16px', color: 'white'}}
-            />
-            <Link href="techspeedkart.com" target="_blank" rel="noopener">
-              <Typography color={'white'} variant={'body2'}>
-                {'techspeedkart.com'}
-              </Typography>
-            </Link>
-          </Box>
-        </Grid>
-        <Grid item xs={2} display={'grid'} gap={'16px'}>
-          <Typography color={'white'} variant={'body2'}>
-            {'Fale conosco'}
-          </Typography>
-          <Box display={'flex'} gap={'8px'}>
-            <InstagramIcon
-              sx={{height: '16px', width: '16px', color: 'white'}}
-            />
-            <Link href="tel:4834374488" target="_blank" rel="noopener">
-              <Typography color={'white'} variant={'body2'}>
-                {'(48) 3437-4488'}
-              </Typography>
-            </Link>
-          </Box>
-        </Grid>
-        <Grid item xs={2} display={'grid'} gap={'16px'}>
-          <Typography variant={'body2'} color={'white'}>
-            {'Nossas redes sociais'}
-          </Typography>
-          <Box display={'flex'} gap={'16px'}>
-            <IconButton sx={{width: 'fit-content', padding: 0}}>
-              <InstagramIcon
-                sx={{height: '32px', width: '32px', color: 'white'}}
-              />
+              Criciúma, SC - 88804-000
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-white text-sm">Acesse nosso site</p>
+          <div className="flex gap-2">
+            <LanguageOutlinedIcon className="h-4 w-4 text-white" />
+            <a href="https://techspeedkart.com" target="_blank" rel="noopener">
+              <p className="text-white text-sm">techspeedkart.com</p>
+            </a>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-white text-sm">Fale conosco</p>
+          <div className="flex gap-2">
+            <InstagramIcon className="h-4 w-4 text-white" />
+            <a href="tel:4834374488" target="_blank" rel="noopener">
+              <p className="text-white text-sm">(48) 3437-4488</p>
+            </a>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-white text-sm">Nossas redes sociais</p>
+          <div className="flex gap-2">
+            <IconButton style={{width: 'fit-content', padding: 0}}>
+              <InstagramIcon className="h-8 w-8 text-white" />
             </IconButton>
-            <IconButton sx={{width: 'fit-content', padding: 0}}>
-              <InstagramIcon
-                sx={{height: '32px', width: '32px', color: 'white'}}
-              />
+            <IconButton style={{width: 'fit-content', padding: 0}}>
+              <InstagramIcon className="h-8 w-8 text-white" />
             </IconButton>
-          </Box>
-        </Grid>
-        <Grid item xs={2} sx={{alignSelf: 'flex-end'}}>
-          <Link href="https://www.google.com/" target="_blank" rel="noopener">
-            <Typography variant={'body2'} color={'white'}>
-              {'Termos e políticas'}
-            </Typography>
-          </Link>
-        </Grid>
-      </Grid>
-      <Divider color={'white'} sx={{marginY: '1rem'}} />
-      <Box display={'flex'} alignSelf={'center'} gap={'8px'}>
-        <Typography variant={'body2'} color={'white'}>
-          {'Powered by '}
-        </Typography>
-        <Box component={'img'} src={'/logo_plathanus.png'}></Box>
-      </Box>
+          </div>
+        </div>
+        <div className="flex self-end">
+          <a href="https://www.google.com/" target="_blank" rel="noopener">
+            <p className="text-white text-sm">Termos e políticas</p>
+          </a>
+        </div>
+      </div>
+      <Divider color="white" className="my-4" />
+      <div className="flex self-center gap-2">
+        <p className="text-white text-sm">Powered by </p>
+        <Image src="/logo_plathanus.png" alt="Logo" width={138} height={23} />
+      </div>
     </Box>
   );
 }

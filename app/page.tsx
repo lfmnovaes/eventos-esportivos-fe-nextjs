@@ -9,7 +9,7 @@ import Footer from '@/app/ui/footer';
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar title={<Image  src="/logo.png" alt="logo" width={235} height={53} />} />
       <main className="flex min-h-screen flex-col items-center justify-between leading-5">
         <section className="w-full h-screen relative">
           <Image

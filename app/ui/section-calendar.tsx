@@ -1,4 +1,5 @@
 import {Box, Button} from '@mui/material';
+import Image from 'next/image';
 
 // TODO: Use the primary color coming from the store state
 const primaryColor: string = '#072342';
@@ -6,12 +7,8 @@ const primaryColor: string = '#072342';
 export default function SectionCalendar() {
   return (
     <Box
-      height={'480px'}
-      width={'100%'}
-      position={'relative'}
-      display={'flex'}
-      justifyContent={'center'}
-      alignContent={'center'}
+      component={'section'}
+      className="w-full h-[480px] relative flex items-center justify-center"
       sx={{
         backgroundColor: '#fff',
         '&::before': {
@@ -25,39 +22,21 @@ export default function SectionCalendar() {
         }
       }}
     >
-      <Box
-        height={'466px'}
-        width={'90%'}
-        component={'img'}
-        src={'/section4_image.jpg'}
-        borderRadius={'32px'}
-        zIndex={'5'}
-        sx={{objectFit: 'cover'}}
+      <Image
+        className="rounded-3xl z-10 object-cover object-center"
+        src="/section4_image.jpg"
+        alt="calendar image"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{width: '90%', height: '466px'}}
       />
-      <Box
-        position={'absolute'}
-        top={'50%'}
-        left={'50%'}
-        width={'434px'}
-        borderRadius={'16px'}
-        display={'flex'}
-        flexDirection={'column'}
-        gap={'16px'}
-        zIndex={'10'}
-        sx={{
-          top: '32px',
-          left: 'calc(5% + 32px)',
-          color: 'var(--default-color)',
-          backdropFilter: 'blur(16px)',
-          paddingY: '32px',
-          paddingX: '24px'
-        }}
-      >
+      <div className="absolute top-[32px] left-[calc(5%+32px)] w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
         <p>Agende dias e horários para corridas de Kart Indoor</p>
         <Button variant="outlined" sx={{width: 'fit-content'}}>
           Ver Calendário
         </Button>
-      </Box>
+      </div>
     </Box>
   );
 }

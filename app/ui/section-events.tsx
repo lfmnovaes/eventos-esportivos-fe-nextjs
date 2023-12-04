@@ -36,36 +36,18 @@ export default function SectionEvents() {
   };
 
   return (
-    <Box
-      component={'section'}
-      className="w-full gap-28 relative px-16"
-      sx={{
-        height: '580px',
-        backgroundColor: '#fff'
-      }}
-    >
-      <Box
-        width={'100%'}
-        display={'flex'}
-        padding={'16px 0 32px 0'}
-        justifyContent={'space-between'}
-      >
+    <section className="w-full gap-8 relative py-6 px-16 h-full bg-white">
+      <div className="w-full flex justify-between py-8">
         <p className="text-black text-4xl">Confira os próximos eventos</p>
-        <Box alignSelf="center" paddingRight={'32px'}>
-          <IconButton
-            onClick={handleClickSlideLeft}
-            disabled={leftButtonDisabled}
-          >
+        <div className="self-center pr-8">
+          <IconButton onClick={handleClickSlideLeft} disabled={leftButtonDisabled}>
             <ChevronLeftIcon />
           </IconButton>
-          <IconButton
-            onClick={handleClickSlideRight}
-            disabled={rightButtonDisabled}
-          >
+          <IconButton onClick={handleClickSlideRight} disabled={rightButtonDisabled}>
             <ChevronRightIcon />
           </IconButton>
-        </Box>
-      </Box>
+        </div>
+      </div>
       <Swiper
         spaceBetween={8}
         slidesPerView={SLIDES_PER_VIEW}
@@ -80,6 +62,6 @@ export default function SectionEvents() {
           </SwiperSlide>
         ))}
       </Swiper>
-    </Box>
+    </section>
   );
 }
