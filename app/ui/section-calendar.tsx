@@ -22,16 +22,18 @@ export default function SectionCalendar() {
         }
       }}
     >
-      <Image
-        className="rounded-3xl z-10 object-cover object-center"
-        src="/section4_image.jpg"
-        alt="calendar image"
-        width={0}
-        height={0}
-        sizes="100vw"
-        style={{width: '90%', height: '466px'}}
-      />
-      <div className="absolute top-[32px] left-[calc(5%+32px)] w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
+      <div className="w-full px-8 z-10">
+        <Image
+          className="rounded-3xl object-cover object-center"
+          src="/section4_image.jpg"
+          alt="calendar image"
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{width: '100%', height: '466px'}}
+        />
+      </div>
+      <div className="absolute top-8 left-8 ml-8 w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
         <p>Agende dias e horários para corridas de Kart Indoor</p>
         <Button variant="outlined" sx={{width: 'fit-content'}}>
           Ver Calendário
