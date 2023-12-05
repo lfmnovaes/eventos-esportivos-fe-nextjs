@@ -34,8 +34,10 @@ export default function SectionCalendar() {
         />
       </div>
       <div className="absolute top-8 left-8 ml-8 w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
-        <p>Agende dias e horários para corridas de Kart Indoor</p>
-        <Button variant="outlined" sx={{width: 'fit-content'}}>
+        <Box component="p" className="text-3xl" sx={{color: primaryColor}}>
+          Agende dias e horários para corridas de Kart Indoor
+        </Box>
+        <Button variant="outlined" sx={{color: primaryColor, width: 'fit-content'}}>
           Ver Calendário
         </Button>
       </div>

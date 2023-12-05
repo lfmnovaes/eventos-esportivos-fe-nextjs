@@ -4,6 +4,8 @@ import {Autoplay, EffectFade} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Box} from '@mui/material';
 import Image from 'next/image';
+import {useAtomValue} from 'jotai';
+import {templateDataAtom} from '@/app/store';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -24,6 +26,10 @@ const slideshowText = [
 ];
 
 export default function SectionText() {
+  const templateData = useAtomValue(templateDataAtom);
+
+  console.log('from sectiontext', templateData);
+
   return (
     <Box
       component={'section'}

@@ -4,7 +4,7 @@ import {useRef, useState} from 'react';
 import type {SwiperClass} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Box, IconButton} from '@mui/material';
+import {IconButton} from '@mui/material';
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon
