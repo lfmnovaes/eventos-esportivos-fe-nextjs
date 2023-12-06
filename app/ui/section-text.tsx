@@ -5,13 +5,10 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Box} from '@mui/material';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom} from '@/app/store';
+import {templateDataAtom} from '@/app/atoms';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
-
-// TODO: Use the primary color coming from the store state
-const primaryColor: string = '#072342';
 
 const slideshowImages = [
   '/slideshow1.jpg',
@@ -19,16 +16,12 @@ const slideshowImages = [
   '/slideshow3.jpg'
 ];
 
-const slideshowText = [
-  'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
-  'A empresa tem como missão levar ao consumidor final o melhor produto do mercado a um preço justo e competitivo. Seus gestores e funcionários estão altamente motivados e compromissados em fabricar no Brasil equipamentos de padrão europeu, tanto em performance como em qualidade. Os produtos fabricados pela TECHSPEED são diferenciados e com padrão de qualidade reconhecidamente refinado.',
-  'Buscamos implementar soluções incessantemente inovadoras, graças à manutenção de uma equipe de técnicos e engenheiros do mais alto nível. Um dos fatores que promovem o sucesso da TECHSPEED está no processo de pesquisa e desenvolvimento tecnológico, claramente evidenciados em todas as ações de lançamento de novos produtos.'
-];
-
 export default function SectionText() {
   const templateData = useAtomValue(templateDataAtom);
 
-  console.log('from sectiontext', templateData);
+  const {primary_color: primaryColor, description} = templateData;
+
+  const slideshowTexts = description.split('\r\n').filter((text) => text);
 
   return (
     <Box
@@ -77,7 +70,7 @@ export default function SectionText() {
         </Swiper>
       </Box>
       <div className="container flex flex-col w-1/2 gap-6 text-black">
-        {slideshowText.map((text, index) => (
+        {slideshowTexts.map((text, index) => (
           <p key={index}>{text}</p>
         ))}
       </div>

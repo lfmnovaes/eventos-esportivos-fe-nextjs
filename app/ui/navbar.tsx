@@ -2,25 +2,18 @@
 
 import {useEffect, useState} from 'react';
 import {AppBar, Toolbar, Typography} from '@mui/material';
-import {templateDataAtom} from '@/app/store';
+import {templateDataAtom} from '@/app/atoms';
 import {useAtomValue} from 'jotai';
-import {useHydrateAtoms} from 'jotai/utils';
-
-// TODO: Use the primary color coming from the store state
-const primaryColor: string = '#072342';
 
 export default function Navbar({
-  title = 'Logo',
-  templateHomeData
+  title = 'Logo'
 }: {
   title?: string | React.ReactElement;
-  templateHomeData: any;
 }) {
   const [isAtTop, setIsAtTop] = useState<boolean>(true);
-  useHydrateAtoms([[templateDataAtom, templateHomeData]]);
   const templateData = useAtomValue(templateDataAtom);
 
-  console.log('from navbar', templateData);
+  const {primary_color: primaryColor} = templateData;
 
   useEffect(() => {
     const handleScroll = () => {

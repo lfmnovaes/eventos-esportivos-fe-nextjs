@@ -10,7 +10,7 @@ export type EventCardInfo = {
 }
 
 export type EventCard = {
-  id: string;
+  id: number;
   name: string;
   starts_at: string;
   ends_at: string;
@@ -18,14 +18,14 @@ export type EventCard = {
   address: {
     place: string;
     city: string;
-    federal_unit: string;
+    federal_unity: string;
   }
   status: string;
 }
 
 export type HomeTemplate = {
   template: {
-    id: string;
+    id: number;
     name: string;
   };
   has_events: boolean;
@@ -35,7 +35,7 @@ export type HomeTemplate = {
   banner_image: string;
   description: string;
   gallery_images: {
-    id: string;
+    id: number;
     image: string;
   }[];
   last_events: EventCard[];

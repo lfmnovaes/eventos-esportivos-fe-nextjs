@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Navbar from '@/app/ui/navbar';
 import {SectionText, SectionEvents, SectionCalendar, Footer} from '@/app/ui';
+import Store from '@/app/store';
 
 function getApiUrl(apiPath: string): string {
   const publicApiUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiPath}`;
@@ -11,7 +12,7 @@ function getApiUrl(apiPath: string): string {
 }
 
 async function getTemplateHomeData() {
-  const res = await fetch(getApiUrl('2/template_home'), {
+  const res = await fetch(getApiUrl('api/v1/companies/2/template_home'), {
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -30,11 +31,11 @@ export default async function Home() {
 
   return (
     <>
+      <Store templateHomeData={templateHomeData} />
       <Navbar
         title={
           <Image src="/logo.png" alt="logo" width={235} height={53} priority />
         }
-        templateHomeData={templateHomeData}
       />
       <main className="flex min-h-screen flex-col items-center justify-between leading-5">
         <section className="w-full h-screen relative">
