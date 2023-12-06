@@ -1,14 +1,19 @@
 'use client';
 
-import type {HomeTemplate} from '@/app/lib/definitions';
+import type {HomeTemplate, FooterData} from '@/app/lib/definitions';
 import {useHydrateAtoms} from 'jotai/utils';
-import {templateDataAtom} from '@/app/atoms';
+import {templateDataAtom, footerDataAtom} from '@/app/atoms';
 
 export default function Store({
-  templateHomeData
+  templateHomeData,
+  footerData
 }: {
   templateHomeData: HomeTemplate;
+  footerData: FooterData;
 }) {
-  useHydrateAtoms([[templateDataAtom, templateHomeData]] as const);
+  useHydrateAtoms([
+    [templateDataAtom, templateHomeData],
+    [footerDataAtom, footerData]
+  ] as const);
   return null;
 }

@@ -10,17 +10,22 @@ import {
   ChevronRight as ChevronRightIcon
 } from '@mui/icons-material';
 import EventCard from './event-card';
+import {useAtomValue} from 'jotai';
+import {templateDataAtom} from '@/app/atoms';
 
 import 'swiper/css';
-
-import {placeholderSlideData} from '@/app/lib/placeholder-data.js';
 
 const SLIDES_PER_VIEW = 3;
 
 export default function SectionEvents() {
+  const templateData = useAtomValue(templateDataAtom);
+  const {last_events: lastEvents} = templateData;
+
   const swiperRef = useRef<SwiperClass>();
   const [leftButtonDisabled, setLeftButtonDisabled] = useState(true);
-  const [rightButtonDisabled, setRightButtonDisabled] = useState(false);
+  const [rightButtonDisabled, setRightButtonDisabled] = useState(
+    lastEvents.length <= SLIDES_PER_VIEW
+  );
 
   const handleClickSlideLeft = () => {
     swiperRef.current?.slidePrev();
@@ -56,9 +61,9 @@ export default function SectionEvents() {
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => handleSlideChange(swiper)}
       >
-        {placeholderSlideData.map((event, index) => (
+        {lastEvents.map((event, index) => (
           <SwiperSlide key={index}>
-            <EventCard eventInfo={event} />
+            <EventCard eventData={event} />
           </SwiperSlide>
         ))}
       </Swiper>

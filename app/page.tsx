@@ -26,17 +26,31 @@ async function getTemplateHomeData() {
   return res.json();
 }
 
+async function getFooterData() {
+  const res = await fetch(getApiUrl('api/v1/companies/2/footer'), {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  });
+
+  if (!res.ok) {
+    console.error('API Error Response:', await res.text());
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
 export default async function Home() {
-  const [templateHomeData] = await Promise.all([getTemplateHomeData()]);
+  const [templateHomeData, footerData] = await Promise.all([
+    getTemplateHomeData(),
+    getFooterData()
+  ]);
 
   return (
     <>
-      <Store templateHomeData={templateHomeData} />
-      <Navbar
-        title={
-          <Image src="/logo.png" alt="logo" width={235} height={53} priority />
-        }
-      />
+      <Store templateHomeData={templateHomeData} footerData={footerData} />
+      <Navbar title={<Image src="/logo.png" alt="logo" width={235} height={53} priority />} />
       <main className="flex min-h-screen flex-col items-center justify-between leading-5">
         <section className="w-full h-screen relative">
           <Image

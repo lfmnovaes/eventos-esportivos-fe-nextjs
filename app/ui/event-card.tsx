@@ -1,4 +1,4 @@
-import type {EventCardInfo} from '@/app/lib/definitions';
+import type {EventCard} from '@/app/lib/definitions';
 import {Card, CardContent, CardMedia, Chip} from '@mui/material';
 import {
   Event as EventIcon,
@@ -8,29 +8,39 @@ import {
 import dayjs from 'dayjs';
 
 enum EventStatus {
-  Active = 'active',
-  Soon = 'soon',
-  Canceled = 'canceled'
+  Open = 'open',
+  Closed = 'closed',
+  OpenSoon = 'open_soon',
+  NoTicketsRemaining = 'no_tickets_remaining'
 }
 
 type EventStatusInfo = {
   text: string;
-  color: 'success' | 'warning' | 'error';
+  color: 'success' | 'warning' | 'error' | 'info';
 };
 
 const statusMap = new Map<EventStatus, EventStatusInfo>([
-  [EventStatus.Active, {text: 'Inscrições abertas', color: 'success'}],
-  [EventStatus.Soon, {text: 'Em breve', color: 'warning'}],
-  [EventStatus.Canceled, {text: 'Cancelado', color: 'error'}]
+  [EventStatus.Open, {text: 'Inscrições abertas', color: 'success'}],
+  [EventStatus.OpenSoon, {text: 'Em breve', color: 'warning'}],
+  [EventStatus.Closed, {text: 'Fechado', color: 'error'}],
+  [EventStatus.NoTicketsRemaining, {text: 'Esgotado', color: 'info'}]
 ]);
 
-export default function EventCard({eventInfo}: {eventInfo: EventCardInfo}) {
-  const {cardImagePath, status, title, startDate, endDate, event, location} =
-    eventInfo;
+export default function EventCard({eventData}: {eventData: EventCard}) {
+  //const {cardImagePath, status, title, startDate, endDate, event, location} = eventInfo;
+  const {
+    name,
+    starts_at: startDate,
+    ends_at: endDate,
+    banner_image: cardImage,
+    address: {place, city, federal_unity: federalUnity},
+    status
+  } = eventData;
   const currentStatus = statusMap.get(status as EventStatus) || {
     text: 'Desconhecido',
     color: 'error'
   };
+  const location = `${city} - ${federalUnity}`;
 
   return (
     <Card
@@ -40,7 +50,8 @@ export default function EventCard({eventInfo}: {eventInfo: EventCardInfo}) {
       <CardMedia
         component="img"
         height="188"
-        image={cardImagePath}
+        //image={cardImage}
+        image="/card1.jpg"
         className="rounded-xl"
       />
       <CardContent className="p-0">
@@ -51,16 +62,14 @@ export default function EventCard({eventInfo}: {eventInfo: EventCardInfo}) {
           className="my-2"
         />
         <div className="flex flex-col gap-2">
-          <p className="text-xl">{title}</p>
+          <p className="text-xl">{name}</p>
           <div className="flex items-center gap-2">
             <EventIcon />
-            {`${dayjs(startDate).format('DD/MM/YYYY')} - ${dayjs(
-              endDate
-            ).format('DD/MM/YYYY')}`}
+            {`${dayjs(startDate).format('DD/MM/YYYY')} - ${dayjs(endDate).format('DD/MM/YYYY')}`}
           </div>
           <div className="flex items-center gap-2">
             <SportsScoreIcon />
-            {event}
+            {place}
           </div>
           <div className="flex items-center gap-2">
             <PlaceOutlinedIcon />

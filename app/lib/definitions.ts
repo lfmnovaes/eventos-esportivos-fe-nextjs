@@ -7,7 +7,7 @@ export type EventCardInfo = {
   endDate: string;
   event: string;
   location: string;
-}
+};
 
 export type EventCard = {
   id: number;
@@ -19,9 +19,9 @@ export type EventCard = {
     place: string;
     city: string;
     federal_unity: string;
-  }
+  };
   status: string;
-}
+};
 
 export type HomeTemplate = {
   template: {
@@ -39,4 +39,25 @@ export type HomeTemplate = {
     image: string;
   }[];
   last_events: EventCard[];
-}
+};
+
+export type FooterData = {
+  name: string;
+  logo_image: string;
+  terms_and_policies: string;
+  contact_info: {
+    website: string;
+    email: string;
+    phone: string;
+    instagram: string;
+    facebook: string;
+  };
+  address: {
+    street: string;
+    number: string;
+    city: string;
+    district: string;
+    federal_unity: string;
+    zip_code: string;
+  };
+};

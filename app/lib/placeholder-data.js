@@ -13,13 +13,11 @@ export const initialTemplateData = {
   gallery_images: [
     {
       id: 3,
-      image:
-        '/media/home_templates/gallery/587996b178aaf0ab0be5846d309d6579.png'
+      image: '/media/home_templates/gallery/587996b178aaf0ab0be5846d309d6579.png'
     },
     {
       id: 4,
-      image:
-        '/media/home_templates/gallery/587996b178aaf0ab0be5846d309d6579_kJMYzVW.png'
+      image: '/media/home_templates/gallery/587996b178aaf0ab0be5846d309d6579_kJMYzVW.png'
     }
   ],
   last_events: [
@@ -37,6 +35,27 @@ export const initialTemplateData = {
       status: 'open'
     }
   ]
+};
+
+export const initialFooterData = {
+  name: 'TechSpeed',
+  logo_image: '/media/companies/logos/logo.png',
+  terms_and_policies: '/media/companies/terms_and_policies/Vendas_em_Acao-PDF.pdf',
+  contact_info: {
+    website: 'http://www.techspeedkart.com',
+    email: '',
+    phone: '+554834374488',
+    instagram: 'https://www.instagram.com/techspeedkart',
+    facebook: 'https://www.facebook.com/techspeedkart'
+  },
+  address: {
+    street: 'Avenida Centenário',
+    number: '500',
+    city: 'Criciúma',
+    district: 'Pinheirinho',
+    federal_unity: 'SC',
+    zip_code: '88804000'
+  }
 };
 
 export const placeholderSlideData = [

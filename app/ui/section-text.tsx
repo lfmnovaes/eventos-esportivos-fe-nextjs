@@ -6,22 +6,19 @@ import {Box} from '@mui/material';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import {templateDataAtom} from '@/app/atoms';
+import {splitBigText} from '@/app/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
-const slideshowImages = [
-  '/slideshow1.jpg',
-  '/slideshow2.jpg',
-  '/slideshow3.jpg'
-];
+const slideshowImages = ['/slideshow1.jpg', '/slideshow2.jpg', '/slideshow3.jpg'];
 
 export default function SectionText() {
   const templateData = useAtomValue(templateDataAtom);
 
   const {primary_color: primaryColor, description} = templateData;
 
-  const slideshowTexts = description.split('\r\n').filter((text) => text);
+  const slideshowTexts = splitBigText(description);
 
   return (
     <Box

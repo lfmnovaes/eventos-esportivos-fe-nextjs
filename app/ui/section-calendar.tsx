@@ -1,10 +1,15 @@
+'use client';
+
 import {Box, Button} from '@mui/material';
 import Image from 'next/image';
-
-// TODO: Use the primary color coming from the store state
-const primaryColor: string = '#072342';
+import {useAtomValue} from 'jotai';
+import {templateDataAtom} from '@/app/atoms';
 
 export default function SectionCalendar() {
+  const templateData = useAtomValue(templateDataAtom);
+
+  const {primary_color: primaryColor} = templateData;
+
   return (
     <Box
       component={'section'}

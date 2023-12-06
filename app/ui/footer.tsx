@@ -1,4 +1,4 @@
-'use client'; // Needed to allow PhoneInTalk and FacebookOutlined to work
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,19 +10,30 @@ import {
   FacebookOutlined as FacebookOutlinedIcon,
   Instagram as InstagramIcon
 } from '@mui/icons-material';
+import {useAtomValue} from 'jotai';
+import {templateDataAtom, footerDataAtom} from '@/app/atoms';
+import {getDomainName, formatBrazilianPhoneNumber} from '@/app/lib/utils';
 
-// TODO: Use the primary color coming from the store state
-const primaryColor: string = '#072342';
+//const primaryColor: string = '#072342';
 
 export default function Footer() {
+  const templateData = useAtomValue(templateDataAtom);
+  const footerData = useAtomValue(footerDataAtom);
+  const {primary_color: primaryColor} = templateData;
+  const {
+    terms_and_policies: termsAndPoliciesLink,
+    contact_info: {website, phone, instagram, facebook}
+  } = footerData;
+
   return (
     <Box
       component={'footer'}
       className="flex flex-col py-8 px-16"
       sx={{backgroundColor: primaryColor}}
     >
-      <div className="grid grid-cols-5 gap-4">
-        <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-6 gap-4">
+        <div className="col-span-2 flex flex-col gap-4">
+          {/* TODO: use the image url from footerData */}
           <Image src="/logo.png" alt="Logo" width={235} height={53} />
           <p className="text-base">Onde estamos</p>
           <div className="flex gap-2">
@@ -38,12 +49,8 @@ export default function Footer() {
           <p className="text-base">Acesse nosso site</p>
           <div className="flex gap-2">
             <LanguageOutlinedIcon className="h-4 w-4 text-white" />
-            <Link
-              href="https://techspeedkart.com"
-              target="_blank"
-              rel="noopener"
-            >
-              <p className="text-sm">techspeedkart.com</p>
+            <Link href={website} target="_blank" rel="noopener">
+              <p className="text-sm">{getDomainName(website)}</p>
             </Link>
           </div>
         </div>
@@ -51,24 +58,24 @@ export default function Footer() {
           <p className="text-base">Fale conosco</p>
           <div className="flex gap-2">
             <PhoneInTalkIcon className="h-4 w-4 text-white" />
-            <Link href="tel:4834374488" target="_blank" rel="noopener">
-              <p className="text-sm">(48) 3437-4488</p>
+            <Link href={`tel:${phone}`} target="_blank" rel="noopener">
+              <p className="text-sm">{formatBrazilianPhoneNumber(phone)}</p>
             </Link>
           </div>
         </div>
         <div className="flex flex-col gap-4">
           <p className="text-base">Nossas redes sociais</p>
           <div className="flex gap-2">
-            <IconButton className="w-fit p-0">
+            <IconButton href={instagram} className="w-fit p-0" target="_blank" rel="noopener">
               <InstagramIcon className="h-8 w-8 text-white" />
             </IconButton>
-            <IconButton className="w-fit p-0">
+            <IconButton href={facebook} className="w-fit p-0" target="_blank" rel="noopener">
               <FacebookOutlinedIcon className="h-8 w-8 text-white" />
             </IconButton>
           </div>
         </div>
-        <div className="flex self-end">
-          <Link href="https://www.google.com/" target="_blank" rel="noopener">
+        <div className="flex self-end justify-self-end">
+          <Link href={termsAndPoliciesLink} target="_blank" rel="noopener">
             <p className="text-sm">Termos e políticas</p>
           </Link>
         </div>
