@@ -11,12 +11,10 @@ import {splitBigText} from '@/app/lib/utils';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
-const slideshowImages = ['/slideshow1.jpg', '/slideshow2.jpg', '/slideshow3.jpg'];
-
 export default function SectionText() {
   const templateData = useAtomValue(templateDataAtom);
 
-  const {primary_color: primaryColor, description} = templateData;
+  const {primary_color: primaryColor, description, gallery_images: galleryImages} = templateData;
 
   const slideshowTexts = splitBigText(description);
 
@@ -40,7 +38,7 @@ export default function SectionText() {
       }}
     >
       <Box
-        className="container w-1/2 overflow-hidden rounded-3xl border-4"
+        className="container w-1/2 overflow-hidden rounded-3xl border-4 aspect-video"
         sx={{borderColor: primaryColor}}
       >
         <Swiper
@@ -52,10 +50,10 @@ export default function SectionText() {
           modules={[Autoplay, EffectFade]}
           effect="fade"
         >
-          {slideshowImages.map((image, index) => (
+          {galleryImages.map((gallery, index) => (
             <SwiperSlide className="bg-white" key={index}>
               <Image
-                src={image}
+                src={gallery.image}
                 alt={`Slide ${index + 1}`}
                 width={0}
                 height={0}

@@ -1,6 +1,4 @@
-import Image from 'next/image';
-import Navbar from '@/app/ui/navbar';
-import {SectionText, SectionEvents, SectionCalendar, Footer} from '@/app/ui';
+import {Navbar, SectionHero, SectionText, SectionEvents, SectionCalendar, Footer} from '@/app/ui';
 import Store from '@/app/store';
 
 function getApiUrl(apiPath: string): string {
@@ -13,6 +11,7 @@ function getApiUrl(apiPath: string): string {
 
 async function getTemplateHomeData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/template_home'), {
+    cache: 'no-store',
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -28,6 +27,7 @@ async function getTemplateHomeData() {
 
 async function getFooterData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/footer'), {
+    cache: 'no-store',
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -50,17 +50,9 @@ export default async function Home() {
   return (
     <>
       <Store templateHomeData={templateHomeData} footerData={footerData} />
-      <Navbar title={<Image src="/logo.png" alt="logo" width={235} height={53} priority />} />
+      <Navbar />
       <main className="flex min-h-screen flex-col items-center justify-between leading-5">
-        <section className="w-full h-screen relative">
-          <Image
-            src="/hero-desktop.jpg"
-            alt="Hero image"
-            fill
-            style={{objectFit: 'cover', objectPosition: 'center'}}
-            priority
-          />
-        </section>
+        <SectionHero />
         <SectionText />
         <SectionEvents />
         <SectionCalendar />

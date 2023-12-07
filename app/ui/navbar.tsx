@@ -1,53 +1,30 @@
 'use client';
 
-import {useEffect, useState} from 'react';
-import {AppBar, Toolbar, Typography} from '@mui/material';
-import {templateDataAtom} from '@/app/atoms';
+import {AppBar, Toolbar, useScrollTrigger} from '@mui/material';
+import Image from 'next/image';
+import {templateDataAtom, footerDataAtom} from '@/app/atoms';
 import {useAtomValue} from 'jotai';
 
-export default function Navbar({
-  title = 'Logo'
-}: {
-  title?: string | React.ReactElement;
-}) {
-  const [isAtTop, setIsAtTop] = useState<boolean>(true);
+export default function Navbar() {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 100
+  });
+
   const templateData = useAtomValue(templateDataAtom);
-
+  const footerData = useAtomValue(footerDataAtom);
   const {primary_color: primaryColor} = templateData;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isOnTop = window.scrollY < 100;
-      if (isOnTop !== isAtTop) {
-        setIsAtTop(isOnTop);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isAtTop]);
-
-  const renderTitle = () => {
-    if (typeof title === 'string') {
-      return (
-        <Typography variant="h6" component="div" className="text-black">
-          {title}
-        </Typography>
-      );
-    } else {
-      // Otherwise title is a ReactElement (e.g., an <img> tag)
-      return title;
-    }
-  };
+  const {logo_image: logoImage} = footerData;
 
   return (
     <AppBar
       position="fixed"
       className={'transition-all duration-300 flex items-center'}
-      sx={{backgroundColor: isAtTop ? 'transparent' : primaryColor}}
+      sx={{backgroundColor: trigger ? primaryColor : 'transparent'}}
     >
-      <Toolbar>{renderTitle()}</Toolbar>
+      <Toolbar>
+        <Image src={logoImage} alt="logo" width={235} height={53} priority />
+      </Toolbar>
     </AppBar>
   );
 }
