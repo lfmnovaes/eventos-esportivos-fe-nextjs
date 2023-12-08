@@ -5,7 +5,7 @@ import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import {templateDataAtom} from '@/app/atoms';
 
-export default function SectionCalendar() {
+export default function SectionCalendar({className = ''}: {className?: string}) {
   const templateData = useAtomValue(templateDataAtom);
 
   const {primary_color: primaryColor} = templateData;
@@ -13,7 +13,7 @@ export default function SectionCalendar() {
   return (
     <Box
       component={'section'}
-      className="w-full h-[480px] relative flex items-center justify-center"
+      className={`${className} w-full h-[480px] relative flex items-center justify-center`}
       sx={{
         backgroundColor: '#fff',
         '&::before': {
@@ -27,7 +27,7 @@ export default function SectionCalendar() {
         }
       }}
     >
-      <div className="w-full px-16 z-10">
+      <div className="w-full z-10">
         <Image
           className="rounded-3xl object-cover object-center"
           src="/section4_image.jpg"
@@ -38,8 +38,8 @@ export default function SectionCalendar() {
           style={{width: '100%', height: '466px'}}
         />
       </div>
-      <div className="absolute top-8 left-16 ml-8 w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
-        <Box component="p" className="text-3xl" sx={{color: primaryColor}}>
+      <div className="absolute top-8 left-[15%] md:left-16 right-[15%] md:ml-8 w-auto md:w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
+        <Box component="p" className="text-2xl md:text-3xl" sx={{color: primaryColor}}>
           Agende dias e horários para corridas de Kart Indoor
         </Box>
         <Button variant="outlined" sx={{color: primaryColor, width: 'fit-content'}}>

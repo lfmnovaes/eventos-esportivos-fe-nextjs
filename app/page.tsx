@@ -11,7 +11,7 @@ function getApiUrl(apiPath: string): string {
 
 async function getTemplateHomeData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/template_home'), {
-    next: { revalidate: 600 },
+    next: {revalidate: 600},
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -27,7 +27,7 @@ async function getTemplateHomeData() {
 
 async function getFooterData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/footer'), {
-    next: { revalidate: 600 },
+    next: {revalidate: 600},
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -51,11 +51,11 @@ export default async function Home() {
     <>
       <Store templateHomeData={templateHomeData} footerData={footerData} />
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-between leading-5">
+      <main className="flex flex-col items-center justify-between leading-5">
         <SectionHero />
-        <SectionText />
-        <SectionEvents />
-        <SectionCalendar />
+        <SectionText className="px-8 md:px-16" />
+        <SectionEvents className="px-8 md:px-16" />
+        <SectionCalendar className="px-8 md:px-16" />
       </main>
       <Footer />
     </>

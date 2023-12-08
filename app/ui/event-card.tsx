@@ -27,7 +27,6 @@ const statusMap = new Map<EventStatus, EventStatusInfo>([
 ]);
 
 export default function EventCard({eventData}: {eventData: EventCard}) {
-  //const {cardImagePath, status, title, startDate, endDate, event, location} = eventInfo;
   const {
     name,
     starts_at: startDate,
@@ -45,13 +44,12 @@ export default function EventCard({eventData}: {eventData: EventCard}) {
   return (
     <Card
       elevation={0}
-      className="p-4 max-w-[363px] self-start rounded-2xl bg-transparent hover:bg-gray-200"
+      className="p-4 max-w-[363px] rounded-2xl bg-transparent hover:bg-gray-200"
     >
       <CardMedia
         component="img"
         height="188"
-        //image={cardImage}
-        image="/card1.jpg"
+        image={cardImage}
         className="rounded-xl"
       />
       <CardContent className="p-0">
