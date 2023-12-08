@@ -11,7 +11,7 @@ function getApiUrl(apiPath: string): string {
 
 async function getTemplateHomeData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/template_home'), {
-    cache: 'no-store',
+    next: { revalidate: 600 },
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -27,7 +27,7 @@ async function getTemplateHomeData() {
 
 async function getFooterData() {
   const res = await fetch(getApiUrl('api/v1/companies/2/footer'), {
-    cache: 'no-store',
+    next: { revalidate: 600 },
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
