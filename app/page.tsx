@@ -1,5 +1,6 @@
 import {Navbar, SectionHero, SectionText, SectionEvents, SectionCalendar, Footer} from '@/app/ui';
 import Store from '@/app/store';
+import {initialTemplateData, initialFooterData} from '@/app/lib/mock-data';
 
 function getApiUrl(apiPath: string): string {
   const publicApiUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiPath}`;
@@ -17,11 +18,6 @@ async function getTemplateHomeData() {
     }
   });
 
-  if (!res.ok) {
-    console.error('API Error Response:', await res.text());
-    throw new Error('Failed to fetch data');
-  }
-
   return res.json();
 }
 
@@ -33,19 +29,24 @@ async function getFooterData() {
     }
   });
 
-  if (!res.ok) {
-    console.error('API Error Response:', await res.text());
-    throw new Error('Failed to fetch data');
-  }
-
   return res.json();
 }
 
+const useMockDataInDev = true; // Change this to false to use actual API data in dev
+
+async function getData() {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  if (isDevelopment && useMockDataInDev) {
+    return [initialTemplateData, initialFooterData];
+  } else {
+    const [templateData, footerData] = await Promise.all([getTemplateHomeData(), getFooterData()]);
+    return [templateData, footerData];
+  }
+}
+
 export default async function Home() {
-  const [templateHomeData, footerData] = await Promise.all([
-    getTemplateHomeData(),
-    getFooterData()
-  ]);
+  const [templateHomeData, footerData] = await getData();
 
   return (
     <>

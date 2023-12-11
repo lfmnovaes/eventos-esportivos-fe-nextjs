@@ -14,13 +14,12 @@ import {useAtomValue} from 'jotai';
 import {templateDataAtom, footerDataAtom} from '@/app/atoms';
 import {getDomainName, formatBrazilianPhoneNumber} from '@/app/lib/utils';
 
-//const primaryColor: string = '#072342';
-
 export default function Footer() {
   const templateData = useAtomValue(templateDataAtom);
   const footerData = useAtomValue(footerDataAtom);
   const {primary_color: primaryColor} = templateData;
   const {
+    logo_image: logoImage,
     terms_and_policies: termsAndPoliciesLink,
     contact_info: {website, phone, instagram, facebook}
   } = footerData;
@@ -33,8 +32,7 @@ export default function Footer() {
     >
       <div className="grid grid-cols-6 gap-4">
         <div className="col-span-2 flex flex-col gap-4">
-          {/* TODO: use the image url from footerData */}
-          <Image src="/logo.png" alt="Logo" width={235} height={53} />
+          <Image src={logoImage} alt="Logo" width={235} height={53} />
           <p className="text-base">Onde estamos</p>
           <div className="flex gap-2">
             <PlaceOutlinedIcon className="h-4 w-4" />

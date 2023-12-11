@@ -7,7 +7,7 @@ export const initialTemplateData = {
   has_courses: true,
   primary_color: '#072342',
   secondary_color: '#52FFEC',
-  banner_image: '/logo.png',
+  banner_image: '/hero-desktop.jpg',
   description:
     'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.\r\n\r\nA empresa tem como missão levar ao consumidor final o melhor produto do mercado a um preço justo e competitivo. Seus gestores e funcionários estão altamente motivados e compromissados em fabricar no Brasil equipamentos de padrão europeu, tanto em performance como em qualidade. Os produtos fabricados pela TECHSPEED são diferenciados e com padrão de qualidade reconhecidamente refinado.\r\n\r\nBuscamos implementar soluções incessantemente inovadoras, graças à manutenção de uma equipe de técnicos e engenheiros do mais alto nível. Um dos fatores que promovem o sucesso da TECHSPEED está no processo de pesquisa e desenvolvimento tecnológico, claramente evidenciados em todas as ações de lançamento de novos produtos.',
   gallery_images: [
@@ -32,11 +32,50 @@ export const initialTemplateData = {
       ends_at: '2023-12-15T20:53:35Z',
       banner_image: '/card1.jpg',
       address: {
+        place: 'Kartódromo Tarumã',
+        city: 'Tarumã',
+        federal_unity: 'SC'
+      },
+      status: 'open_soon'
+    },
+    {
+      id: 2,
+      name: 'Campeonato Internacional TechSpeed',
+      starts_at: '2023-12-25T00:00:00Z',
+      ends_at: '2023-12-29T00:00:00Z',
+      banner_image: '/card2.jpg',
+      address: {
         place: 'Kartódromo Internacional',
         city: 'Penha',
         federal_unity: 'SC'
       },
       status: 'open'
+    },
+    {
+      id: 3,
+      name: 'Campeonato Gaúcho TechSpeed',
+      starts_at: '2023-12-25T20:53:26Z',
+      ends_at: '2023-12-29T20:53:35Z',
+      banner_image: '/card3.jpg',
+      address: {
+        place: 'Kartódromo Internacional',
+        city: 'Penha',
+        federal_unity: 'SC'
+      },
+      status: 'open'
+    },
+    {
+      id: 4,
+      name: 'Campeonato Gaúcho - Tarumã',
+      starts_at: '2024-01-11T20:53:26Z',
+      ends_at: '2024-01-15T20:53:35Z',
+      banner_image: '/card4.jpg',
+      address: {
+        place: 'Kartódromo Tarumã',
+        city: 'Tarumã',
+        federal_unity: 'SC'
+      },
+      status: 'open_soon'
     }
   ]
 };
