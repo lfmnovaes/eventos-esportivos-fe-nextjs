@@ -4,7 +4,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: process.env.IMAGE_DOMAIN,
+        hostname: 'qa-ev-esp.plathanus.com.br',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'stg-ev-esp.plathanus.com.br',
         pathname: '**'
       }
     ]
