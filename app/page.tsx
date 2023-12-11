@@ -54,9 +54,9 @@ export default async function Home() {
       <Navbar />
       <main className="flex flex-col items-center justify-between leading-5">
         <SectionHero />
-        <SectionText className="px-8 md:px-16" />
-        <SectionEvents className="px-8 md:px-16" />
-        <SectionCalendar className="px-8 md:px-16" />
+        <SectionText className="px-4 sm:px-8 md:px-12 lg:px-16" />
+        <SectionEvents className="px-4 sm:px-8 md:px-12 lg:px-16" />
+        <SectionCalendar className="px-4 sm:px-8 md:px-12 lg:px-16" />
       </main>
       <Footer />
     </>
