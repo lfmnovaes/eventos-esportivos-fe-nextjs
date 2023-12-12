@@ -25,7 +25,7 @@ import Image from 'next/image';
 import {templateDataAtom, footerDataAtom} from '@/app/atoms';
 import {useAtomValue} from 'jotai';
 
-export default function Navbar() {
+export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -60,7 +60,7 @@ export default function Navbar() {
     <AppBar
       position="fixed"
       className="transition-all duration-300 grid grid-cols-3 items-center px-4 sm:px-8 md:px-12 xl:px-16"
-      sx={{backgroundColor: trigger ? primaryColor : 'transparent'}}
+      sx={{backgroundColor: solidBackground ? primaryColor : (trigger ? primaryColor : 'transparent')}}
     >
       <div className="flex items-center justify-start gap-2">
         <span className="text-sm">Powered by</span>

@@ -32,7 +32,7 @@ async function getFooterData() {
   return res.json();
 }
 
-const useMockDataInDev = false; // Change this to false to use actual API data in dev
+const useMockDataInDev = true; // Change this to false to use actual API data in dev
 
 async function getData() {
   const isDevelopment = process.env.NODE_ENV === 'development';

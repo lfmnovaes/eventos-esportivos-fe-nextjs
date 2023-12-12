@@ -1,7 +1,7 @@
 'use client';
 
 import {Provider as JotaiProvider} from 'jotai';
-import type {Theme, Palette, PaletteOptions} from '@mui/material';
+import type {Theme} from '@mui/material';
 import {ThemeProvider, createTheme} from '@mui/material';
 import {space_grotesk} from '@/app/ui/fonts';
 
@@ -10,9 +10,17 @@ const theme: Theme = createTheme({
     fontFamily: space_grotesk.style.fontFamily
   },
   palette: {
+    success: {
+      main: '#C4E6DB',
+      contrastText: '#0BB07B'
+    },
     warning: {
-      main: "#dbece2",
-      contrastText: "#616161"
+      main: '#FAEDD3',
+      contrastText: '#FFAD0D'
+    },
+    error: {
+      main: '#FDECEC',
+      contrastText: '#F03D3D'
     }
   }
 });
