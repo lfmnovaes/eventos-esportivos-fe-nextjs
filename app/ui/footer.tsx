@@ -83,7 +83,7 @@ export default function Footer() {
       <Divider color="white" className="my-4" />
       <div className="flex self-center gap-2">
         <p className="text-sm">Powered by </p>
-        <Image src="/logo_plathanus.png" alt="Logo" width={138} height={23} />
+        <Image src="/logo_plathanus.png" alt="Logo Plathanus" width={138} height={23} priority />
       </div>
     </Box>
   );

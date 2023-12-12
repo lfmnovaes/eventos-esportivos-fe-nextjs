@@ -11,7 +11,7 @@ function getApiUrl(apiPath: string): string {
 }
 
 async function getTemplateHomeData() {
-  const res = await fetch(getApiUrl('api/v1/companies/2/template_home'), {
+  const res = await fetch(getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/template_home`), {
     next: {revalidate: 600},
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
@@ -22,7 +22,7 @@ async function getTemplateHomeData() {
 }
 
 async function getFooterData() {
-  const res = await fetch(getApiUrl('api/v1/companies/2/footer'), {
+  const res = await fetch(getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/footer`), {
     next: {revalidate: 600},
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
@@ -32,7 +32,7 @@ async function getFooterData() {
   return res.json();
 }
 
-const useMockDataInDev = true; // Change this to false to use actual API data in dev
+const useMockDataInDev = false; // Change this to false to use actual API data in dev
 
 async function getData() {
   const isDevelopment = process.env.NODE_ENV === 'development';

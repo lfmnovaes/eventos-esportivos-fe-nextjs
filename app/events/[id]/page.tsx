@@ -10,11 +10,11 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
   const event = lastEvents.find((event) => event.id === parseInt(id));
 
   if (!event) {
-    return <h1>Event not found</h1>;
+    return <h1 className="text-black">Event not found</h1>;
   }
 
   return (
-    <div>
+    <div className="text-black">
       <h1>Event Page</h1>
       <p>{event.name}</p>
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import {useEffect, useRef, useState} from 'react';
+import Link from 'next/link';
 import type {SwiperClass} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
@@ -73,7 +74,9 @@ export default function SectionEvents({className = ''}: {className?: string}) {
       >
         {lastEvents.map((event, index) => (
           <SwiperSlide key={index} style={{display: 'flex', justifyContent: 'center'}}>
-            <EventCard eventData={event} />
+            <Link href={`/events/${event.id}`}>
+              <EventCard eventData={event} />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

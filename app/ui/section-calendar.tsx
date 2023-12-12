@@ -42,7 +42,11 @@ export default function SectionCalendar({className = ''}: {className?: string}) 
         <Box component="p" className="text-2xl md:text-3xl" sx={{color: primaryColor}}>
           Agende dias e horários para corridas de Kart Indoor
         </Box>
-        <Button variant="outlined" sx={{color: primaryColor, width: 'fit-content'}}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          sx={{color: primaryColor, width: 'fit-content'}}
+        >
           Ver Calendário
         </Button>
       </div>
