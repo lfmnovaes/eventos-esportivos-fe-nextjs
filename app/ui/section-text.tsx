@@ -38,7 +38,7 @@ export default function SectionText({className = ''}: {className?: string}) {
       }}
     >
       <Box
-        className="container order-last md:order-first w-full md:w-1/2 overflow-hidden rounded-3xl border-4 aspect-video max-w-[746px] max-h-[420px] mx-auto"
+        className="order-last md:order-first w-full md:w-1/2 overflow-hidden rounded-3xl border-4 aspect-video max-w-[746px] max-h-[420px] mx-auto"
         sx={{borderColor: primaryColor}}
       >
         <Swiper
@@ -68,7 +68,7 @@ export default function SectionText({className = ''}: {className?: string}) {
           ))}
         </Swiper>
       </Box>
-      <div className="container flex flex-col w-full md:w-1/2 gap-6 text-black">
+      <div className="flex flex-col w-full md:w-1/2 gap-6 text-black">
         {slideshowTexts.map((text, index) => (
           <p key={index}>{text}</p>
         ))}

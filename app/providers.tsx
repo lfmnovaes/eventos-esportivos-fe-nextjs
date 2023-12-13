@@ -7,7 +7,10 @@ import {space_grotesk} from '@/app/ui/fonts';
 
 const theme: Theme = createTheme({
   typography: {
-    fontFamily: space_grotesk.style.fontFamily
+    fontFamily: space_grotesk.style.fontFamily,
+    button: {
+      textTransform: 'none'
+    }
   },
   palette: {
     success: {
@@ -21,6 +24,9 @@ const theme: Theme = createTheme({
     error: {
       main: '#FDECEC',
       contrastText: '#F03D3D'
+    },
+    info: {
+      main: '#4070F4'
     }
   }
 });

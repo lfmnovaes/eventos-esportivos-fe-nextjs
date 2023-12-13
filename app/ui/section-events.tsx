@@ -50,11 +50,9 @@ export default function SectionEvents({className = ''}: {className?: string}) {
   };
 
   return (
-    <section className={`${className} w-full gap-8 relative py-6 h-full bg-white`}>
+    <section className={`${className} w-full gap-8 relative py-6 h-full bg-white text-black`}>
       <div className="w-full flex justify-between py-8">
-        <p className="text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-          Confira os próximos eventos
-        </p>
+        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">Confira os próximos eventos</p>
         <div className="self-center">
           <IconButton onClick={handleClickSlideLeft} disabled={leftButtonDisabled}>
             <ChevronLeftIcon />

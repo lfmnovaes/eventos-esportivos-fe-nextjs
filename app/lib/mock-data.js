@@ -100,3 +100,34 @@ export const initialFooterData = {
     zip_code: '88804000'
   }
 };
+
+export const initialEventData = [
+  {
+    id: 1,
+    name: 'Campeonato Gaúcho - Tarumã',
+    starts_at: '2023-12-11T20:53:26Z',
+    ends_at: '2023-12-15T20:53:35Z',
+    banner_image: '/event-image.jpg',
+    address: {
+      place: 'Kartódromo Tarumã',
+      city: 'Tarumã',
+      federal_unity: 'SC'
+    },
+    status: 'open_soon',
+    enrollment_message: 'As inscrições serão abertas no dia 18/02/2024',
+    description:
+      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+    schedule: [
+      '07:00 - Abertura do evento',
+      '08:00 - Dada a largada',
+      '13:00 - Final da corrida',
+      '13:10 - Divulgação dos campeões'
+    ],
+    categories: [
+      'Categoria 1 - 1 ano a 9 anos de idade',
+      'Categoria 2 - 10 anos a 14 anos de idade',
+      'Categoria 3 - 15 anos a 18 anos de idade',
+      'Categoria 4 - 19 anos a 25 anos de idade',
+    ]
+  }
+];
