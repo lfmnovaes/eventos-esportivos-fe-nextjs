@@ -50,3 +50,31 @@ export type FooterData = {
     zip_code: string;
   };
 };
+
+export type EventData = {
+  id: number;
+  name: string;
+  banner_image: string;
+  description: string;
+  schedule: string;
+  starts_at: string;
+  ends_at: string;
+  ticket_sales_opens_at: string;
+  ticket_sales_closes_at: string;
+  address: {
+    place: string;
+    street: string;
+    number: string;
+    city: string;
+    district: string;
+    federal_unity: string;
+    zip_code: string;
+  };
+  categories: {
+    id: number;
+    name: string;
+    minimum_age: number;
+    maximum_age: number;
+    price: string;
+  }[];
+};

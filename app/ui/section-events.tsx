@@ -12,13 +12,14 @@ import {
 } from '@mui/icons-material';
 import EventCard from './event-card';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom} from '@/app/atoms';
+import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 import useWindowSize from '@/app/lib/useWidowSize';
 
 import 'swiper/css';
 
-export default function SectionEvents({className = ''}: {className?: string}) {
+export default function SectionEvents() {
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
   const {last_events: lastEvents} = templateData;
 
@@ -50,7 +51,7 @@ export default function SectionEvents({className = ''}: {className?: string}) {
   };
 
   return (
-    <section className={`${className} w-full gap-8 relative py-6 h-full bg-white text-black`}>
+    <section className={`${horizontalPadding} w-full gap-8 relative py-6 h-full`}>
       <div className="w-full flex justify-between py-8">
         <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">Confira os próximos eventos</p>
         <div className="self-center">

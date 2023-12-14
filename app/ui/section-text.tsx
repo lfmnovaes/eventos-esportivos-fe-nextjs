@@ -5,13 +5,14 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Box} from '@mui/material';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom} from '@/app/atoms';
+import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 import {splitBigText} from '@/app/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
-export default function SectionText({className = ''}: {className?: string}) {
+export default function SectionText() {
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
   const {primary_color: primaryColor, description, gallery_images: galleryImages} = templateData;
   const slideshowTexts = splitBigText(description);
@@ -19,7 +20,7 @@ export default function SectionText({className = ''}: {className?: string}) {
   return (
     <Box
       component={'section'}
-      className={`${className} w-full flex flex-col md:flex-row items-center gap-8 md:gap-16 lg:gap-28 relative py-12 md:py-16 lg:py-20`}
+      className={`${horizontalPadding} w-full flex flex-col md:flex-row items-center gap-8 md:gap-16 lg:gap-28 relative py-12 md:py-16 lg:py-20`}
       sx={{
         backgroundColor: '#fff',
         '&::before': {

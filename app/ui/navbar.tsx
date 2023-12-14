@@ -22,11 +22,11 @@ import {
   LogoutOutlined as LogoutOutlinedIcon
 } from '@mui/icons-material';
 import Image from 'next/image';
-import {templateDataAtom, footerDataAtom} from '@/app/atoms';
-import {useAtomValue} from 'jotai';
+import {useAtomValue, useAtom} from 'jotai';
+import {templateDataAtom, footerDataAtom, loginAtom} from '@/app/atoms';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [login, setLogin] = useAtom(loginAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const trigger = useScrollTrigger({
@@ -40,7 +40,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   const {logo_image: logoImage} = footerData;
 
   const handleLogin = () => {
-    setLoggedIn(true);
+    setLogin(true);
   };
 
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
@@ -52,7 +52,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   };
 
   const handleLogout = () => {
-    setLoggedIn(false);
+    setLogin(false);
     handleClose();
   };
 
@@ -72,7 +72,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
         </Link>
       </Toolbar>
       <div className="flex items-center justify-end gap-2">
-        {!loggedIn ? (
+        {!login ? (
           <Button variant="outlined" color="inherit" onClick={handleLogin}>
             Entrar
           </Button>

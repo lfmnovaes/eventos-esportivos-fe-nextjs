@@ -3,9 +3,10 @@
 import {Box, Button} from '@mui/material';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom} from '@/app/atoms';
+import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 
-export default function SectionCalendar({className = ''}: {className?: string}) {
+export default function SectionCalendar() {
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
 
   const {primary_color: primaryColor} = templateData;
@@ -13,7 +14,7 @@ export default function SectionCalendar({className = ''}: {className?: string}) 
   return (
     <Box
       component={'section'}
-      className={`${className} w-full h-[480px] relative flex items-center justify-center`}
+      className={`${horizontalPadding} w-full h-[480px] relative flex items-center justify-center`}
       sx={{
         backgroundColor: '#fff',
         '&::before': {
@@ -42,11 +43,7 @@ export default function SectionCalendar({className = ''}: {className?: string}) 
         <Box component="p" className="text-2xl md:text-3xl" sx={{color: primaryColor}}>
           Agende dias e horários para corridas de Kart Indoor
         </Box>
-        <Button
-          variant="outlined"
-          color="inherit"
-          sx={{color: primaryColor, width: 'fit-content'}}
-        >
+        <Button variant="outlined" color="inherit" sx={{color: primaryColor, width: 'fit-content'}}>
           Ver Calendário
         </Button>
       </div>

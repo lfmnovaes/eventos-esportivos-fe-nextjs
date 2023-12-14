@@ -124,10 +124,30 @@ export const initialEventData = [
       '13:10 - Divulgação dos campeões'
     ],
     categories: [
-      'Categoria 1 - 1 ano a 9 anos de idade',
-      'Categoria 2 - 10 anos a 14 anos de idade',
-      'Categoria 3 - 15 anos a 18 anos de idade',
-      'Categoria 4 - 19 anos a 25 anos de idade',
+      {
+        id: 1,
+        name: 'Mirim',
+        description: '8 anos a 9 anos de idade',
+        price: 'Valor a definir'
+      },
+      {
+        id: 2,
+        name: 'Cadete',
+        description: '10 anos a 14 anos de idade',
+        price: 'Valor a definir'
+      },
+      {
+        id: 3,
+        name: 'Júnior',
+        description: '15 anos a 18 anos de idade',
+        price: 'Valor a definir'
+      },
+      {
+        id: 4,
+        name: 'Adulto',
+        description: 'A partir de 18 anos de idade',
+        price: 'Valor a definir'
+      }
     ]
   }
 ];

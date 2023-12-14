@@ -11,23 +11,29 @@ function getApiUrl(apiPath: string): string {
 }
 
 async function getTemplateHomeData() {
-  const res = await fetch(getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/template_home`), {
-    next: {revalidate: 600},
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest'
+  const res = await fetch(
+    getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/template_home`),
+    {
+      next: {revalidate: 600},
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     }
-  });
+  );
 
   return res.json();
 }
 
 async function getFooterData() {
-  const res = await fetch(getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/footer`), {
-    next: {revalidate: 600},
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest'
+  const res = await fetch(
+    getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/footer`),
+    {
+      next: {revalidate: 600},
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     }
-  });
+  );
 
   return res.json();
 }
@@ -54,9 +60,9 @@ export default async function Home() {
       <Navbar />
       <main className="flex flex-col items-center justify-between leading-5">
         <SectionHero />
-        <SectionText className="px-4 sm:px-8 md:px-12 lg:px-16" />
-        <SectionEvents className="px-4 sm:px-8 md:px-12 lg:px-16" />
-        <SectionCalendar className="px-4 sm:px-8 md:px-12 lg:px-16" />
+        <SectionText />
+        <SectionEvents />
+        <SectionCalendar />
       </main>
       <Footer />
     </>

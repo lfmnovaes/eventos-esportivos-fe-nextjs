@@ -11,10 +11,11 @@ import {
   Instagram as InstagramIcon
 } from '@mui/icons-material';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom, footerDataAtom} from '@/app/atoms';
+import {templateDataAtom, footerDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 import {getDomainName, formatBrazilianPhoneNumber} from '@/app/lib/utils';
 
 export default function Footer() {
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
   const footerData = useAtomValue(footerDataAtom);
   const {primary_color: primaryColor} = templateData;
@@ -24,12 +25,12 @@ export default function Footer() {
     contact_info: {website, phone, instagram, facebook}
   } = footerData;
 
-  const paragraphTitle = "text-sm xl:text-base";
+  const paragraphTitle = 'text-sm xl:text-base';
 
   return (
     <Box
       component={'footer'}
-      className="flex flex-col py-8 px-4 sm:px-8 md:px-12 xl:px-16"
+      className={`flex flex-col py-8 ${horizontalPadding}`}
       sx={{backgroundColor: primaryColor}}
     >
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 sm:gap-4">
