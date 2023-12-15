@@ -16,7 +16,7 @@ export default function SectionCalendar() {
       component={'section'}
       className={`${horizontalPadding} w-full h-[480px] relative flex items-center justify-center`}
       sx={{
-        backgroundColor: '#fff',
+        backgroundColor: '#F7F7F7',
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -40,7 +40,7 @@ export default function SectionCalendar() {
         />
       </div>
       <div className="absolute top-8 left-[15%] md:left-16 right-[15%] md:ml-8 w-auto md:w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
-        <Box component="p" className="text-2xl md:text-3xl" sx={{color: primaryColor}}>
+        <Box component="p" className="text-2xl md:text-3xl font-medium" sx={{color: primaryColor}}>
           Agende dias e horários para corridas de Kart Indoor
         </Box>
         <Button variant="outlined" color="inherit" sx={{color: primaryColor, width: 'fit-content'}}>

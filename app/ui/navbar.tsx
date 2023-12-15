@@ -5,7 +5,6 @@ import {useState} from 'react';
 import Link from 'next/link';
 import {
   AppBar,
-  Toolbar,
   useScrollTrigger,
   IconButton,
   Button,
@@ -23,9 +22,10 @@ import {
 } from '@mui/icons-material';
 import Image from 'next/image';
 import {useAtomValue, useAtom} from 'jotai';
-import {templateDataAtom, footerDataAtom, loginAtom} from '@/app/atoms';
+import {templateDataAtom, footerDataAtom, loginAtom, horizontalPaddingAtom} from '@/app/atoms';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const [login, setLogin] = useAtom(loginAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -59,19 +59,30 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   return (
     <AppBar
       position="fixed"
-      className="transition-all duration-300 grid grid-cols-3 items-center px-4 sm:px-8 md:px-12 xl:px-16"
-      sx={{backgroundColor: solidBackground ? primaryColor : (trigger ? primaryColor : 'transparent')}}
+      className={`transition-all duration-300 h-16 grid grid-cols-3 items-center ${horizontalPadding}`}
+      sx={{
+        display: 'grid',
+        gridtemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        backgroundColor: solidBackground ? primaryColor : trigger ? primaryColor : 'transparent'
+      }}
     >
-      <div className="flex items-center justify-start gap-2">
-        <span className="text-sm">Powered by</span>
-        <Image src="/logo_plathanus.png" alt="Logo Plathanus" width={123} height={20} priority />
+      <div className="flex flex-col sm:flex-row items-center justify-start gap-2">
+        <span className="text-xs md:text-sm">Powered by</span>
+        <Image
+          className="w-20 sm:w-32"
+          src="/logo_plathanus.png"
+          alt="Logo Plathanus"
+          width={123}
+          height={20}
+          priority
+        />
       </div>
-      <Toolbar className="flex justify-center">
+      <div className="flex justify-center">
         <Link href="/">
           <Image src={logoImage} alt="logo" width={235} height={53} priority />
         </Link>
-      </Toolbar>
-      <div className="flex items-center justify-end gap-2">
+      </div>
+      <div className="flex items-center justify-end gap-4">
         {!login ? (
           <Button variant="outlined" color="inherit" onClick={handleLogin}>
             Entrar
@@ -83,9 +94,26 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
               color="inherit"
               onClick={handleMenu}
               endIcon={<ExpandMoreOutlinedIcon />}
+              sx={{
+                '@media (max-width: 639px)': {
+                  display: 'none'
+                }
+              }}
             >
               Minha conta
             </Button>
+            <IconButton
+              color="inherit"
+              onClick={handleMenu}
+              sx={{
+                '@media (min-width: 640px)': {
+                  display: 'none'
+                }
+              }}
+            >
+              <PersonOutlinedIcon />
+              <ExpandMoreOutlinedIcon />
+            </IconButton>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}

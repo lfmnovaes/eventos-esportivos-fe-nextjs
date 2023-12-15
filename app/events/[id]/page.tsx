@@ -40,7 +40,7 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
 
   return (
     <>
-      <section className="w-full py-12 lg:py-16">
+      <section className="w-full pt-8 sm:pt-12 lg:pt-16">
         <div
           className={`relative flex mx-auto max-w-screen-2xl max-h-[633px] my-12 ${horizontalPadding}`}
         >
@@ -66,8 +66,8 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
           </Box>
         </div>
         <div className="flex flex-col">
-          <div className={`w-full pb-10 flex flex-col ${horizontalPadding}`}>
-            <h1 className="text-4xl py-6">{name}</h1>
+          <div className={`w-full lg:w-3/5 pb-10 flex flex-col ${horizontalPadding}`}>
+            <h1 className="text-4xl py-6 font-medium">{name}</h1>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <EventIcon />

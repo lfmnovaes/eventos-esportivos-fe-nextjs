@@ -81,7 +81,7 @@ export default function Footer() {
           </Link>
         </div>
       </div>
-      <Divider color="white" className="my-4" />
+      <Divider color="white" sx={{marginY: '1rem'}} />
       <div className="flex self-center gap-2">
         <p className="text-sm">Powered by </p>
         <Image src="/logo_plathanus.png" alt="Logo Plathanus" width={138} height={23} priority />

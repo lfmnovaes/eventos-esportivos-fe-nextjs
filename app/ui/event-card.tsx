@@ -44,7 +44,8 @@ export default function EventCard({eventData}: {eventData: EventCard}) {
   return (
     <Card
       elevation={0}
-      className="p-4 max-w-[363px] rounded-2xl bg-transparent hover:bg-gray-200"
+      className="p-4 max-w-[363px] hover:bg-gray-200"
+      sx={{backgroundColor: '#F7F7F7', borderRadius: '1.25rem'}}
     >
       <CardMedia
         component="img"
