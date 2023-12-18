@@ -105,49 +105,49 @@ export const initialEventData = [
   {
     id: 1,
     name: 'Campeonato Gaúcho - Tarumã',
-    starts_at: '2023-12-11T20:53:26Z',
-    ends_at: '2023-12-15T20:53:35Z',
+    slug: 'campeonato-gaucho-taruma',
+    description:
+      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+    schedule:
+      '07:00 - Abertura do evento\r\n08:00 - Dada a largada  | 13:00 - final da corrida\r\n13:10 - Divulgação dos campeões',
+    starts_at: '2023-12-25T17:56:30Z',
+    ends_at: '2023-12-29T17:56:32Z',
+    ticket_sales_opens_at: '2023-12-22T17:56:32Z',
+    ticket_sales_closes_at: '2024-01-04T17:56:34Z',
     banner_image: '/event-image.jpg',
     address: {
       place: 'Kartódromo Tarumã',
-      city: 'Tarumã',
-      federal_unity: 'SC'
+      street: 'Rod. Beto Carrero World',
+      number: null,
+      city: 'Praia de Armação do Itapocorói',
+      district: 'Penha',
+      federal_unity: 'RS',
+      zip_code: '88385000'
     },
-    status: 'open_soon',
-    enrollment_message: 'As inscrições serão abertas no dia 18/02/2024',
-    description:
-      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
-    schedule: [
-      '07:00 - Abertura do evento',
-      '08:00 - Dada a largada',
-      '13:00 - Final da corrida',
-      '13:10 - Divulgação dos campeões'
-    ],
+    status: 'open',
     categories: [
       {
         id: 1,
         name: 'Mirim',
-        description: '8 anos a 9 anos de idade',
-        price: 'Valor a definir'
+        minimum_age: 8,
+        maximum_age: 9,
+        price: '100.00'
       },
       {
         id: 2,
         name: 'Cadete',
-        description: '10 anos a 14 anos de idade',
-        price: 'Valor a definir'
+        minimum_age: 12,
+        maximum_age: 14,
+        price: '90.00'
       },
       {
         id: 3,
-        name: 'Júnior',
-        description: '15 anos a 18 anos de idade',
-        price: 'Valor a definir'
-      },
-      {
-        id: 4,
         name: 'Adulto',
-        description: 'A partir de 18 anos de idade',
-        price: 'Valor a definir'
+        minimum_age: 18,
+        maximum_age: null,
+        price: '80.00'
       }
-    ]
+    ],
+    event_policy: '/mockPDF.pdf'
   }
 ];

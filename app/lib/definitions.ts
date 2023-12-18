@@ -1,3 +1,8 @@
+export type EventStatusInfo = {
+  text: string;
+  color: 'success' | 'warning' | 'error';
+};
+
 export type EventCard = {
   id: number;
   name: string;
@@ -51,16 +56,25 @@ export type FooterData = {
   };
 };
 
+export type Category = {
+  id: number;
+  name: string;
+  minimum_age: number;
+  maximum_age: number | null;
+  price: string;
+};
+
 export type EventData = {
   id: number;
   name: string;
-  banner_image: string;
+  slug: string;
   description: string;
   schedule: string;
   starts_at: string;
   ends_at: string;
   ticket_sales_opens_at: string;
   ticket_sales_closes_at: string;
+  banner_image: string;
   address: {
     place: string;
     street: string;
@@ -70,11 +84,7 @@ export type EventData = {
     federal_unity: string;
     zip_code: string;
   };
-  categories: {
-    id: number;
-    name: string;
-    minimum_age: number;
-    maximum_age: number;
-    price: string;
-  }[];
+  status: string;
+  categories: Category[];
+  event_policy: string;
 };

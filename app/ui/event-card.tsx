@@ -6,27 +6,15 @@ import {
   PlaceOutlined as PlaceOutlinedIcon
 } from '@mui/icons-material';
 import dayjs from 'dayjs';
+import {type EventStatus, statusMap} from '@/app/lib/utils';
 
-enum EventStatus {
-  Open = 'open',
-  Closed = 'closed',
-  OpenSoon = 'open_soon',
-  NoTicketsRemaining = 'no_tickets_remaining'
-}
-
-type EventStatusInfo = {
-  text: string;
-  color: 'success' | 'warning' | 'error' | 'info';
-};
-
-const statusMap = new Map<EventStatus, EventStatusInfo>([
-  [EventStatus.Open, {text: 'Inscrições abertas', color: 'success'}],
-  [EventStatus.OpenSoon, {text: 'Em breve', color: 'warning'}],
-  [EventStatus.Closed, {text: 'Fechado', color: 'error'}],
-  [EventStatus.NoTicketsRemaining, {text: 'Esgotado', color: 'info'}]
-]);
-
-export default function EventCard({eventData}: {eventData: EventCard}) {
+export default function EventCard({
+  eventData,
+  theme = 'light'
+}: {
+  eventData: EventCard;
+  theme?: string;
+}) {
   const {
     name,
     starts_at: startDate,
@@ -36,7 +24,7 @@ export default function EventCard({eventData}: {eventData: EventCard}) {
     status
   } = eventData;
   const currentStatus = statusMap.get(status as EventStatus) || {
-    text: 'Desconhecido',
+    text: 'Sem informações',
     color: 'error'
   };
   const location = `${city} - ${federalUnity}`;
@@ -44,23 +32,18 @@ export default function EventCard({eventData}: {eventData: EventCard}) {
   return (
     <Card
       elevation={0}
-      className="p-4 max-w-[363px] hover:bg-gray-200"
-      sx={{backgroundColor: '#F7F7F7', borderRadius: '1.25rem'}}
+      className={`p-4 max-w-[363px] ${theme === 'dark' ? 'hover:bg-blue-60' : 'hover:bg-gray-20'}`}
+      sx={{backgroundColor: 'transparent', borderRadius: '1.25rem'}}
     >
-      <CardMedia
-        component="img"
-        height="188"
-        image={cardImage}
-        className="rounded-xl"
-      />
+      <CardMedia component="img" height="188" image={cardImage} className="rounded-xl" />
       <CardContent className="p-0">
         <Chip
           label={currentStatus.text}
-          color={currentStatus.color}
+          color={theme === 'dark' ? `${currentStatus.color}Dark` : currentStatus.color}
           size="small"
           className="my-2"
         />
-        <div className="flex flex-col gap-2">
+        <div className={`flex flex-col gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-80'}`}>
           <p className="text-xl">{name}</p>
           <div className="flex items-center gap-2">
             <EventIcon />

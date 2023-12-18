@@ -6,7 +6,7 @@ import {Box} from '@mui/material';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
-import {splitBigText} from '@/app/lib/utils';
+import {splitText} from '@/app/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -15,7 +15,7 @@ export default function SectionText() {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
   const {primary_color: primaryColor, description, gallery_images: galleryImages} = templateData;
-  const slideshowTexts = splitBigText(description);
+  const slideshowTexts = splitText(description);
 
   return (
     <Box

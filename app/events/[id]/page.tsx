@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import type {Category} from '@/app/lib/definitions';
 import {Box, Button, Checkbox, Divider, Link} from '@mui/material';
 import {
   Event as EventIcon,
@@ -12,6 +13,55 @@ import {
 import dayjs from 'dayjs';
 import {initialEventData} from '@/app/lib/mock-data';
 import {SectionEvents} from '@/app/ui';
+import {
+  statusMap,
+  EventStatus,
+  categoryDescription,
+  splitText,
+  formatEnrollmentMessage
+} from '@/app/lib/utils';
+
+function Categories({
+  categories = [],
+  status = EventStatus.Closed
+}: {
+  categories?: Category[];
+  status?: EventStatus;
+}) {
+  const {text} = statusMap.get(status) || {text: 'Esgotado'};
+
+  return (
+    <Box className="bg-white rounded-2xl" sx={{boxShadow: 3}}>
+      <div className="flex flex-col p-6 gap-6">
+        <h2 className="text-2xl">Categorias</h2>
+        <div className="flex flex-col gap-4">
+          {categories.map(({name, minimum_age, maximum_age, price}, index) => (
+            <div key={index} className="flex justify-between">
+              <div className="flex">
+                <Checkbox />
+                <div>
+                  <p>{name}</p>
+                  <p className="text-sm">{categoryDescription(minimum_age, maximum_age)}</p>
+                </div>
+              </div>
+              <span>R${price}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Divider className="bg-gray-200" />
+      <div className="flex justify-center p-8">
+        {status === EventStatus.Open ? (
+          <Button variant="contained" color="primary">
+            Realizar inscrição
+          </Button>
+        ) : (
+          <p className="text-lg">{text}</p>
+        )}
+      </div>
+    </Box>
+  );
+}
 
 export default function EventPage({params: {id}}: {params: {id: string}}) {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
@@ -25,11 +75,13 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
     name,
     starts_at: startDate,
     ends_at: endDate,
+    ticket_sales_opens_at: ticketStartDate,
+    ticket_sales_closes_at: ticketEndDate,
     address: {place, city, federal_unity: federalUnity},
     banner_image: eventImage,
-    enrollment_message: enrollmentMessage,
     description,
     schedule,
+    status,
     categories
   } = initialEventData[0];
   const location = `${city} - ${federalUnity}`;
@@ -62,7 +114,7 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
             color="info.main"
             sx={{boxShadow: 2}}
           >
-            {enrollmentMessage}
+            {formatEnrollmentMessage(ticketStartDate, ticketEndDate)}
           </Box>
         </div>
         <div className="flex flex-col">
@@ -84,6 +136,11 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                 {location}
               </div>
             </div>
+            <div className="block lg:hidden">
+              <div className="pt-8">
+                <Categories categories={categories} status={status as EventStatus} />
+              </div>
+            </div>
           </div>
           <div className={`flex gap-12 bg-gray-100 ${horizontalPadding}`}>
             <div className="flex flex-col gap-12 py-12 w-full">
@@ -95,7 +152,7 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
               <div className="flex flex-col gap-6">
                 <h2 className="text-2xl">Programação</h2>
                 <div className="flex flex-col gap-2">
-                  {schedule.map((text, index) => (
+                  {splitText(schedule).map((text, index) => (
                     <p key={index}>{text}</p>
                   ))}
                 </div>
@@ -104,8 +161,11 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
               <div className="flex flex-col gap-6">
                 <h2 className="text-2xl">Categorias disponíveis</h2>
                 <div className="flex flex-col gap-2">
-                  {categories.map(({name, description}, index) => (
-                    <p key={index}>{`${name} - ${description}`}</p>
+                  {categories.map(({name, minimum_age, maximum_age}, index) => (
+                    <p key={index}>{`${name} - ${categoryDescription(
+                      minimum_age,
+                      maximum_age
+                    )}`}</p>
                   ))}
                 </div>
               </div>
@@ -137,35 +197,13 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
             </div>
             <div className="hidden lg:block w-2/3 -mt-24">
               <div className="sticky top-24 pb-12">
-                <Box className="bg-white rounded-2xl" sx={{boxShadow: 3}}>
-                  <div className="flex flex-col p-6 gap-6">
-                    <h2 className="text-2xl">Categorias</h2>
-                    <div className="flex flex-col gap-4">
-                      {categories.map(({name, description, price}, index) => (
-                        <div key={index} className="flex justify-between">
-                          <div className="flex">
-                            <Checkbox disabled />
-                            <div>
-                              <p>{name}</p>
-                              <p className="text-sm">{description}</p>
-                            </div>
-                          </div>
-                          <span>{price}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <Divider className="bg-gray-200" />
-                  <div className="flex justify-center p-8">
-                    <p className="text-lg">Inscrições em breve</p>
-                  </div>
-                </Box>
+                <Categories categories={categories} status={status as EventStatus} />
               </div>
             </div>
           </div>
         </div>
       </section>
-      <SectionEvents />
+      <SectionEvents theme="dark" />
     </>
   );
 }

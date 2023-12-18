@@ -18,7 +18,18 @@ import useWindowSize from '@/app/lib/useWidowSize';
 
 import 'swiper/css';
 
-export default function SectionEvents() {
+const styledIconButton = {
+  color: '#222C28',
+  backgroundColor: 'white',
+  '&:hover': {
+    backgroundColor: '#BFCDC7',
+  },
+  '&.Mui-disabled': {
+    backgroundColor: '#E8EBEA'
+  }
+};
+
+export default function SectionEvents({theme = 'light'}: {theme?: string}) {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const templateData = useAtomValue(templateDataAtom);
   const {last_events: lastEvents} = templateData;
@@ -51,16 +62,45 @@ export default function SectionEvents() {
   };
 
   return (
-    <section className={`${horizontalPadding} w-full gap-8 relative py-6 h-full bg-[#F7F7F7] text-black`}>
-      <div className="w-full flex justify-between py-8">
-        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium">Confira os próximos eventos</p>
-        <div className="self-center">
-          <IconButton onClick={handleClickSlideLeft} disabled={leftButtonDisabled}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <IconButton onClick={handleClickSlideRight} disabled={rightButtonDisabled}>
-            <ChevronRightIcon />
-          </IconButton>
+    <section
+      className={`${horizontalPadding} w-full relative py-6 h-full ${
+        theme === 'dark' ? 'bg-blue-95' : 'bg-gray-10'
+      }`}
+    >
+      <div className="w-full flex flex-col sm:flex-row py-8">
+        <p
+          className={`pr-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium ${
+            theme === 'dark' ? 'text-white' : 'text-gray-90'
+          }`}
+        >
+          Confira os próximos eventos
+        </p>
+        <div className="flex pt-7 sm:pt-0 justify-between flex-1">
+          <Link
+            className={`flex gap-2 items-center text-lg font-medium ${
+              theme === 'dark' ? 'text-white' : 'text-gray-80'
+            }`}
+            href={'/events'}
+          >
+            <span>Ver todos</span>
+            <ChevronRightIcon sx={{width: '16px', height: '16px'}} />
+          </Link>
+          <div className="flex gap-4">
+            <IconButton
+              onClick={handleClickSlideLeft}
+              disabled={leftButtonDisabled}
+              sx={{...styledIconButton}}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            <IconButton
+              onClick={handleClickSlideRight}
+              disabled={rightButtonDisabled}
+              sx={{...styledIconButton}}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+          </div>
         </div>
       </div>
       <Swiper
@@ -74,7 +114,7 @@ export default function SectionEvents() {
         {lastEvents.map((event, index) => (
           <SwiperSlide key={index} style={{display: 'flex', justifyContent: 'center'}}>
             <Link href={`/events/${event.id}`}>
-              <EventCard eventData={event} />
+              <EventCard eventData={event} theme={theme} />
             </Link>
           </SwiperSlide>
         ))}

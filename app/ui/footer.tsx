@@ -33,8 +33,8 @@ export default function Footer() {
       className={`flex flex-col py-8 ${horizontalPadding}`}
       sx={{backgroundColor: primaryColor}}
     >
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 sm:gap-4">
-        <div className="col-span-1 sm:col-span-2 flex flex-col gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 sm:gap-4">
+        <div className="col-span-1 sm:col-span-5 lg:col-span-4 flex flex-col gap-4 order-1">
           <Image src={logoImage} alt="Logo" width={235} height={53} />
           <p className={paragraphTitle}>Onde estamos</p>
           <div className="flex gap-2">
@@ -46,7 +46,7 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col col-span-1 sm:col-span-4 md:col-span-3 lg:col-span-2 gap-4 order-2">
           <p className={paragraphTitle}>Acesse nosso site</p>
           <div className="flex gap-2">
             <LanguageOutlinedIcon className="h-4 w-4 text-white" />
@@ -55,7 +55,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col col-span-1 sm:col-span-3 lg:col-span-2 gap-4 order-4 lg:order-3">
           <p className={paragraphTitle}>Fale conosco</p>
           <div className="flex gap-2">
             <PhoneInTalkIcon className="h-4 w-4 text-white" />
@@ -64,7 +64,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col col-span-1 sm:col-span-3 lg:col-span-2 gap-4 order-3 lg:order-4">
           <p className={paragraphTitle}>Nossas redes sociais</p>
           <div className="flex gap-2">
             <IconButton href={instagram} className="w-fit p-0" target="_blank" rel="noopener">
@@ -75,7 +75,7 @@ export default function Footer() {
             </IconButton>
           </div>
         </div>
-        <div className="flex self-end justify-self-end">
+        <div className="flex self-end col-span-1 sm:col-span-9 lg:col-span-2 justify-self-end order-5">
           <Link href={termsAndPoliciesLink} target="_blank" rel="noopener">
             <p className="text-sm">Termos e políticas</p>
           </Link>
