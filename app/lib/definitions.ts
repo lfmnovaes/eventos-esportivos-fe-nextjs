@@ -78,7 +78,7 @@ export type EventData = {
   address: {
     place: string;
     street: string;
-    number: string;
+    number: number | null;
     city: string;
     district: string;
     federal_unity: string;

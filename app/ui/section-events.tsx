@@ -12,7 +12,7 @@ import {
 } from '@mui/icons-material';
 import EventCard from './event-card';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import {eventsDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 import useWindowSize from '@/app/lib/useWidowSize';
 
@@ -31,22 +31,23 @@ const styledIconButton = {
 
 export default function SectionEvents({theme = 'light'}: {theme?: string}) {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const templateData = useAtomValue(templateDataAtom);
-  const {last_events: lastEvents} = templateData;
+  const eventsData = useAtomValue(eventsDataAtom);
+  //const availableEvents = eventsData.filter(e => e.status !== 'closed');
+  const availableEvents = eventsData;
 
-  const screens = getScreenSizes();
+  const screenSizes = getScreenSizes();
   const windowSize = useWindowSize();
 
   const getSlidesPerView = (): number =>
-    windowSize < parseInt(screens.xl) ? (windowSize < parseInt(screens.md) ? 1 : 2) : 3;
+    windowSize < parseInt(screenSizes.xl) ? (windowSize < parseInt(screenSizes.md) ? 1 : 2) : 3;
 
   const swiperRef = useRef<SwiperClass>();
   const [leftButtonDisabled, setLeftButtonDisabled] = useState(true);
   const [rightButtonDisabled, setRightButtonDisabled] = useState(true);
 
   useEffect(() => {
-    setRightButtonDisabled(lastEvents.length <= getSlidesPerView());
-  }, [windowSize, lastEvents]);
+    setRightButtonDisabled(availableEvents.length <= getSlidesPerView());
+  }, [windowSize, availableEvents]);
 
   const handleClickSlideLeft = () => {
     swiperRef.current?.slidePrev();
@@ -111,7 +112,7 @@ export default function SectionEvents({theme = 'light'}: {theme?: string}) {
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => handleSlideChange(swiper)}
       >
-        {lastEvents.map((event, index) => (
+        {availableEvents.map((event, index) => (
           <SwiperSlide key={index} style={{display: 'flex', justifyContent: 'center'}}>
             <Link href={`/events/${event.id}`}>
               <EventCard eventData={event} theme={theme} />

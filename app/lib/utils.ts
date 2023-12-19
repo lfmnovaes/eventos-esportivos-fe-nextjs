@@ -37,7 +37,9 @@ export const formatEnrollmentMessage = (salesStartDate: string, salesEndDate: st
   const start = dayjs(salesStartDate).utc();
   const end = dayjs(salesEndDate).utc();
 
-  if (now.isBefore(start)) {
+  if (now.isAfter(end)) {
+    return 'Inscrições esgotadas';
+  } else if (now.isBefore(start)) {
     return `Inscrições abrirão ${start.format('DD/MM/YYYY [às] HH:mm')}`;
   } else {
     return `Inscrições até ${end.format('DD/MM/YYYY [às] HH:mm')}`;

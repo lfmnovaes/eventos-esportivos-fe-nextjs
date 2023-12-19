@@ -2,75 +2,39 @@
 
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
-import type {Category} from '@/app/lib/definitions';
-import {Box, Button, Checkbox, Divider, Link} from '@mui/material';
+import {horizontalPaddingAtom, eventsDataAtom} from '@/app/atoms';
+import {Box, Button, Divider, Link} from '@mui/material';
 import {
   Event as EventIcon,
   SportsScore as SportsScoreIcon,
   PlaceOutlined as PlaceOutlinedIcon
 } from '@mui/icons-material';
 import dayjs from 'dayjs';
-import {initialEventData} from '@/app/lib/mock-data';
+import Categories from '@/app/events/[id]/categories';
 import {SectionEvents} from '@/app/ui';
 import {
-  statusMap,
   EventStatus,
   categoryDescription,
   splitText,
   formatEnrollmentMessage
 } from '@/app/lib/utils';
-
-function Categories({
-  categories = [],
-  status = EventStatus.Closed
-}: {
-  categories?: Category[];
-  status?: EventStatus;
-}) {
-  const {text} = statusMap.get(status) || {text: 'Esgotado'};
-
-  return (
-    <Box className="bg-white rounded-2xl" sx={{boxShadow: 3}}>
-      <div className="flex flex-col p-6 gap-6">
-        <h2 className="text-2xl">Categorias</h2>
-        <div className="flex flex-col gap-4">
-          {categories.map(({name, minimum_age, maximum_age, price}, index) => (
-            <div key={index} className="flex justify-between">
-              <div className="flex">
-                <Checkbox />
-                <div>
-                  <p>{name}</p>
-                  <p className="text-sm">{categoryDescription(minimum_age, maximum_age)}</p>
-                </div>
-              </div>
-              <span>R${price}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <Divider className="bg-gray-200" />
-      <div className="flex justify-center p-8">
-        {status === EventStatus.Open ? (
-          <Button variant="contained" color="primary">
-            Realizar inscrição
-          </Button>
-        ) : (
-          <p className="text-lg">{text}</p>
-        )}
-      </div>
-    </Box>
-  );
-}
+import useWindowSize from '@/app/lib/useWidowSize';
+import getScreenSizes from '@/app/lib/getScreenSizes';
 
 export default function EventPage({params: {id}}: {params: {id: string}}) {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const templateData = useAtomValue(templateDataAtom);
-  const {last_events: lastEvents} = templateData;
+  const eventsData = useAtomValue(eventsDataAtom);
 
-  const event = lastEvents.find((event) => event.id === parseInt(id));
+  const event = eventsData.find((event) => event.id === parseInt(id));
+
+  const screenSizes = getScreenSizes();
+  const windowSize = useWindowSize();
 
   // TODO: Replace with the real data
+  if (!event) {
+    return <h1 className={`w-full py-32 ${horizontalPadding}`}>Evento não disponível</h1>;
+  }
+
   const {
     name,
     starts_at: startDate,
@@ -82,13 +46,10 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
     description,
     schedule,
     status,
-    categories
-  } = initialEventData[0];
+    categories,
+    event_policy: eventPolicyLink
+  } = event;
   const location = `${city} - ${federalUnity}`;
-
-  if (!event) {
-    return <h1 className={`w-full py-32 ${horizontalPadding}`}>Evento não disponível</h1>;
-  }
 
   return (
     <>
@@ -118,7 +79,8 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
           </Box>
         </div>
         <div className="flex flex-col">
-          <div className={`w-full lg:w-3/5 pb-10 flex flex-col ${horizontalPadding}`}>
+          <div className={`w-full relative lg:w-3/5 pb-10 flex flex-col ${horizontalPadding}`}>
+            <div className="before:block before:lg:hidden before:absolute before:left-0 before:bottom-0 before:h-1/3 before:w-full before:bg-gray-10" />
             <h1 className="text-4xl py-6 font-medium">{name}</h1>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
@@ -136,14 +98,16 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                 {location}
               </div>
             </div>
-            <div className="block lg:hidden">
-              <div className="pt-8">
-                <Categories categories={categories} status={status as EventStatus} />
+            {windowSize < parseInt(screenSizes.lg) && (
+              <div className="relative">
+                <div className="pt-8">
+                  <Categories categories={categories} status={status as EventStatus} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          <div className={`flex gap-12 bg-gray-100 ${horizontalPadding}`}>
-            <div className="flex flex-col gap-12 py-12 w-full">
+          <div className={`flex gap-12 bg-gray-10 ${horizontalPadding}`}>
+            <div className="flex flex-col gap-12 pt-4 lg:pt-12 py-12 w-full">
               <div className="flex flex-col gap-6">
                 <h2 className="text-2xl">Descrição do evento</h2>
                 <p>{description}</p>
@@ -174,7 +138,8 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                 <h2 className="text-2xl">Política do evento</h2>
                 <div className="flex flex-col">
                   <p>
-                    Confira aqui os <Link href="#">documentos necessários para participação</Link>
+                    Confira aqui os{' '}
+                    <Link href={eventPolicyLink}>documentos necessários para participação</Link>
                   </p>
                 </div>
               </div>
@@ -195,11 +160,13 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                 </Button>
               </div>
             </div>
-            <div className="hidden lg:block w-2/3 -mt-24">
-              <div className="sticky top-24 pb-12">
-                <Categories categories={categories} status={status as EventStatus} />
+            {windowSize >= parseInt(screenSizes.lg) && (
+              <div className="w-2/3 -mt-24">
+                <div className="sticky top-24 pb-12">
+                  <Categories categories={categories} status={status as EventStatus} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

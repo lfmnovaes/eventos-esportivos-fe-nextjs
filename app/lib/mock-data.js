@@ -101,7 +101,7 @@ export const initialFooterData = {
   }
 };
 
-export const initialEventData = [
+export const initialEventsData = [
   {
     id: 1,
     name: 'Campeonato Gaúcho - Tarumã',
@@ -146,6 +146,157 @@ export const initialEventData = [
         minimum_age: 18,
         maximum_age: null,
         price: '80.00'
+      }
+    ],
+    event_policy: '/mockPDF.pdf'
+  },
+  {
+    id: 2,
+    name: 'Campeonato Gaúcho',
+    slug: 'campeonato-gaucho',
+    description:
+      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+    schedule:
+      '07:00 - Abertura do evento\r\n08:00 - Dada a largada\r\n13:00 - final da corrida\r\n13:10 - Divulgação dos campeões',
+    starts_at: '2024-01-24T17:56:30Z',
+    ends_at: '2024-01-30T17:56:32Z',
+    ticket_sales_opens_at: '2023-12-22T12:00:00Z',
+    ticket_sales_closes_at: '2024-01-23T23:59:59Z',
+    banner_image: '/event-image.jpg',
+    address: {
+      place: 'Kartódromo Tarumã 2',
+      street: 'Rod. Beto Carrero World',
+      number: null,
+      city: 'Praia de Armação do Itapocorói',
+      district: 'Penha',
+      federal_unity: 'RS',
+      zip_code: '88385000'
+    },
+    status: 'open_soon',
+    categories: [
+      {
+        id: 1,
+        name: 'Mirim',
+        minimum_age: 8,
+        maximum_age: 9,
+        price: '100.00'
+      },
+      {
+        id: 2,
+        name: 'Cadete',
+        minimum_age: 12,
+        maximum_age: 14,
+        price: '90.00'
+      },
+      {
+        id: 3,
+        name: 'Adulto',
+        minimum_age: 18,
+        maximum_age: null,
+        price: '80.00'
+      }
+    ],
+    event_policy: '/mockPDF.pdf'
+  },
+  {
+    id: 3,
+    name: 'Campeonato Internacional TechSpeed',
+    slug: 'campeonato-internacional-techspeed',
+    description:
+      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+    schedule:
+      '07:00 - Abertura do evento\r\n08:00 - Dada a largada\r\n13:00 - final da corrida\r\n13:10 - Divulgação dos campeões',
+    starts_at: '2023-12-25T17:56:30Z',
+    ends_at: '2023-12-29T17:56:32Z',
+    ticket_sales_opens_at: '2023-12-22T17:56:32Z',
+    ticket_sales_closes_at: '2024-01-04T17:56:34Z',
+    banner_image: '/event-image.jpg',
+    address: {
+      place: 'Kartódromo Tarumã',
+      street: 'Rod. Beto Carrero World',
+      number: null,
+      city: 'Praia de Armação do Itapocorói',
+      district: 'Penha',
+      federal_unity: 'RS',
+      zip_code: '88385000'
+    },
+    status: 'open_soon',
+    categories: [
+      {
+        id: 1,
+        name: 'Mirim',
+        minimum_age: 10,
+        maximum_age: 13,
+        price: '100.00'
+      },
+      {
+        id: 2,
+        name: 'Cadete',
+        minimum_age: 14,
+        maximum_age: 18,
+        price: '90.00'
+      },
+      {
+        id: 3,
+        name: 'Adulto',
+        minimum_age: 18,
+        maximum_age: null,
+        price: '80.00'
+      }
+    ],
+    event_policy: '/mockPDF.pdf'
+  },
+  {
+    id: 4,
+    name: 'Campeonato Gaúcho TechSpeed',
+    slug: 'campeonato-gaucho-techspeed',
+    description:
+      'Paixão pela velocidade, gosto pelo convívio em ambientes altamente competitivos e a busca pela excelência naquilo que faz são algumas das características que fazem o sucesso da TECHSPEED, líder de mercado na produção e comercialização de chassis, equipamentos e acessórios destinados à competição de karts no Brasil.',
+    schedule:
+      '07:00 - Abertura do evento\r\n08:00 - Dada a largada  | 13:00 - final da corrida\r\n13:10 - Divulgação dos campeões',
+    starts_at: '2024-02-05T17:56:30Z',
+    ends_at: '2024-02-09T17:56:32Z',
+    ticket_sales_opens_at: '2024-01-04T17:56:32Z',
+    ticket_sales_closes_at: '2024-02-04T17:56:34Z',
+    banner_image: '/event-image.jpg',
+    address: {
+      place: 'Kartódromo Tarumã',
+      street: 'Rod. Beto Carrero World',
+      number: null,
+      city: 'Praia de Armação do Itapocorói',
+      district: 'Penha',
+      federal_unity: 'RS',
+      zip_code: '88385000'
+    },
+    status: 'closed',
+    categories: [
+      {
+        id: 1,
+        name: 'Mirim',
+        minimum_age: 8,
+        maximum_age: 10,
+        price: '100.00'
+      },
+      {
+        id: 2,
+        name: 'Jovem',
+        minimum_age: 11,
+        maximum_age: 14,
+        price: '100.00'
+      },
+      {
+        id: 3,
+        name: 'Cadete',
+        minimum_age: 15,
+        maximum_age: 18,
+        price: '100.00'
+      },
+      {
+        id: 4,
+        name: 'Adulto',
+        minimum_age: 18,
+        maximum_age: null,
+        price: '140.00'
       }
     ],
     event_policy: '/mockPDF.pdf'
