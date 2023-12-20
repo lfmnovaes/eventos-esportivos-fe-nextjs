@@ -30,7 +30,7 @@ export default function Footer() {
   return (
     <Box
       component={'footer'}
-      className={`flex flex-col py-8 ${horizontalPadding}`}
+      className={`flex flex-col py-8 text-white ${horizontalPadding} `}
       sx={{backgroundColor: primaryColor}}
     >
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 sm:gap-4">
