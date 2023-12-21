@@ -32,7 +32,6 @@ export type HomeTemplate = {
     id: number;
     image: string;
   }[];
-  last_events: EventCard[];
 };
 
 export type FooterData = {
@@ -88,3 +87,10 @@ export type EventData = {
   categories: Category[];
   event_policy: string;
 };
+
+export type FUnityParameters = {
+  initials: string;
+  name: string;
+}[];
+
+export type PeriodParameters = string[];

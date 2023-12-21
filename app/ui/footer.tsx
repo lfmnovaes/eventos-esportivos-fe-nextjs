@@ -38,7 +38,7 @@ export default function Footer() {
           <Image src={logoImage} alt="Logo" width={235} height={53} />
           <p className={paragraphTitle}>Onde estamos</p>
           <div className="flex gap-2">
-            <PlaceOutlinedIcon className="h-4 w-4" />
+            <PlaceOutlinedIcon sx={{height: 16, width: 16}} />
             <p className="text-sm">
               Av. Centenário, nº 500 Pinheirinho
               <br />
@@ -49,7 +49,7 @@ export default function Footer() {
         <div className="flex flex-col col-span-1 sm:col-span-4 md:col-span-3 lg:col-span-2 gap-4 order-2">
           <p className={paragraphTitle}>Acesse nosso site</p>
           <div className="flex gap-2">
-            <LanguageOutlinedIcon className="h-4 w-4 text-white" />
+            <LanguageOutlinedIcon sx={{height: 16, width: 16}} />
             <Link href={website} target="_blank" rel="noopener">
               <p className="text-sm">{getDomainName(website)}</p>
             </Link>
@@ -58,7 +58,7 @@ export default function Footer() {
         <div className="flex flex-col col-span-1 sm:col-span-3 lg:col-span-2 gap-4 order-4 lg:order-3">
           <p className={paragraphTitle}>Fale conosco</p>
           <div className="flex gap-2">
-            <PhoneInTalkIcon className="h-4 w-4 text-white" />
+            <PhoneInTalkIcon sx={{height: 16, width: 16}} />
             <Link href={`tel:${phone}`} target="_blank" rel="noopener">
               <p className="text-sm">{formatBrazilianPhoneNumber(phone)}</p>
             </Link>
@@ -68,10 +68,10 @@ export default function Footer() {
           <p className={paragraphTitle}>Nossas redes sociais</p>
           <div className="flex gap-2">
             <IconButton href={instagram} className="w-fit p-0" target="_blank" rel="noopener">
-              <InstagramIcon className="h-8 w-8 text-white" />
+              <InstagramIcon className="text-white" sx={{height: 32, width: 32}} />
             </IconButton>
             <IconButton href={facebook} className="w-fit p-0" target="_blank" rel="noopener">
-              <FacebookOutlinedIcon className="h-8 w-8 text-white" />
+              <FacebookOutlinedIcon className="text-white" sx={{height: 32, width: 32}} />
             </IconButton>
           </div>
         </div>

@@ -13,6 +13,7 @@ const config: Config = {
         'gray-20': '#E8EBEA',
         'gray-30': '#D6DCDA',
         'gray-40': '#BFCDC7',
+        'gray-60': '#73817B',
         'gray-80': '#303E38',
         'gray-90': '#222C28',
         'blue-60': '#0A3360',

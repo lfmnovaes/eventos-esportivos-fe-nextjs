@@ -151,10 +151,10 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                   <p>{location}</p>
                 </div>
                 <Button
+                  className="h-fit"
                   variant="outlined"
                   color="info"
                   startIcon={<PlaceOutlinedIcon style={{fontSize: '16px'}} />}
-                  sx={{width: 'fit-content'}}
                 >
                   Ver no mapa
                 </Button>

@@ -36,7 +36,7 @@ export default function EventCard({
       sx={{backgroundColor: 'transparent', borderRadius: '1.25rem'}}
     >
       <CardMedia component="img" height="188" image={cardImage} className="rounded-xl" />
-      <CardContent className="p-0">
+      <CardContent sx={{paddingX: 0}}>
         <Chip
           label={currentStatus.text}
           color={theme === 'dark' ? `${currentStatus.color}Dark` : currentStatus.color}

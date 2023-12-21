@@ -1,4 +1,12 @@
-export const initialTemplateData = {
+import type {
+  HomeTemplate,
+  FooterData,
+  EventData,
+  FUnityParameters,
+  PeriodParameters
+} from '@/app/lib/definitions';
+
+export const initialTemplateData: HomeTemplate = {
   template: {
     id: 1,
     name: 'Template 0'
@@ -23,64 +31,10 @@ export const initialTemplateData = {
       id: 5,
       image: '/slideshow3.jpg'
     }
-  ],
-  last_events: [
-    {
-      id: 1,
-      name: 'Campeonato Gaúcho',
-      starts_at: '2023-12-11T20:53:26Z',
-      ends_at: '2023-12-15T20:53:35Z',
-      banner_image: '/card1.jpg',
-      address: {
-        place: 'Kartódromo Tarumã',
-        city: 'Tarumã',
-        federal_unity: 'SC'
-      },
-      status: 'open_soon'
-    },
-    {
-      id: 2,
-      name: 'Campeonato Internacional TechSpeed',
-      starts_at: '2023-12-25T00:00:00Z',
-      ends_at: '2023-12-29T00:00:00Z',
-      banner_image: '/card2.jpg',
-      address: {
-        place: 'Kartódromo Internacional',
-        city: 'Penha',
-        federal_unity: 'SC'
-      },
-      status: 'open'
-    },
-    {
-      id: 3,
-      name: 'Campeonato Gaúcho TechSpeed',
-      starts_at: '2023-12-25T20:53:26Z',
-      ends_at: '2023-12-29T20:53:35Z',
-      banner_image: '/card3.jpg',
-      address: {
-        place: 'Kartódromo Internacional',
-        city: 'Penha',
-        federal_unity: 'SC'
-      },
-      status: 'open'
-    },
-    {
-      id: 4,
-      name: 'Campeonato Gaúcho - Tarumã',
-      starts_at: '2024-01-11T20:53:26Z',
-      ends_at: '2024-01-15T20:53:35Z',
-      banner_image: '/card4.jpg',
-      address: {
-        place: 'Kartódromo Tarumã',
-        city: 'Tarumã',
-        federal_unity: 'SC'
-      },
-      status: 'open_soon'
-    }
   ]
 };
 
-export const initialFooterData = {
+export const initialFooterData: FooterData = {
   name: 'TechSpeed',
   logo_image: '/logo.png',
   terms_and_policies: '/Vendas_em_Acao-PDF.pdf',
@@ -101,7 +55,7 @@ export const initialFooterData = {
   }
 };
 
-export const initialEventsData = [
+export const initialEventsData: EventData[] = [
   {
     id: 1,
     name: 'Campeonato Gaúcho - Tarumã',
@@ -114,7 +68,7 @@ export const initialEventsData = [
     ends_at: '2023-12-29T17:56:32Z',
     ticket_sales_opens_at: '2023-12-22T17:56:32Z',
     ticket_sales_closes_at: '2024-01-04T17:56:34Z',
-    banner_image: '/event-image.jpg',
+    banner_image: '/event1.jpg',
     address: {
       place: 'Kartódromo Tarumã',
       street: 'Rod. Beto Carrero World',
@@ -162,7 +116,7 @@ export const initialEventsData = [
     ends_at: '2024-01-30T17:56:32Z',
     ticket_sales_opens_at: '2023-12-22T12:00:00Z',
     ticket_sales_closes_at: '2024-01-23T23:59:59Z',
-    banner_image: '/event-image.jpg',
+    banner_image: '/event2.jpg',
     address: {
       place: 'Kartódromo Tarumã 2',
       street: 'Rod. Beto Carrero World',
@@ -210,7 +164,7 @@ export const initialEventsData = [
     ends_at: '2023-12-29T17:56:32Z',
     ticket_sales_opens_at: '2023-12-22T17:56:32Z',
     ticket_sales_closes_at: '2024-01-04T17:56:34Z',
-    banner_image: '/event-image.jpg',
+    banner_image: '/event3.jpg',
     address: {
       place: 'Kartódromo Tarumã',
       street: 'Rod. Beto Carrero World',
@@ -258,7 +212,7 @@ export const initialEventsData = [
     ends_at: '2024-02-09T17:56:32Z',
     ticket_sales_opens_at: '2024-01-04T17:56:32Z',
     ticket_sales_closes_at: '2024-02-04T17:56:34Z',
-    banner_image: '/event-image.jpg',
+    banner_image: '/event4.jpg',
     address: {
       place: 'Kartódromo Tarumã',
       street: 'Rod. Beto Carrero World',
@@ -302,3 +256,16 @@ export const initialEventsData = [
     event_policy: '/mockPDF.pdf'
   }
 ];
+
+export const initialFederalUnityParameters: FUnityParameters = [
+  {
+    initials: 'RS',
+    name: 'Rio Grande do Sul'
+  },
+  {
+    initials: 'SC',
+    name: 'Santa Catarina'
+  }
+];
+
+export const initialPeriodParameters: PeriodParameters = ['2022', '2023', '2024'];
