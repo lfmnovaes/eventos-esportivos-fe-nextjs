@@ -151,7 +151,7 @@ export default function EventPage({params: {id}}: {params: {id: string}}) {
                   <p>{location}</p>
                 </div>
                 <Button
-                  className="h-fit"
+                  className="w-fit"
                   variant="outlined"
                   color="info"
                   startIcon={<PlaceOutlinedIcon style={{fontSize: '16px'}} />}
