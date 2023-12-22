@@ -59,31 +59,33 @@ async function getEventsData() {
 }
 
 async function getFUnityParameters() {
-  const res = await fetch(
-    getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/events/federal_unity`),
-    {
-      next: {revalidate: 600},
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    }
-  );
+  // const res = await fetch(
+  //   getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/events/federal_unity`),
+  //   {
+  //     next: {revalidate: 600},
+  //     headers: {
+  //       'X-Requested-With': 'XMLHttpRequest'
+  //     }
+  //   }
+  // );
 
-  return res.json();
+  // return res.json();
+  return initialFederalUnityParameters;
 }
 
 async function getPeriodParameters() {
-  const res = await fetch(
-    getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/events/period`),
-    {
-      next: {revalidate: 600},
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    }
-  );
+  // const res = await fetch(
+  //   getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/events/period`),
+  //   {
+  //     next: {revalidate: 600},
+  //     headers: {
+  //       'X-Requested-With': 'XMLHttpRequest'
+  //     }
+  //   }
+  // );
 
-  return res.json();
+  // return res.json();
+  return initialPeriodParameters;
 }
 
 const useMockDataInDev = true; // Change this to false to use actual API data in dev
