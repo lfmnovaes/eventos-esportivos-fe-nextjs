@@ -1,15 +1,19 @@
 'use client';
 
-import {Box, Button} from '@mui/material';
+import type {HomeTemplate} from '@/app/lib/definitions';
+import {useParams} from 'next/navigation';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import {Box, Button} from '@mui/material';
+import {horizontalPaddingAtom, allTemplateDataAtom} from '@/app/atoms';
 
 export default function SectionCalendar() {
+  const {companySlug} = useParams<{companySlug: string}>();
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const templateData = useAtomValue(templateDataAtom);
-
-  const {primary_color: primaryColor} = templateData;
+  const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
+  const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
+  
+  const {primary_color: primaryColor} = companyTemplateData;
 
   return (
     <Box

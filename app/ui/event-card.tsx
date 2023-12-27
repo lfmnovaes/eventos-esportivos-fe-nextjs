@@ -6,7 +6,31 @@ import {
   PlaceOutlined as PlaceOutlinedIcon
 } from '@mui/icons-material';
 import dayjs from 'dayjs';
-import {type EventStatus, statusMap} from '@/app/lib/utils';
+import type {EventStatus} from '@/app/lib/utils';
+import {statusMap} from '@/app/lib/utils';
+
+const themes: Map<
+  string,
+  {
+    backgroundColor: string;
+    cardContentColor: string;
+  }
+> = new Map([
+  [
+    'light',
+    {
+      backgroundColor: 'hover:bg-gray-20',
+      cardContentColor: 'text-gray-80'
+    }
+  ],
+  [
+    'dark',
+    {
+      backgroundColor: 'hover:bg-blue-60',
+      cardContentColor: 'text-white'
+    }
+  ]
+]);
 
 export default function EventCard({
   eventData,
@@ -32,7 +56,7 @@ export default function EventCard({
   return (
     <Card
       elevation={0}
-      className={`p-4 max-w-[363px] ${theme === 'dark' ? 'hover:bg-blue-60' : 'hover:bg-gray-20'}`}
+      className={`p-4 max-w-[363px] ${themes.get(theme)?.backgroundColor}`}
       sx={{backgroundColor: 'transparent', borderRadius: '1.25rem'}}
     >
       <CardMedia component="img" height="188" image={cardImage} className="rounded-xl" />
@@ -43,7 +67,7 @@ export default function EventCard({
           size="small"
           className="my-2"
         />
-        <div className={`flex flex-col gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-80'}`}>
+        <div className={`flex flex-col gap-2 ${themes.get(theme)?.cardContentColor}`}>
           <p className="text-xl">{name}</p>
           <div className="flex items-center gap-2">
             <EventIcon />

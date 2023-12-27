@@ -1,7 +1,9 @@
 'use client';
 
 import type {MouseEvent} from 'react';
+import type {FooterData, HomeTemplate} from '@/app/lib/definitions';
 import {useState} from 'react';
+import {useParams} from 'next/navigation';
 import Link from 'next/link';
 import {
   AppBar,
@@ -22,11 +24,17 @@ import {
 } from '@mui/icons-material';
 import Image from 'next/image';
 import {useAtomValue, useAtom} from 'jotai';
-import {templateDataAtom, footerDataAtom, loginAtom, horizontalPaddingAtom} from '@/app/atoms';
+import {loginAtom, horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
+  const {companySlug} = useParams<{companySlug: string}>();
+  const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
+  const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
+  const allFooterData = useAtomValue(allFooterDataAtom);
+  const footerData = allFooterData.get(companySlug) as FooterData;
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const [login, setLogin] = useAtom(loginAtom);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const trigger = useScrollTrigger({
@@ -34,9 +42,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
     threshold: 100
   });
 
-  const templateData = useAtomValue(templateDataAtom);
-  const footerData = useAtomValue(footerDataAtom);
-  const {primary_color: primaryColor} = templateData;
+  const {primary_color: primaryColor} = companyTemplateData;
   const {logo_image: logoImage} = footerData;
 
   const handleLogin = () => {
@@ -78,7 +84,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
         />
       </div>
       <div className="flex justify-center">
-        <Link href="/">
+        <Link href={`/${companySlug}`}>
           <Image src={logoImage} alt="logo" width={235} height={53} priority />
         </Link>
       </div>

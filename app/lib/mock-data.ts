@@ -1,10 +1,19 @@
 import type {
+  CompanyData,
   HomeTemplate,
   FooterData,
   EventData,
-  FUnityParameters,
+  FederalUnityParameters,
   PeriodParameters
 } from '@/app/lib/definitions';
+
+export const initialCompaniesData: CompanyData[] = [
+  {
+    id: 1,
+    name: 'Tech Speed',
+    slug: 'tech-speed'
+  }
+];
 
 export const initialTemplateData: HomeTemplate = {
   template: {
@@ -34,6 +43,16 @@ export const initialTemplateData: HomeTemplate = {
   ]
 };
 
+export function getAllInitialTemplateHomeData(): Map<string, HomeTemplate> {
+  const templateHomeDataMap = new Map<string, HomeTemplate>();
+
+  for (const company of initialCompaniesData) {
+    templateHomeDataMap.set(company.slug, initialTemplateData);
+  }
+
+  return templateHomeDataMap;
+}
+
 export const initialFooterData: FooterData = {
   name: 'TechSpeed',
   logo_image: '/logo.png',
@@ -54,6 +73,16 @@ export const initialFooterData: FooterData = {
     zip_code: '88804000'
   }
 };
+
+export function getAllInitialFooterData(): Map<string, FooterData> {
+  const footerDataMap = new Map<string, FooterData>();
+
+  for (const company of initialCompaniesData) {
+    footerDataMap.set(company.slug, initialFooterData);
+  }
+
+  return footerDataMap;
+}
 
 export const initialEventsData: EventData[] = [
   {
@@ -257,7 +286,17 @@ export const initialEventsData: EventData[] = [
   }
 ];
 
-export const initialFederalUnityParameters: FUnityParameters = [
+export function getAllInitialEventsData(): Map<string, EventData[]> {
+  const eventsDataMap = new Map<string, EventData[]>();
+
+  for (const company of initialCompaniesData) {
+    eventsDataMap.set(company.slug, initialEventsData);
+  }
+
+  return eventsDataMap;
+}
+
+export const initialFederalUnityParameters: FederalUnityParameters = [
   {
     initials: 'RS',
     name: 'Rio Grande do Sul'
@@ -267,5 +306,15 @@ export const initialFederalUnityParameters: FUnityParameters = [
     name: 'Santa Catarina'
   }
 ];
+
+export function getAllInitialFederalUnityParameters(): Map<string, FederalUnityParameters> {
+  const federalUnityParametersMap = new Map<string, FederalUnityParameters>();
+
+  for (const company of initialCompaniesData) {
+    federalUnityParametersMap.set(company.slug, initialFederalUnityParameters);
+  }
+
+  return federalUnityParametersMap;
+}
 
 export const initialPeriodParameters: PeriodParameters = ['2022', '2023', '2024'];

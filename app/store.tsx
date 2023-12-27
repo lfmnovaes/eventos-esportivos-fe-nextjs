@@ -4,36 +4,41 @@ import type {
   HomeTemplate,
   FooterData,
   EventData,
-  FUnityParameters,
-  PeriodParameters
+  FederalUnityParameters,
+  PeriodParameters,
+  CompanyData
 } from '@/app/lib/definitions';
 import {useHydrateAtoms} from 'jotai/utils';
 import {
-  templateDataAtom,
-  footerDataAtom,
-  eventsDataAtom,
-  federalUnityParametersAtom,
+  companiesDataAtom,
+  allTemplateDataAtom,
+  allFooterDataAtom,
+  allEventsDataAtom,
+  allFUParametersAtom,
   periodParametersAtom
 } from '@/app/atoms';
 
 export default function Store({
-  templateHomeData,
-  footerData,
-  eventsData,
-  federalUnityParameters,
+  companiesData,
+  allTemplateData,
+  allFooterData,
+  allEventsData,
+  allFUParametersData,
   periodParameters
 }: {
-  templateHomeData: HomeTemplate;
-  footerData: FooterData;
-  eventsData: EventData[];
-  federalUnityParameters: FUnityParameters;
+  companiesData: CompanyData[];
+  allTemplateData: Map<string, HomeTemplate>;
+  allFooterData: Map<string, FooterData>;
+  allEventsData: Map<string, EventData[]>;
+  allFUParametersData: Map<string, FederalUnityParameters>;
   periodParameters: PeriodParameters;
 }) {
   useHydrateAtoms([
-    [templateDataAtom, templateHomeData],
-    [footerDataAtom, footerData],
-    [eventsDataAtom, eventsData],
-    [federalUnityParametersAtom, federalUnityParameters],
+    [companiesDataAtom, companiesData],
+    [allTemplateDataAtom, allTemplateData],
+    [allFooterDataAtom, allFooterData],
+    [allEventsDataAtom, allEventsData],
+    [allFUParametersAtom, allFUParametersData],
     [periodParametersAtom, periodParameters]
   ] as const);
   return null;

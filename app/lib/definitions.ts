@@ -1,3 +1,9 @@
+export type CompanyData = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
 export type EventStatusInfo = {
   text: string;
   color: 'success' | 'warning' | 'error';
@@ -88,7 +94,7 @@ export type EventData = {
   event_policy: string;
 };
 
-export type FUnityParameters = {
+export type FederalUnityParameters = {
   initials: string;
   name: string;
 }[];

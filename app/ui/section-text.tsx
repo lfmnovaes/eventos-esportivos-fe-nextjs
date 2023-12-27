@@ -1,20 +1,30 @@
 'use client';
 
+import type {HomeTemplate} from '@/app/lib/definitions';
+import {useParams} from 'next/navigation';
+import Image from 'next/image';
+import {useAtomValue} from 'jotai';
 import {Autoplay, EffectFade} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Box} from '@mui/material';
-import Image from 'next/image';
-import {useAtomValue} from 'jotai';
-import {templateDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import {horizontalPaddingAtom, allTemplateDataAtom} from '@/app/atoms';
 import {splitText} from '@/app/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
 export default function SectionText() {
+  const {companySlug} = useParams<{companySlug: string}>();
+  const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const templateData = useAtomValue(templateDataAtom);
-  const {primary_color: primaryColor, description, gallery_images: galleryImages} = templateData;
+
+  const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
+  const {
+    primary_color: primaryColor,
+    description,
+    gallery_images: galleryImages
+  } = companyTemplateData;
+
   const slideshowTexts = splitText(description);
 
   return (

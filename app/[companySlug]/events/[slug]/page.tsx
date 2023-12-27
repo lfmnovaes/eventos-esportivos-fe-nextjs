@@ -1,16 +1,18 @@
 'use client';
 
+import {useParams} from 'next/navigation';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import {horizontalPaddingAtom, eventsDataAtom} from '@/app/atoms';
+import type {EventData} from '@/app/lib/definitions';
 import {Box, Button, Divider, Link} from '@mui/material';
 import {
   Event as EventIcon,
   SportsScore as SportsScoreIcon,
   PlaceOutlined as PlaceOutlinedIcon
 } from '@mui/icons-material';
+import {horizontalPaddingAtom, allEventsDataAtom} from '@/app/atoms';
 import dayjs from 'dayjs';
-import Categories from '@/app/events/[id]/categories';
+import Categories from '@/app/[companySlug]/events/[slug]/categories';
 import {SectionEvents} from '@/app/ui';
 import {
   EventStatus,
@@ -21,16 +23,18 @@ import {
 import useWindowSize from '@/app/lib/useWidowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 
-export default function EventPage({params: {id}}: {params: {id: string}}) {
+export default function EventPage({params: {slug}}: {params: {slug: string}}) {
+  const {companySlug} = useParams<{companySlug: string}>();
+  const allEventsData = useAtomValue(allEventsDataAtom);
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const eventsData = useAtomValue(eventsDataAtom);
 
-  const event = eventsData.find((event) => event.id === parseInt(id));
+  const eventsData = allEventsData.get(companySlug) as EventData[];
 
   const screenSizes = getScreenSizes();
   const windowSize = useWindowSize();
 
-  // TODO: Replace with the real data
+  const event = eventsData.find((event) => event.slug === slug);
+
   if (!event) {
     return <h1 className={`w-full py-32 ${horizontalPadding}`}>Evento não disponível</h1>;
   }

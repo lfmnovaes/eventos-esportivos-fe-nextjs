@@ -1,12 +1,12 @@
 'use client';
 
-import {useCallback, useMemo, useState, memo} from 'react';
-import {useRouter, usePathname, useSearchParams} from 'next/navigation';
+import {useCallback, useState} from 'react';
 import type {Category} from '@/app/lib/definitions';
 import {Box, Button, Checkbox, Divider} from '@mui/material';
 import {statusMap, EventStatus, categoryDescription} from '@/app/lib/utils';
+import {useRouterParams} from '@/app/lib/useRouterParams';
 
-function Categories({
+export default function Categories({
   categories = [],
   status = EventStatus.Closed
 }: {
@@ -14,32 +14,19 @@ function Categories({
   status?: EventStatus;
 }) {
   const {text} = statusMap.get(status) || {text: 'Esgotado'};
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams()!;
-  const categoriesParam = searchParams.get('categories') || '';
-  const initialSelectedCategories = useMemo(
-    () =>
-      new Set(
-        categoriesParam
-          .split('+')
-          .filter((name) => name)
-          .map((name) => name.toLowerCase())
-      ),
-    [categoriesParam]
+
+  const {queryParams, updateQueryParams} = useRouterParams({
+    defaultParams: {categories: ''}
+  });
+
+  const initialSelectedCategories = new Set(
+    (queryParams.get('categories') || '')
+      .split('+')
+      .filter((name) => name)
+      .map(decodeURIComponent)
   );
 
   const [selectedCategories, setSelectedCategories] = useState(initialSelectedCategories);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
 
   const handleCheckboxChange = useCallback(
     (categoryName: string) => {
@@ -53,18 +40,12 @@ function Categories({
           newSelectedCategories.add(lowerCaseName);
         }
 
-        router.replace(
-          `${pathname}?${createQueryString(
-            'categories',
-            Array.from(newSelectedCategories).map(encodeURIComponent).join('+')
-          )}`,
-          {scroll: false}
-        );
+        updateQueryParams({categories: Array.from(newSelectedCategories)});
 
         return newSelectedCategories;
       });
     },
-    [router, pathname, createQueryString]
+    [updateQueryParams]
   );
 
   return (
@@ -107,5 +88,3 @@ function Categories({
     </Box>
   );
 }
-
-export default memo(Categories);

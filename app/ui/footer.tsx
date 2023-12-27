@@ -1,7 +1,9 @@
 'use client';
 
+import type {FooterData, HomeTemplate} from '@/app/lib/definitions';
 import Image from 'next/image';
 import Link from 'next/link';
+import {useParams} from 'next/navigation';
 import {Box, Divider, IconButton} from '@mui/material';
 import {
   PlaceOutlined as PlaceOutlinedIcon,
@@ -11,14 +13,18 @@ import {
   Instagram as InstagramIcon
 } from '@mui/icons-material';
 import {useAtomValue} from 'jotai';
-import {templateDataAtom, footerDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import {horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
 import {getDomainName, formatBrazilianPhoneNumber} from '@/app/lib/utils';
 
 export default function Footer() {
+  const {companySlug} = useParams<{companySlug: string}>();
+  const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
+  const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
+  const allFooterData = useAtomValue(allFooterDataAtom);
+  const footerData = allFooterData.get(companySlug) as FooterData;
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const templateData = useAtomValue(templateDataAtom);
-  const footerData = useAtomValue(footerDataAtom);
-  const {primary_color: primaryColor} = templateData;
+
+  const {primary_color: primaryColor} = companyTemplateData;
   const {
     logo_image: logoImage,
     terms_and_policies: termsAndPoliciesLink,

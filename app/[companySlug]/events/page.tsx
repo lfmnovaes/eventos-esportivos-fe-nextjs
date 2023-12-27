@@ -2,14 +2,16 @@
 
 import type {ReactNode} from 'react';
 import {useState} from 'react';
+import {useParams} from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
+import type {EventData, FederalUnityParameters} from '@/app/lib/definitions';
 import {
   horizontalPaddingAtom,
-  eventsDataAtom,
-  federalUnityParametersAtom,
-  periodParametersAtom
+  periodParametersAtom,
+  allEventsDataAtom,
+  allFUParametersAtom
 } from '@/app/atoms';
 import dayjs from 'dayjs';
 import {Button, Divider, MenuItem, Select} from '@mui/material';
@@ -23,10 +25,14 @@ import CustomTextField from '@/app/ui/components/text-field';
 import EventCard from '@/app/ui/event-card';
 
 export default function EventsPage() {
-  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const eventsData = useAtomValue(eventsDataAtom);
-  const federalUnityParameters = useAtomValue(federalUnityParametersAtom);
+  const {companySlug} = useParams<{companySlug: string}>();
+  const allEventsData = useAtomValue(allEventsDataAtom);
+  const allFUParameters = useAtomValue(allFUParametersAtom);
   const periodParameters = useAtomValue(periodParametersAtom);
+  const horizontalPadding = useAtomValue(horizontalPaddingAtom);
+
+  const eventsData = allEventsData.get(companySlug) as EventData[];
+  const federalUnityParameters = allFUParameters.get(companySlug) as FederalUnityParameters;
 
   const [selectedFederalUnity, setSelectedFederalUnity] = useState('all');
   const [selectedPeriod, setSelectedPeriod] = useState('all');
@@ -148,7 +154,7 @@ export default function EventsPage() {
         {filteredEvents.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
             {filteredEvents.map((event, index) => (
-              <Link key={index} href={`/events/${event.id}`}>
+              <Link key={index} href={`/events/${event.slug}`}>
                 <EventCard eventData={event} />
               </Link>
             ))}
