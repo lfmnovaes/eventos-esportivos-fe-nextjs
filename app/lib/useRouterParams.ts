@@ -4,17 +4,17 @@ import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {useCallback, useMemo} from 'react';
 
 type UseRouterParamsOptions = {
-  defaultParams?: Record<string, string | string[]>;
+  defaultParams: Record<string, string | string[]>;
 };
 
-export const useRouterParams = ({defaultParams = {}}: UseRouterParamsOptions = {}) => {
+export const useRouterParams = ({defaultParams}: UseRouterParamsOptions) => {
   const router = useRouter();
   const {pathname, searchParams} = {pathname: usePathname(), searchParams: useSearchParams()!};
 
   const queryParams = useMemo(() => {
     const params = new URLSearchParams(searchParams);
     Object.keys(defaultParams).forEach((key) => {
-      if (!params.get(key)) {
+      if (!params.has(key)) {
         const value = defaultParams[key];
         if (Array.isArray(value)) {
           params.set(key, value.join('+'));

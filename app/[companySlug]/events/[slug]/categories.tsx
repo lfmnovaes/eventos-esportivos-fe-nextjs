@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useState} from 'react';
+import {useEffect, useState} from 'react';
 import type {Category} from '@/app/lib/definitions';
 import {Box, Button, Checkbox, Divider} from '@mui/material';
 import {statusMap, EventStatus, categoryDescription} from '@/app/lib/utils';
@@ -28,25 +28,24 @@ export default function Categories({
 
   const [selectedCategories, setSelectedCategories] = useState(initialSelectedCategories);
 
-  const handleCheckboxChange = useCallback(
-    (categoryName: string) => {
-      setSelectedCategories((prevSelectedCategories) => {
-        const newSelectedCategories = new Set(prevSelectedCategories);
-        const lowerCaseName = categoryName.toLowerCase();
+  useEffect(() => {
+    updateQueryParams({categories: Array.from(selectedCategories)});
+  }, [selectedCategories, updateQueryParams]);
 
-        if (newSelectedCategories.has(lowerCaseName)) {
-          newSelectedCategories.delete(lowerCaseName);
-        } else {
-          newSelectedCategories.add(lowerCaseName);
-        }
+  const handleCheckboxChange = (categoryName: string) => {
+    setSelectedCategories((prevSelectedCategories) => {
+      const newSelectedCategories = new Set(prevSelectedCategories);
+      const lowerCaseName = categoryName.toLowerCase();
 
-        updateQueryParams({categories: Array.from(newSelectedCategories)});
+      if (newSelectedCategories.has(lowerCaseName)) {
+        newSelectedCategories.delete(lowerCaseName);
+      } else {
+        newSelectedCategories.add(lowerCaseName);
+      }
 
-        return newSelectedCategories;
-      });
-    },
-    [updateQueryParams]
-  );
+      return newSelectedCategories;
+    });
+  };
 
   return (
     <Box className="bg-white rounded-2xl" sx={{boxShadow: 3}}>

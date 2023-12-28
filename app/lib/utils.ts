@@ -45,3 +45,8 @@ export const formatEnrollmentMessage = (salesStartDate: string, salesEndDate: st
     return `Inscrições até ${end.format('DD/MM/YYYY [às] HH:mm')}`;
   }
 };
+
+export function capitalizeFirstLetter(input: string): string {
+  if (!input) return input;
+  return input.charAt(0).toUpperCase() + input.slice(1);
+}

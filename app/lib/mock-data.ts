@@ -255,27 +255,20 @@ export const initialEventsData: EventData[] = [
     categories: [
       {
         id: 1,
-        name: 'Mirim',
-        minimum_age: 8,
-        maximum_age: 10,
-        price: '100.00'
-      },
-      {
-        id: 2,
         name: 'Jovem',
         minimum_age: 11,
         maximum_age: 14,
         price: '100.00'
       },
       {
-        id: 3,
+        id: 2,
         name: 'Cadete',
         minimum_age: 15,
         maximum_age: 18,
         price: '100.00'
       },
       {
-        id: 4,
+        id: 3,
         name: 'Adulto',
         minimum_age: 18,
         maximum_age: null,
