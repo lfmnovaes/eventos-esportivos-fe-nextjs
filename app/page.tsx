@@ -4,7 +4,7 @@ import type {
   FooterData,
   EventData,
   FederalUnityParameters,
-  PeriodParameters
+  Period
 } from '@/app/lib/definitions';
 import Store from '@/app/store';
 import {
@@ -13,7 +13,7 @@ import {
   getAllInitialFooterData,
   getAllInitialEventsData,
   getAllInitialFederalUnityParameters,
-  initialPeriodParameters
+  initialPeriods
 } from '@/app/lib/mock-data';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ type DataReturnType = [
   Map<string, FooterData>,
   Map<string, EventData[]>,
   Map<string, FederalUnityParameters>,
-  PeriodParameters
+  Period
 ];
 
 function getApiUrl(apiPath: string): string {
@@ -113,11 +113,11 @@ async function getAllFUParametersData(
   return footerDataMap;
 }
 
-async function getPeriodParameters(): Promise<PeriodParameters> {
+async function getAllPeriods(): Promise<Period> {
   // const res = await fetch(
-  //   getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/period`),
+  //   getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/periods`),
   //   {
-  //     next: {revalidate: 600},
+  //     next: {revalidate: 7200},
   //     headers: {
   //       'X-Requested-With': 'XMLHttpRequest'
   //     }
@@ -125,7 +125,7 @@ async function getPeriodParameters(): Promise<PeriodParameters> {
   // );
 
   // return res.json();
-  return initialPeriodParameters;
+  return initialPeriods;
 }
 
 const useMockDataInDev = true; // Change this to false to use actual API data in dev
@@ -140,17 +140,17 @@ async function getData(): Promise<DataReturnType> {
       getAllInitialFooterData(),
       getAllInitialEventsData(),
       getAllInitialFederalUnityParameters(),
-      initialPeriodParameters
+      initialPeriods
     ];
   } else {
     const companiesData = await getCompanies();
-    const [allTemplateData, allFooterData, allEventsData, allFUParametersData, periodParameters] =
+    const [allTemplateData, allFooterData, allEventsData, allFUParametersData, allPeriods] =
       await Promise.all([
         getAllTemplateHomeData(companiesData),
         getAllFooterData(companiesData),
         getAllEventsData(companiesData),
         getAllFUParametersData(companiesData),
-        getPeriodParameters()
+        getAllPeriods()
       ]);
     return [
       companiesData,
@@ -158,7 +158,7 @@ async function getData(): Promise<DataReturnType> {
       allFooterData,
       allEventsData,
       allFUParametersData,
-      periodParameters
+      allPeriods
     ];
   }
 }
@@ -170,7 +170,7 @@ export default async function Home() {
     allFooterData,
     allEventsData,
     allFUParametersData,
-    periodParameters
+    allPeriods
   ] = await getData();
 
   return (
@@ -181,7 +181,7 @@ export default async function Home() {
         allFooterData={allFooterData}
         allEventsData={allEventsData}
         allFUParametersData={allFUParametersData}
-        periodParameters={periodParameters}
+        allPeriods={allPeriods}
       />
       <div className="p-32">
         <h1 className="text-4xl font-bold py-16">Apex hub</h1>

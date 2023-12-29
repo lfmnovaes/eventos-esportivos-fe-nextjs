@@ -4,7 +4,8 @@ import type {
   FooterData,
   EventData,
   FederalUnityParameters,
-  PeriodParameters
+  PeriodParameters,
+  Period
 } from '@/app/lib/definitions';
 
 export const initialCompaniesData: CompanyData[] = [
@@ -310,4 +311,4 @@ export function getAllInitialFederalUnityParameters(): Map<string, FederalUnityP
   return federalUnityParametersMap;
 }
 
-export const initialPeriodParameters: PeriodParameters = ['2022', '2023', '2024'];
+export const initialPeriods: Period = ['12-2023', '01-2024', '02-2024'];

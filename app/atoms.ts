@@ -4,16 +4,16 @@ import type {
   FooterData,
   EventData,
   FederalUnityParameters,
-  PeriodParameters
+  Period
 } from '@/app/lib/definitions';
 import {atom} from 'jotai';
 import {
-  getAllInitialTemplateHomeData,
   initialCompaniesData,
-  initialPeriodParameters,
+  getAllInitialTemplateHomeData,
   getAllInitialEventsData,
   getAllInitialFooterData,
-  getAllInitialFederalUnityParameters
+  getAllInitialFederalUnityParameters,
+  initialPeriods
 } from '@/app/lib/mock-data';
 
 export const horizontalPaddingAtom = atom<string>(
@@ -34,6 +34,6 @@ export const allFUParametersAtom = atom<Map<string, FederalUnityParameters>>(
 
 //export const allPeriodParametersAtom = atom<Map<string, PeriodParameters>>(getAllInitialPeriodParameters());
 
-export const periodParametersAtom = atom<PeriodParameters>(initialPeriodParameters);
+export const allPeriodsAtom = atom<Period>(initialPeriods);
 
 export const loginAtom = atom<boolean>(false);

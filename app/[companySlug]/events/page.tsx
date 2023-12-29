@@ -9,8 +9,8 @@ import {useAtomValue} from 'jotai';
 import type {EventData, FederalUnityParameters} from '@/app/lib/definitions';
 import {
   horizontalPaddingAtom,
-  periodParametersAtom,
   allEventsDataAtom,
+  allPeriodsAtom,
   allFUParametersAtom
 } from '@/app/atoms';
 import dayjs from 'dayjs';
@@ -57,7 +57,7 @@ export default function EventsPage() {
   const {companySlug} = useParams<{companySlug: string}>();
   const allEventsData = useAtomValue(allEventsDataAtom);
   const allFUParameters = useAtomValue(allFUParametersAtom);
-  const periodParameters = useAtomValue(periodParametersAtom);
+  const allPeriod = useAtomValue(allPeriodsAtom);
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
 
   const eventsData = allEventsData.get(companySlug) as EventData[];
@@ -130,7 +130,9 @@ export default function EventsPage() {
       const isFederalUnityMatch =
         selectedFederalUnity === 'all' || event.address.federal_unity === selectedFederalUnity;
       const isPeriodMatch =
-        selectedPeriod === 'all' || eventStart.isSame(dayjs(`${selectedPeriod}-01-01`), 'year');
+        selectedPeriod === 'all' ||
+        (eventStart.month() + 1 === parseInt(selectedPeriod.split('-')[0]) &&
+          eventStart.year() === parseInt(selectedPeriod.split('-')[1]));
       const isCategoryMatch =
         selectedCategory === 'all' ||
         event.categories.some(
@@ -197,7 +199,7 @@ export default function EventsPage() {
               sx={{width: 200}}
             >
               <MenuItem value="all">Todos os períodos</MenuItem>
-              {periodParameters.map((period) => (
+              {allPeriod.map((period) => (
                 <MenuItem key={period} value={period}>
                   {period}
                 </MenuItem>

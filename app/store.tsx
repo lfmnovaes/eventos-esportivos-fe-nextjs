@@ -5,8 +5,8 @@ import type {
   FooterData,
   EventData,
   FederalUnityParameters,
-  PeriodParameters,
-  CompanyData
+  CompanyData,
+  Period
 } from '@/app/lib/definitions';
 import {useHydrateAtoms} from 'jotai/utils';
 import {
@@ -15,7 +15,7 @@ import {
   allFooterDataAtom,
   allEventsDataAtom,
   allFUParametersAtom,
-  periodParametersAtom
+  allPeriodsAtom
 } from '@/app/atoms';
 
 export default function Store({
@@ -24,14 +24,14 @@ export default function Store({
   allFooterData,
   allEventsData,
   allFUParametersData,
-  periodParameters
+  allPeriods
 }: {
   companiesData: CompanyData[];
   allTemplateData: Map<string, HomeTemplate>;
   allFooterData: Map<string, FooterData>;
   allEventsData: Map<string, EventData[]>;
   allFUParametersData: Map<string, FederalUnityParameters>;
-  periodParameters: PeriodParameters;
+  allPeriods: Period;
 }) {
   useHydrateAtoms([
     [companiesDataAtom, companiesData],
@@ -39,7 +39,7 @@ export default function Store({
     [allFooterDataAtom, allFooterData],
     [allEventsDataAtom, allEventsData],
     [allFUParametersAtom, allFUParametersData],
-    [periodParametersAtom, periodParameters]
+    [allPeriodsAtom, allPeriods]
   ] as const);
   return null;
 }

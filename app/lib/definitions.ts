@@ -100,3 +100,5 @@ export type FederalUnityParameters = {
 }[];
 
 export type PeriodParameters = string[];
+
+export type Period = string[];
