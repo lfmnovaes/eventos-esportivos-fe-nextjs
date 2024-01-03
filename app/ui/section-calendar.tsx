@@ -18,9 +18,8 @@ export default function SectionCalendar() {
   return (
     <Box
       component={'section'}
-      className={`${horizontalPadding} w-full h-[480px] relative flex items-center justify-center`}
+      className={`${horizontalPadding} w-full h-[480px] relative flex items-center justify-center bg-gray-10`}
       sx={{
-        backgroundColor: '#F7F7F7',
         '&::before': {
           content: '""',
           position: 'absolute',

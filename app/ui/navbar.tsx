@@ -24,7 +24,12 @@ import {
 } from '@mui/icons-material';
 import Image from 'next/image';
 import {useAtomValue, useAtom} from 'jotai';
-import {loginAtom, horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
+import {
+  loginAtom,
+  horizontalPaddingAtom,
+  allTemplateDataAtom,
+  allFooterDataAtom
+} from '@/app/atoms';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
   const {companySlug} = useParams<{companySlug: string}>();
@@ -90,9 +95,11 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
       </div>
       <div className="flex items-center justify-end gap-4">
         {!login ? (
-          <Button variant="outlined" color="inherit" onClick={handleLogin}>
-            Entrar
-          </Button>
+          <Link href={`/${companySlug}/login`} passHref>
+            <Button variant="outlined" color="inherit">
+              Entrar
+            </Button>
+          </Link>
         ) : (
           <>
             <Button
