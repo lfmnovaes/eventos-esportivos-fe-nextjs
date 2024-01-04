@@ -154,8 +154,9 @@ export default function EventsPage() {
 
   return (
     <section className={`w-full flex flex-col gap-4 mt-8 pt-16 text-gray-80 ${horizontalPadding}`}>
-      <div className="flex justify-between">
-        <h1 className="flex text-4xl font-medium">Todos os eventos</h1>
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <h1 className="text-4xl font-medium">Todos os eventos</h1>
+        <Divider className="bg-gray-200 md:hidden" />
         <CustomTextField
           label="Buscar por evento"
           startIcon={<SearchOutlinedIcon />}
@@ -163,7 +164,7 @@ export default function EventsPage() {
           onChange={handleSearchChange}
         />
       </div>
-      <Divider className="bg-gray-200" />
+      <Divider className="bg-gray-200 hidden md:block" />
       <div className="flex justify-between pt-11">
         <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-4 md:gap-8">
           <div>
