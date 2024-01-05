@@ -12,8 +12,8 @@ export default function SectionCalendar() {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
   const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
-  
-  const {primary_color: primaryColor} = companyTemplateData;
+
+  const {primary_color: primaryColor, has_courses: hasCourses} = companyTemplateData;
 
   return (
     <Box
@@ -42,14 +42,24 @@ export default function SectionCalendar() {
           style={{width: '100%', height: '466px'}}
         />
       </div>
-      <div className="absolute top-8 left-[15%] md:left-16 right-[15%] md:ml-8 w-auto md:w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
-        <Box component="p" className="text-2xl md:text-3xl font-medium" sx={{color: primaryColor}}>
-          Agende dias e horários para corridas de Kart Indoor
-        </Box>
-        <Button variant="outlined" color="inherit" sx={{color: primaryColor, width: 'fit-content'}}>
-          Ver Calendário
-        </Button>
-      </div>
+      {hasCourses && (
+        <div className="absolute top-8 left-[15%] md:left-16 right-[15%] md:ml-8 w-auto md:w-[498px] rounded-lg flex flex-col gap-4 z-10 bg-[rgba(255,255,255,0.4)] backdrop-blur-lg py-8 px-6">
+          <Box
+            component="p"
+            className="text-2xl md:text-3xl font-medium"
+            sx={{color: primaryColor}}
+          >
+            Agende dias e horários para corridas de Kart Indoor
+          </Box>
+          <Button
+            variant="outlined"
+            color="inherit"
+            sx={{color: primaryColor, width: 'fit-content'}}
+          >
+            Ver Calendário
+          </Button>
+        </div>
+      )}
     </Box>
   );
 }

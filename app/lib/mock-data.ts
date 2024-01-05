@@ -4,7 +4,6 @@ import type {
   FooterData,
   EventData,
   FederalUnityParameters,
-  PeriodParameters,
   Period
 } from '@/app/lib/definitions';
 

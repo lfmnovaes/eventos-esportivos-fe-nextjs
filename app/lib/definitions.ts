@@ -99,6 +99,6 @@ export type FederalUnityParameters = {
   name: string;
 }[];
 
-export type PeriodParameters = string[];
+export type PeriodParameters = Record<string, number[]>;
 
 export type Period = string[];

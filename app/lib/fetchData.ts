@@ -111,6 +111,7 @@ async function getAllFUParametersData(
   return footerDataMap;
 }
 
+// TODO: Use PeriodParameters instead
 async function getAllPeriods(): Promise<Period> {
   // const res = await fetch(
   //   getApiUrl(`api/v1/companies/${process.env.NEXT_PUBLIC_COMPANY_ID}/periods`),
@@ -126,7 +127,7 @@ async function getAllPeriods(): Promise<Period> {
   return initialPeriods;
 }
 
-const useMockDataInDev =  false; // Change this to false to use actual API data in dev
+const useMockDataInDev =  true; // Change this to false to use actual API data in dev
 
 export default async function getData(): Promise<DataReturnType> {
   const isDevelopment = process.env.NODE_ENV === 'development';
