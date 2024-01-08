@@ -12,6 +12,10 @@ declare module '@mui/material/styles' {
       main: string;
       contrastText?: string;
     };
+    customError?: {
+      main: string;
+      contrastText?: string;
+    };
     errorDark?: {
       main: string;
       contrastText?: string;
@@ -26,6 +30,10 @@ declare module '@mui/material/styles' {
       main: string;
       contrastText?: string;
     };
+    customError?: {
+      main: string;
+      contrastText?: string;
+    };
     errorDark?: {
       main: string;
       contrastText?: string;
@@ -37,6 +45,7 @@ declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
     successDark: true;
     warningDark: true;
+    customError: true;
     errorDark: true;
     infoDark: true;
   }
@@ -66,7 +75,7 @@ export const theme: Theme = createTheme({
       main: '#3B4C50',
       contrastText: '#FFAD0D'
     },
-    error: {
+    customError: {
       main: '#FDECEC',
       contrastText: '#F03D3D'
     },

@@ -1,6 +1,5 @@
 'use client';
 
-import type {FooterData} from '@/app/lib/definitions';
 import {useState} from 'react';
 import {
   TextField,
@@ -19,15 +18,69 @@ import {
   VisibilityOutlined as VisibilityOutlinedIcon,
   CloseOutlined as CloseIcon
 } from '@mui/icons-material';
-import {useParams} from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import {useAtomValue} from 'jotai';
-import {allFooterDataAtom} from '@/app/atoms';
 import useWindowSize from '@/app/lib/useWidowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
+import {isValidEmail} from '@/app/lib/utils';
 
 function ForgotPasswordContent({onClose}: {onClose: () => void}) {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+    if (error) setError('');
+  };
+
+  const handleButtonClick = () => {
+    if (isValidEmail(email)) {
+      setIsConfirmed(true);
+    } else {
+      setError('Por favor, digite um e-mail válido');
+    }
+  };
+
+  if (isConfirmed) {
+    return (
+      <div className="p-4 h-auto flex flex-col gap-6 relative pb-16 lg:pb-4">
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <Image
+          className="py-4 self-center"
+          src={'/kart-red.png'}
+          alt="no results red kart"
+          width={42}
+          height={28}
+        />
+        <h3 className="text-2xl font-medium text-center">Pronto!</h3>
+        <p className="text-center">
+          Verifique a sua caixa de entrada, te enviamos um email para você recadastrar sua senha.
+        </p>
+        <Button
+          onClick={onClose}
+          fullWidth
+          variant="contained"
+          color="info"
+          size="large"
+          sx={{height: '40px'}}
+        >
+          Fechar
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 h-auto flex flex-col gap-6 relative pb-16 lg:pb-4">
       <IconButton
@@ -62,9 +115,13 @@ function ForgotPasswordContent({onClose}: {onClose: () => void}) {
         autoFocus
         InputLabelProps={{shrink: true}}
         placeholder="Digite seu e-mail"
+        value={email}
+        onChange={handleEmailChange}
+        error={!!error}
+        helperText={error}
       />
       <Button
-        type="submit"
+        onClick={handleButtonClick}
         fullWidth
         variant="contained"
         color="info"
@@ -78,14 +135,9 @@ function ForgotPasswordContent({onClose}: {onClose: () => void}) {
 }
 
 export default function LoginPage() {
-  const {companySlug} = useParams<{companySlug: string}>();
-  const allFooterData = useAtomValue(allFooterDataAtom);
-  const footerData = allFooterData.get(companySlug) as FooterData;
-  const {logo_image: logoImage} = footerData;
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showForgotPassModal, setShowForgotPassModal] = useState(false);
-  const [showForgotPassDrawer, setShowForgotPassDrawer] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showForgotPassModal, setShowForgotPassModal] = useState<boolean>(false);
+  const [showForgotPassDrawer, setShowForgotPassDrawer] = useState<boolean>(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -112,7 +164,7 @@ export default function LoginPage() {
       <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center items-center py-12 px-4">
         <div className="max-w-md w-full pb-12 flex flex-col gap-4">
           <Image
-            src={logoImage}
+            src="/logo.png" // TODO: Replace with the Apex hub logo
             alt="login logo"
             width={235}
             height={53}
@@ -156,7 +208,7 @@ export default function LoginPage() {
                       onClick={handleClickShowPassword}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
+                      {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
                     </IconButton>
                   </InputAdornment>
                 )
@@ -182,10 +234,7 @@ export default function LoginPage() {
         </div>
         <div className="flex gap-2">
           <span>Não possui uma conta?</span>
-          <Link
-            href={`/${companySlug}/signup`}
-            className="underline text-blue-600 hover:text-blue-800"
-          >
+          <Link href="/signup" className="underline text-blue-600 hover:text-blue-800">
             Criar conta
           </Link>
         </div>
@@ -201,7 +250,11 @@ export default function LoginPage() {
           />
         </div>
       </div>
-      <Dialog open={showForgotPassModal} onClose={closeForgotPass}>
+      <Dialog
+        open={showForgotPassModal}
+        onClose={closeForgotPass}
+        PaperProps={{sx: {borderRadius: '16px'}}}
+      >
         <ForgotPasswordContent onClose={closeForgotPass} />
       </Dialog>
       <Drawer anchor="bottom" open={showForgotPassDrawer} onClose={closeForgotPass}>

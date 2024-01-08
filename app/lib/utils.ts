@@ -14,8 +14,8 @@ export enum EventStatus {
 export const statusMap = new Map<EventStatus, EventStatusInfo>([
   [EventStatus.Open, {text: 'Inscrições abertas', color: 'success'}],
   [EventStatus.OpenSoon, {text: 'Em breve', color: 'warning'}],
-  [EventStatus.Closed, {text: 'Evento encerrado', color: 'error'}],
-  [EventStatus.NoTicketsRemaining, {text: 'Esgotado', color: 'error'}]
+  [EventStatus.Closed, {text: 'Evento encerrado', color: 'customError'}],
+  [EventStatus.NoTicketsRemaining, {text: 'Esgotado', color: 'customError'}]
 ]);
 
 export const getDomainName = (url: string): string => new URL(url).hostname.replace(/^www\./, '');
@@ -49,4 +49,9 @@ export const formatEnrollmentMessage = (salesStartDate: string, salesEndDate: st
 export function capitalizeFirstLetter(input: string): string {
   if (!input) return input;
   return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
+export function isValidEmail(email: string): boolean {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return regex.test(email);
 }

@@ -95,11 +95,9 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
       </div>
       <div className="flex items-center justify-end gap-4">
         {!login ? (
-          <Link href={`/${companySlug}/login`} passHref>
-            <Button variant="outlined" color="inherit">
-              Entrar
-            </Button>
-          </Link>
+          <Button variant="outlined" color="inherit" onClick={handleLogin}>
+            Entrar
+          </Button>
         ) : (
           <>
             <Button

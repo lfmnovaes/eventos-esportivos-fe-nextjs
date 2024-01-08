@@ -6,7 +6,7 @@ export type CompanyData = {
 
 export type EventStatusInfo = {
   text: string;
-  color: 'success' | 'warning' | 'error';
+  color: 'success' | 'warning' | 'customError';
 };
 
 export type EventCard = {
