@@ -49,7 +49,7 @@ export default function EventCard({
   } = eventData;
   const currentStatus = statusMap.get(status as EventStatus) || {
     text: 'Sem informações',
-    color: 'error'
+    color: 'customError'
   };
   const location = `${city} - ${federalUnity}`;
 
