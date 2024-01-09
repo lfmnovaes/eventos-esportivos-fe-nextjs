@@ -102,3 +102,11 @@ export type FederalUnityParameters = {
 export type PeriodParameters = Record<string, number[]>;
 
 export type Period = string[];
+
+export type OtherParticipant = {
+  fullname?: string;
+  cpf?: string;
+  cellphone?: string;
+  category?: string;
+  birthdate?: string;
+};

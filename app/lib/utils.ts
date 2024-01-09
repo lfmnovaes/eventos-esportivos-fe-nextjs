@@ -25,7 +25,11 @@ export const formatBrazilianPhoneNumber = (phoneNumber: string): string =>
     ? `(${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 9)}-${phoneNumber.slice(9, 13)}`
     : '';
 
-export const splitText = (text: string): string[] => text.split('\r\n').filter((e) => e);
+export const splitText = (text: string | null | undefined): string[] => {
+  if (text == null || typeof text !== 'string') return [];
+
+  return text.split('\r\n').filter((e) => e);
+};
 
 export const categoryDescription = (minimumAge: number, maximumAge: number | null): string =>
   maximumAge === null
