@@ -1,6 +1,6 @@
 'use client';
 
-import type {MouseEvent} from 'react';
+import type {MouseEvent, KeyboardEvent, MouseEventHandler, ChangeEvent} from 'react';
 import {useEffect, useState} from 'react';
 import {useParams} from 'next/navigation';
 import Link from 'next/link';
@@ -14,44 +14,37 @@ import {
   allFUParametersAtom
 } from '@/app/atoms';
 import dayjs from 'dayjs';
-import {Button, Divider, Menu, MenuItem, Select} from '@mui/material';
+import {
+  Button,
+  Divider,
+  Menu,
+  MenuItem,
+  Select,
+  Drawer,
+  Accordion,
+  AccordionSummary,
+  IconButton,
+  List,
+  ListItemButton
+} from '@mui/material';
 import {
   SearchOutlined as SearchOutlinedIcon,
   SwapHoriz as SwapHorizIcon,
   Event as EventIcon,
   PlaceOutlined as PlaceOutlinedIcon,
-  AccountBoxOutlined as AccountBoxOutlinedIcon
+  AccountBoxOutlined as AccountBoxOutlinedIcon,
+  ExpandMore as ExpandMoreIcon,
+  CloseOutlined as CloseIcon,
+  FilterAltOutlined as FilterAltOutlinedIcon
 } from '@mui/icons-material';
 import {useRouterParams} from '@/app/lib/useRouterParams';
 import CustomTextField from '@/app/ui/components/text-field';
 import EventCard from '@/app/ui/event-card';
 import {capitalizeFirstLetter} from '@/app/lib/utils';
-import {getFilterStatusMessage} from './getFilterStatusMessage';
-
-function OrderMenuItem({
-  label,
-  orderType,
-  currentOrder,
-  onSelect
-}: {
-  label: string;
-  orderType: string;
-  currentOrder: string;
-  onSelect: (type: string) => void;
-}) {
-  const isActive = orderType === currentOrder;
-
-  return (
-    <MenuItem
-      onClick={() => onSelect(orderType)}
-      sx={{backgroundColor: isActive ? '#f0f0f0' : 'transparent'}}
-    >
-      {label}
-    </MenuItem>
-  );
-}
+import SChip from '@/app/ui/components/schip';
 
 const categories = ['mirim', 'cadete', 'adulto'];
+// TODO: fetch categories from API
 
 export default function EventsPage() {
   const {companySlug} = useParams<{companySlug: string}>();
@@ -81,6 +74,20 @@ export default function EventsPage() {
   const [selectedOrder, setSelectedOrder] = useState(queryParams.get('order') || 'most_recent');
   const [searchInput, setSearchInput] = useState(queryParams.get('search') || '');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [accordionExpanded, setAccordionExpanded] = useState<string | false>(false);
+
+  const toggleDrawer = (open: boolean): MouseEventHandler<HTMLButtonElement> => {
+    return (event: MouseEvent<HTMLButtonElement> | KeyboardEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as KeyboardEvent).key === 'Tab' || (event as KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+      setDrawerOpen(open);
+    };
+  };
 
   useEffect(() => {
     updateQueryParams({
@@ -107,13 +114,13 @@ export default function EventsPage() {
     setAnchorEl(null);
   };
 
-  const handleSearchChange = (event: any) => {
-    setSearchInput(event.target.value);
-  };
-
   const handleOrderChange = (newOrder: string) => {
     setSelectedOrder(newOrder);
     handleCloseOrderMenu();
+  };
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
   };
 
   const sortEvents = (events: EventData[], order: string) => {
@@ -145,27 +152,48 @@ export default function EventsPage() {
     selectedOrder
   );
 
-  const filterStatusMessage = getFilterStatusMessage(
-    selectedFederalUnity,
-    selectedPeriod,
-    selectedCategory,
-    searchInput
-  );
+  const resetFederalUnity = () => setSelectedFederalUnity('all');
+  const resetPeriod = () => setSelectedPeriod('all');
+  const resetCategory = () => setSelectedCategory('all');
+  const resetSearchInput = () => setSearchInput('');
+
+  const handleChangeAccordion =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setAccordionExpanded(isExpanded ? panel : false);
+    };
+
+  const handleClearFilters = () => {
+    resetFederalUnity();
+    resetPeriod();
+    resetCategory();
+  };
 
   return (
     <section className={`w-full flex flex-col gap-4 mt-8 pt-16 text-gray-80 ${horizontalPadding}`}>
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
         <h1 className="text-4xl font-medium">Todos os eventos</h1>
         <Divider className="bg-gray-200 md:hidden" />
-        <CustomTextField
-          label="Buscar por evento"
-          startIcon={<SearchOutlinedIcon />}
-          value={searchInput}
-          onChange={handleSearchChange}
-        />
+        <div className="flex justify-between gap-4">
+          <CustomTextField
+            label="Buscar por evento"
+            startIcon={<SearchOutlinedIcon />}
+            value={searchInput}
+            onChange={handleSearchChange}
+          />
+          <div className="flex md:hidden">
+            <Button
+              variant="text"
+              color="gray80"
+              onClick={toggleDrawer(true)}
+              endIcon={<FilterAltOutlinedIcon />}
+            >
+              Filtrar
+            </Button>
+          </div>
+        </div>
       </div>
       <Divider className="bg-gray-200 hidden md:block" />
-      <div className="flex justify-between pt-11">
+      <div className="hidden md:flex justify-between pt-11">
         <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-4 md:gap-8">
           <div>
             <div className="flex items-center gap-2">
@@ -232,11 +260,11 @@ export default function EventsPage() {
           className="h-fit"
           variant="text"
           size="small"
+          color="gray80"
           onClick={handleOpenOrderMenu}
-          endIcon={<SwapHorizIcon className="text-gray-80" />}
-          sx={{color: 'black'}}
+          endIcon={<SwapHorizIcon />}
         >
-          <span className="text-gray-80">Ordenar por</span>
+          Ordenar por
         </Button>
         <Menu
           anchorEl={anchorEl}
@@ -244,21 +272,172 @@ export default function EventsPage() {
           onClose={handleCloseOrderMenu}
           disableScrollLock={true}
         >
-          <OrderMenuItem
-            label="Mais próximos"
-            orderType="most_recent"
-            currentOrder={selectedOrder}
-            onSelect={handleOrderChange}
-          />
-          <OrderMenuItem
-            label="Mais distantes"
-            orderType="oldest"
-            currentOrder={selectedOrder}
-            onSelect={handleOrderChange}
-          />
+          <ListItemButton
+            selected={selectedOrder === 'most_recent'}
+            onClick={() => handleOrderChange('most_recent')}
+          >
+            Mais próximos
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedOrder === 'oldest'}
+            onClick={() => handleOrderChange('oldest')}
+          >
+            Mais distantes
+          </ListItemButton>
         </Menu>
       </div>
-      <span className="py-2 text-gray-60">{filterStatusMessage}</span>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        PaperProps={{sx: {minWidth: '300px'}}}
+      >
+        <div className="flex flex-col gap-4 p-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-medium">Filtrar por</h2>
+            <IconButton onClick={() => setDrawerOpen(false)} sx={{marginRight: '-8px'}}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <div className="flex flex-col items-end">
+            <Button
+              variant="text"
+              onClick={handleClearFilters}
+              className="w-fit"
+              sx={{marginRight: '-8px'}}
+            >
+              Limpar todos
+            </Button>
+          </div>
+          <Divider />
+          <div>
+            <Accordion
+              expanded={accordionExpanded === 'order'}
+              onChange={handleChangeAccordion('order')}
+              elevation={0}
+              disableGutters
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: 0}}>
+                <span>Ordenar por</span>
+              </AccordionSummary>
+              <List>
+                <ListItemButton
+                  selected={selectedOrder === 'most_recent'}
+                  onClick={() => setSelectedOrder('most_recent')}
+                >
+                  Mais próximos
+                </ListItemButton>
+                <ListItemButton
+                  selected={selectedOrder === 'oldest'}
+                  onClick={() => setSelectedOrder('oldest')}
+                >
+                  Mais distantes
+                </ListItemButton>
+              </List>
+            </Accordion>
+            <Accordion
+              expanded={accordionExpanded === 'federal_unity'}
+              onChange={handleChangeAccordion('federal_unity')}
+              elevation={0}
+              disableGutters
+              sx={{'&:before': {display: 'none'}}}
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: 0}}>
+                <span>Estado</span>
+              </AccordionSummary>
+              <List>
+                <ListItemButton
+                  selected={selectedFederalUnity === 'all'}
+                  onClick={() => setSelectedFederalUnity('all')}
+                >
+                  Todos os estados
+                </ListItemButton>
+                {federalUnityParameters.map((fu) => (
+                  <ListItemButton
+                    key={fu.initials}
+                    selected={selectedFederalUnity === fu.initials}
+                    onClick={() => setSelectedFederalUnity(fu.initials)}
+                  >
+                    {fu.name}
+                  </ListItemButton>
+                ))}
+              </List>
+            </Accordion>
+            <Accordion
+              expanded={accordionExpanded === 'period'}
+              onChange={handleChangeAccordion('period')}
+              elevation={0}
+              disableGutters
+              sx={{'&:before': {display: 'none'}}}
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: 0}}>
+                <span>Período</span>
+              </AccordionSummary>
+              <List>
+                <ListItemButton
+                  selected={selectedPeriod === 'all'}
+                  onClick={() => setSelectedPeriod('all')}
+                >
+                  Todos os períodos
+                </ListItemButton>
+                {allPeriod.map((period) => (
+                  <ListItemButton
+                    key={period}
+                    selected={selectedPeriod === period}
+                    onClick={() => setSelectedPeriod(period)}
+                  >
+                    {period}
+                  </ListItemButton>
+                ))}
+              </List>
+            </Accordion>
+            <Accordion
+              expanded={accordionExpanded === 'category'}
+              onChange={handleChangeAccordion('category')}
+              elevation={0}
+              disableGutters
+              sx={{'&:before': {display: 'none'}}}
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: 0}}>
+                <span>Categoria</span>
+              </AccordionSummary>
+              <List>
+                <ListItemButton
+                  selected={selectedCategory === 'all'}
+                  onClick={() => setSelectedCategory('all')}
+                >
+                  Todas as categorias
+                </ListItemButton>
+                {categories.map((category) => (
+                  <ListItemButton
+                    key={category}
+                    selected={selectedCategory === category}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {capitalizeFirstLetter(category)}
+                  </ListItemButton>
+                ))}
+              </List>
+            </Accordion>
+          </div>
+        </div>
+      </Drawer>
+      <div className="flex flex-wrap gap-2 pt-4 text-gray-60">
+        {selectedFederalUnity !== 'all' && (
+          <SChip label={selectedFederalUnity} onDelete={resetFederalUnity} />
+        )}
+        {selectedPeriod !== 'all' && <SChip label={selectedPeriod} onDelete={resetPeriod} />}
+        {selectedCategory !== 'all' && (
+          <SChip label={capitalizeFirstLetter(selectedCategory)} onDelete={resetCategory} />
+        )}
+        {searchInput && <SChip label={`"${searchInput}"`} onDelete={resetSearchInput} />}
+        {!searchInput &&
+          selectedFederalUnity === 'all' &&
+          selectedPeriod === 'all' &&
+          selectedCategory === 'all' && (
+            <span className="text-gray-60">Exibindo todos os resultados</span>
+          )}
+      </div>
       <div className="w-full pb-8">
         {filteredEvents.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">

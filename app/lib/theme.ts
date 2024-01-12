@@ -20,6 +20,13 @@ declare module '@mui/material/styles' {
       main: string;
       contrastText?: string;
     };
+    gray?: {
+      main: string;
+      contrastText?: string;
+    };
+    gray80?: {
+      main: string;
+    };
   }
   interface PaletteOptions {
     successDark?: {
@@ -38,6 +45,13 @@ declare module '@mui/material/styles' {
       main: string;
       contrastText?: string;
     };
+    gray?: {
+      main: string;
+      contrastText?: string;
+    };
+    gray80?: {
+      main: string;
+    };
   }
 }
 
@@ -48,6 +62,13 @@ declare module '@mui/material/Chip' {
     customError: true;
     customErrorDark: true;
     infoDark: true;
+    gray: true;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    gray80: true;
   }
 }
 
@@ -65,7 +86,7 @@ export const theme: Theme = createTheme({
     },
     successDark: {
       main: '#023034',
-      contrastText: '#0BB07B',
+      contrastText: '#0BB07B'
     },
     warning: {
       main: '#FAEDD3',
@@ -85,6 +106,13 @@ export const theme: Theme = createTheme({
     },
     info: {
       main: '#4070F4'
+    },
+    gray: {
+      main: '#E8EBEA',
+      contrastText: '#303E38'
+    },
+    gray80: {
+      main: '#303E38'
     }
   }
 });
