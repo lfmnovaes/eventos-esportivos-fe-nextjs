@@ -4,6 +4,13 @@ export type CompanyData = {
   slug: string;
 };
 
+export type Category = {
+  id: number;
+  name: string;
+  minimum_age: number;
+  maximum_age: number | null;
+};
+
 export type EventStatusInfo = {
   text: string;
   color: 'success' | 'warning' | 'customError';
@@ -52,20 +59,14 @@ export type FooterData = {
     facebook: string;
   };
   address: {
-    street: string;
-    number: string;
-    city: string;
-    district: string;
     federal_unity: string;
-    zip_code: string;
+    line: string;
   };
 };
 
-export type Category = {
-  id: number;
-  name: string;
-  minimum_age: number;
-  maximum_age: number | null;
+export type CategoryWithPrice = Category & {price: string};
+
+export type SimpleCategoryWithPrice = Omit<Category, 'minimum_age' | 'maximum_age'> & {
   price: string;
 };
 
@@ -88,9 +89,13 @@ export type EventData = {
     district: string;
     federal_unity: string;
     zip_code: string;
+    geolocation: {
+      latitude: string;
+      longitude: string;
+    } | null;
   };
   status: string;
-  categories: Category[];
+  categories: SimpleCategoryWithPrice[];
   event_policy: string;
 };
 
@@ -100,8 +105,6 @@ export type FederalUnityParameters = {
 }[];
 
 export type PeriodParameters = Record<string, number[]>;
-
-export type Period = string[];
 
 export type OtherParticipant = {
   fullname?: string;

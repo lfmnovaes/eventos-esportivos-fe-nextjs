@@ -1,17 +1,18 @@
 'use client';
 
 import type {MouseEvent, KeyboardEvent, MouseEventHandler, ChangeEvent} from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useParams} from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
-import type {EventData, FederalUnityParameters} from '@/app/lib/definitions';
+import type {CategoryWithPrice, EventData, FederalUnityParameters} from '@/app/lib/definitions';
 import {
   horizontalPaddingAtom,
   allEventsDataAtom,
-  allPeriodsAtom,
-  allFUParametersAtom
+  allFUParametersDataAtom,
+  allPeriodParametersDataAtom,
+  formattedCompaniesCategoriesDataAtom
 } from '@/app/atoms';
 import dayjs from 'dayjs';
 import {
@@ -43,18 +44,38 @@ import EventCard from '@/app/ui/event-card';
 import {capitalizeFirstLetter} from '@/app/lib/utils';
 import SChip from '@/app/ui/components/schip';
 
-const categories = ['mirim', 'cadete', 'adulto'];
-// TODO: fetch categories from API
+import 'dayjs/locale/pt-br';
 
 export default function EventsPage() {
   const {companySlug} = useParams<{companySlug: string}>();
   const allEventsData = useAtomValue(allEventsDataAtom);
-  const allFUParameters = useAtomValue(allFUParametersAtom);
-  const allPeriod = useAtomValue(allPeriodsAtom);
+  const allFUParameters = useAtomValue(allFUParametersDataAtom);
+  const allPeriodParametersData = useAtomValue(allPeriodParametersDataAtom);
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
+  const formattedCompaniesCategories = useAtomValue(formattedCompaniesCategoriesDataAtom);
 
   const eventsData = allEventsData.get(companySlug) as EventData[];
   const federalUnityParameters = allFUParameters.get(companySlug) as FederalUnityParameters;
+  const periodParameters = allPeriodParametersData.get(companySlug) as string[];
+
+  const formattedCategories = useMemo(() => {
+    const companyCategories = formattedCompaniesCategories.get(companySlug);
+    if (!companyCategories) return new Map<number, CategoryWithPrice>();
+    return companyCategories;
+  }, [formattedCompaniesCategories, companySlug]);
+
+  const formattedPeriodParameters = useMemo(() => {
+    const map = new Map();
+
+    periodParameters.forEach((period) => {
+      const formattedPeriod = capitalizeFirstLetter(
+        dayjs(period, 'YYYY-MM').locale('pt-br').format('MMM/YYYY')
+      );
+      map.set(period, formattedPeriod);
+    });
+
+    return map;
+  }, [periodParameters]);
 
   const {queryParams, updateQueryParams} = useRouterParams({
     defaultParams: {
@@ -73,7 +94,7 @@ export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState(queryParams.get('category') || 'all');
   const [selectedOrder, setSelectedOrder] = useState(queryParams.get('order') || 'most_recent');
   const [searchInput, setSearchInput] = useState(queryParams.get('search') || '');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [accordionExpanded, setAccordionExpanded] = useState<string | false>(false);
 
@@ -138,13 +159,11 @@ export default function EventsPage() {
         selectedFederalUnity === 'all' || event.address.federal_unity === selectedFederalUnity;
       const isPeriodMatch =
         selectedPeriod === 'all' ||
-        (eventStart.month() + 1 === parseInt(selectedPeriod.split('-')[0]) &&
-          eventStart.year() === parseInt(selectedPeriod.split('-')[1]));
+        (eventStart.year() === parseInt(selectedPeriod.split('-')[0]) &&
+          eventStart.month() + 1 === parseInt(selectedPeriod.split('-')[1]));
       const isCategoryMatch =
         selectedCategory === 'all' ||
-        event.categories.some(
-          (category) => category.name.toLowerCase() === selectedCategory.toLowerCase()
-        );
+        event.categories.some((category) => category.id === parseInt(selectedCategory));
       const isSearchMatch =
         !searchInput || event.name.toLowerCase().includes(searchInput.toLowerCase());
       return isFederalUnityMatch && isPeriodMatch && isCategoryMatch && isSearchMatch;
@@ -228,9 +247,9 @@ export default function EventsPage() {
               sx={{width: 200}}
             >
               <MenuItem value="all">Todos os períodos</MenuItem>
-              {allPeriod.map((period) => (
+              {periodParameters.map((period) => (
                 <MenuItem key={period} value={period}>
-                  {period}
+                  {formattedPeriodParameters.get(period)}
                 </MenuItem>
               ))}
             </Select>
@@ -248,9 +267,9 @@ export default function EventsPage() {
               sx={{width: 200}}
             >
               <MenuItem value="all">Todas as categorias</MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category} value={category}>
-                  {capitalizeFirstLetter(category)}
+              {Array.from(formattedCategories.entries()).map(([id, category]) => (
+                <MenuItem key={id} value={id}>
+                  {category.name}
                 </MenuItem>
               ))}
             </Select>
@@ -380,13 +399,13 @@ export default function EventsPage() {
                 >
                   Todos os períodos
                 </ListItemButton>
-                {allPeriod.map((period) => (
+                {periodParameters.map((period) => (
                   <ListItemButton
                     key={period}
                     selected={selectedPeriod === period}
                     onClick={() => setSelectedPeriod(period)}
                   >
-                    {period}
+                    {formattedPeriodParameters.get(period)}
                   </ListItemButton>
                 ))}
               </List>
@@ -408,13 +427,13 @@ export default function EventsPage() {
                 >
                   Todas as categorias
                 </ListItemButton>
-                {categories.map((category) => (
+                {Array.from(formattedCategories.entries()).map(([id, category]) => (
                   <ListItemButton
-                    key={category}
-                    selected={selectedCategory === category}
-                    onClick={() => setSelectedCategory(category)}
+                    key={id}
+                    selected={selectedCategory === id.toString()}
+                    onClick={() => setSelectedCategory(id.toString())}
                   >
-                    {capitalizeFirstLetter(category)}
+                    {category.name}
                   </ListItemButton>
                 ))}
               </List>
@@ -426,9 +445,14 @@ export default function EventsPage() {
         {selectedFederalUnity !== 'all' && (
           <SChip label={selectedFederalUnity} onDelete={resetFederalUnity} />
         )}
-        {selectedPeriod !== 'all' && <SChip label={selectedPeriod} onDelete={resetPeriod} />}
-        {selectedCategory !== 'all' && (
-          <SChip label={capitalizeFirstLetter(selectedCategory)} onDelete={resetCategory} />
+        {selectedPeriod !== 'all' && formattedPeriodParameters.has(selectedPeriod) && (
+          <SChip label={formattedPeriodParameters.get(selectedPeriod)} onDelete={resetPeriod} />
+        )}
+        {selectedCategory !== 'all' && formattedCategories.has(Number(selectedCategory)) && (
+          <SChip
+            label={formattedCategories.get(Number(selectedCategory))?.name}
+            onDelete={resetCategory}
+          />
         )}
         {searchInput && <SChip label={`"${searchInput}"`} onDelete={resetSearchInput} />}
         {!searchInput &&

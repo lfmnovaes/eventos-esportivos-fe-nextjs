@@ -81,7 +81,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
         <span className="text-xs md:text-sm">Powered by</span>
         <Image
           className="w-20 sm:w-32"
-          src="/logo_plathanus.png"
+          src="/logo_plathanus.svg"
           alt="Logo Plathanus"
           width={123}
           height={20}

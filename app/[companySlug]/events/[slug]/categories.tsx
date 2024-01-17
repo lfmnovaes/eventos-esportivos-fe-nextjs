@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import type {Category} from '@/app/lib/definitions';
+import type {CategoryWithPrice} from '@/app/lib/definitions';
 import {Box, Button, Checkbox, Divider} from '@mui/material';
 import {statusMap, EventStatus, categoryDescription} from '@/app/lib/utils';
 import {useRouterParams} from '@/app/lib/useRouterParams';
@@ -10,7 +10,7 @@ export default function Categories({
   categories = [],
   status = EventStatus.Closed
 }: {
-  categories?: Category[];
+  categories?: CategoryWithPrice[];
   status?: EventStatus;
 }) {
   const {text} = statusMap.get(status) || {text: 'Esgotado'};
@@ -22,7 +22,7 @@ export default function Categories({
   const initialSelectedCategories = new Set(
     (queryParams.get('categories') || '')
       .split('+')
-      .filter((name) => name)
+      .filter((id) => id)
       .map(decodeURIComponent)
   );
 
@@ -32,15 +32,14 @@ export default function Categories({
     updateQueryParams({categories: Array.from(selectedCategories)});
   }, [selectedCategories, updateQueryParams]);
 
-  const handleCheckboxChange = (categoryName: string) => {
+  const handleCheckboxChange = (categoryId: string) => {
     setSelectedCategories((prevSelectedCategories) => {
       const newSelectedCategories = new Set(prevSelectedCategories);
-      const lowerCaseName = categoryName.toLowerCase();
 
-      if (newSelectedCategories.has(lowerCaseName)) {
-        newSelectedCategories.delete(lowerCaseName);
+      if (newSelectedCategories.has(categoryId)) {
+        newSelectedCategories.delete(categoryId);
       } else {
-        newSelectedCategories.add(lowerCaseName);
+        newSelectedCategories.add(categoryId);
       }
 
       return newSelectedCategories;
@@ -52,12 +51,12 @@ export default function Categories({
       <div className="flex flex-col p-6 gap-6">
         <h2 className="text-2xl">Categorias</h2>
         <div className="flex flex-col gap-4">
-          {categories.map(({name, minimum_age, maximum_age, price}, index) => (
+          {categories.map(({id, name, minimum_age, maximum_age, price}, index) => (
             <div key={index} className="flex justify-between">
               <div className="flex">
                 <Checkbox
-                  checked={selectedCategories.has(name.toLowerCase())}
-                  onChange={() => handleCheckboxChange(name)}
+                  checked={selectedCategories.has(id.toString())}
+                  onChange={() => handleCheckboxChange(id.toString())}
                 />
                 <div>
                   <p>{name}</p>

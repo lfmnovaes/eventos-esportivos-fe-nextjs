@@ -14,7 +14,7 @@ import {
 } from '@mui/icons-material';
 import {useAtomValue} from 'jotai';
 import {horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
-import {getDomainName, formatBrazilianPhoneNumber} from '@/app/lib/utils';
+import {getDomainName, formatBrazilianPhoneNumber, splitText} from '@/app/lib/utils';
 
 export default function Footer() {
   const {companySlug} = useParams<{companySlug: string}>();
@@ -28,7 +28,8 @@ export default function Footer() {
   const {
     logo_image: logoImage,
     terms_and_policies: termsAndPoliciesLink,
-    contact_info: {website, phone, instagram, facebook}
+    contact_info: {website, phone, instagram, facebook},
+    address: {line}
   } = footerData;
 
   const paragraphTitle = 'text-sm xl:text-base';
@@ -45,11 +46,11 @@ export default function Footer() {
           <p className={paragraphTitle}>Onde estamos</p>
           <div className="flex gap-2">
             <PlaceOutlinedIcon sx={{height: 16, width: 16}} />
-            <p className="text-sm">
-              Av. Centenário, nº 500 Pinheirinho
-              <br />
-              Criciúma, SC - 88804-000
-            </p>
+            <div className="flex flex-col text-sm">
+              {splitText(line).map((text, index) => (
+                <p key={index}>{text}</p>
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex flex-col col-span-1 sm:col-span-4 md:col-span-3 lg:col-span-2 gap-4 order-2">
@@ -90,7 +91,7 @@ export default function Footer() {
       <Divider color="white" sx={{marginY: '1rem'}} />
       <div className="flex self-center gap-2">
         <p className="text-sm">Powered by </p>
-        <Image src="/logo_plathanus.png" alt="Logo Plathanus" width={138} height={23} priority />
+        <Image src="/logo_plathanus.svg" alt="Logo Plathanus" width={138} height={23} priority />
       </div>
     </Box>
   );

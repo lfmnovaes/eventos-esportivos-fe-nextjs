@@ -1,45 +1,49 @@
 'use client';
 
 import type {
+  CompanyData,
+  CategoryWithPrice,
   HomeTemplate,
   FooterData,
   EventData,
-  FederalUnityParameters,
-  CompanyData,
-  Period
+  FederalUnityParameters
 } from '@/app/lib/definitions';
 import {useHydrateAtoms} from 'jotai/utils';
 import {
   companiesDataAtom,
+  formattedCompaniesCategoriesDataAtom,
   allTemplateDataAtom,
   allFooterDataAtom,
   allEventsDataAtom,
-  allFUParametersAtom,
-  allPeriodsAtom
+  allFUParametersDataAtom,
+  allPeriodParametersDataAtom
 } from '@/app/atoms';
 
 export default function Store({
   companiesData,
+  formattedCompaniesCategories,
   allTemplateData,
   allFooterData,
   allEventsData,
   allFUParametersData,
-  allPeriods
+  allPeriodParametersData
 }: {
   companiesData: CompanyData[];
+  formattedCompaniesCategories: Map<string, Map<number, CategoryWithPrice>>;
   allTemplateData: Map<string, HomeTemplate>;
   allFooterData: Map<string, FooterData>;
   allEventsData: Map<string, EventData[]>;
   allFUParametersData: Map<string, FederalUnityParameters>;
-  allPeriods: Period;
+  allPeriodParametersData: Map<string, string[]>;
 }) {
   useHydrateAtoms([
     [companiesDataAtom, companiesData],
+    [formattedCompaniesCategoriesDataAtom, formattedCompaniesCategories],
     [allTemplateDataAtom, allTemplateData],
     [allFooterDataAtom, allFooterData],
     [allEventsDataAtom, allEventsData],
-    [allFUParametersAtom, allFUParametersData],
-    [allPeriodsAtom, allPeriods]
+    [allFUParametersDataAtom, allFUParametersData],
+    [allPeriodParametersDataAtom, allPeriodParametersData]
   ] as const);
   return null;
 }

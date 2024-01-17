@@ -31,23 +31,44 @@ export const splitText = (text: string | null | undefined): string[] => {
   return text.split('\r\n').filter((e) => e);
 };
 
-export const categoryDescription = (minimumAge: number, maximumAge: number | null): string =>
+export const categoryDescription = (
+  minimumAge: number,
+  maximumAge: number | null | undefined
+): string =>
   maximumAge === null
     ? `A partir de ${minimumAge} anos de idade`
     : `${minimumAge} a ${maximumAge} anos de idade`;
 
-export const formatEnrollmentMessage = (salesStartDate: string, salesEndDate: string): string => {
+export const formatEnrollmentMessage = (
+  salesStartDate?: string,
+  salesEndDate?: string,
+  status?: string
+): string => {
+  if (!salesStartDate || !salesEndDate || !status) return 'Informações do evento não disponíveis';
+
   const now = dayjs();
   const start = dayjs(salesStartDate).utc();
   const end = dayjs(salesEndDate).utc();
 
-  if (now.isAfter(end)) {
-    return 'Inscrições esgotadas';
-  } else if (now.isBefore(start)) {
-    return `Inscrições abrirão ${start.format('DD/MM/YYYY [às] HH:mm')}`;
-  } else {
-    return `Inscrições até ${end.format('DD/MM/YYYY [às] HH:mm')}`;
-  }
+  const statusMessages = new Map<EventStatus, () => string>([
+    [
+      EventStatus.Open,
+      () =>
+        now.isAfter(end)
+          ? 'Inscrições esgotadas'
+          : `Inscrições até ${end.format('DD/MM/YYYY [às] HH:mm')}`
+    ],
+    [EventStatus.OpenSoon, () => `Inscrições abrirão ${start.format('DD/MM/YYYY [às] HH:mm')}`],
+    [EventStatus.Closed, () => 'Evento encerrado'],
+    [EventStatus.NoTicketsRemaining, () => 'Inscrições esgotadas']
+  ]);
+
+  const validStatus = Object.values(EventStatus).includes(status as EventStatus)
+    ? (status as EventStatus)
+    : EventStatus.Closed;
+
+  const eventMessage = statusMessages.get(validStatus);
+  return eventMessage ? eventMessage() : 'Status do evento não definido';
 };
 
 export function capitalizeFirstLetter(input: string): string {

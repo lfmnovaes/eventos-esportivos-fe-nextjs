@@ -1,20 +1,22 @@
 import type {
   CompanyData,
+  CategoryWithPrice,
   HomeTemplate,
   FooterData,
   EventData,
-  FederalUnityParameters,
-  Period
+  FederalUnityParameters
 } from '@/app/lib/definitions';
 import {atom} from 'jotai';
 import {
   initialCompaniesData,
+  getInitialCategoriesData,
   getAllInitialTemplateHomeData,
   getAllInitialEventsData,
   getAllInitialFooterData,
-  getAllInitialFederalUnityParameters,
-  initialPeriods
+  getAllInitialFUParametersData,
+  getAllInitialPeriodParameters
 } from '@/app/lib/mock-data';
+import {formatCompaniesCategories} from '@/app/lib/data';
 
 export const horizontalPaddingAtom = atom<string>(
   'px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16'
@@ -22,18 +24,28 @@ export const horizontalPaddingAtom = atom<string>(
 
 export const companiesDataAtom = atom<CompanyData[]>(initialCompaniesData);
 
+export const formattedCompaniesCategoriesDataAtom = atom<
+  Map<string, Map<number, CategoryWithPrice>>
+>(
+  formatCompaniesCategories(
+    initialCompaniesData,
+    getInitialCategoriesData(),
+    getAllInitialEventsData()
+  )
+);
+
 export const allTemplateDataAtom = atom<Map<string, HomeTemplate>>(getAllInitialTemplateHomeData());
 
 export const allFooterDataAtom = atom<Map<string, FooterData>>(getAllInitialFooterData());
 
 export const allEventsDataAtom = atom<Map<string, EventData[]>>(getAllInitialEventsData());
 
-export const allFUParametersAtom = atom<Map<string, FederalUnityParameters>>(
-  getAllInitialFederalUnityParameters()
+export const allFUParametersDataAtom = atom<Map<string, FederalUnityParameters>>(
+  getAllInitialFUParametersData()
 );
 
-//export const allPeriodParametersAtom = atom<Map<string, PeriodParameters>>(getAllInitialPeriodParameters());
-
-export const allPeriodsAtom = atom<Period>(initialPeriods);
+export const allPeriodParametersDataAtom = atom<Map<string, string[]>>(
+  getAllInitialPeriodParameters()
+);
 
 export const loginAtom = atom<boolean>(false);

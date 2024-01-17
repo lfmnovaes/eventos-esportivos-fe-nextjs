@@ -1,18 +1,24 @@
 'use client';
 
+import {useMemo} from 'react';
 import {useParams} from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import type {EventData} from '@/app/lib/definitions';
-import {Box, Button, Divider, Link} from '@mui/material';
+import {Box, Button, Divider, Link as MuiLink} from '@mui/material';
 import {
   Event as EventIcon,
   SportsScore as SportsScoreIcon,
   PlaceOutlined as PlaceOutlinedIcon
 } from '@mui/icons-material';
-import {horizontalPaddingAtom, allEventsDataAtom} from '@/app/atoms';
+import {
+  horizontalPaddingAtom,
+  allEventsDataAtom,
+  formattedCompaniesCategoriesDataAtom
+} from '@/app/atoms';
 import dayjs from 'dayjs';
-import Categories from '@/app/[companySlug]/events/[slug]/categories';
+import Categories from './categories';
 import {SectionEvents} from '@/app/ui';
 import {
   EventStatus,
@@ -27,13 +33,26 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
   const {companySlug} = useParams<{companySlug: string}>();
   const allEventsData = useAtomValue(allEventsDataAtom);
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
+  const formattedCompaniesCategories = useAtomValue(formattedCompaniesCategoriesDataAtom);
 
   const eventsData = allEventsData.get(companySlug) as EventData[];
+  const event = eventsData.find((event) => event.slug === slug);
+
+  const formattedEnrollmentMessage = useMemo(() => {
+    return formatEnrollmentMessage(
+      event?.ticket_sales_opens_at,
+      event?.ticket_sales_closes_at,
+      event?.status
+    );
+  }, [event?.ticket_sales_opens_at, event?.ticket_sales_closes_at, event?.status]);
 
   const screenSizes = getScreenSizes();
   const windowSize = useWindowSize();
 
-  const event = eventsData.find((event) => event.slug === slug);
+  const categoryArray = useMemo(() => {
+    const categories = formattedCompaniesCategories?.get(companySlug)?.values() ?? [];
+    return Array.from(categories);
+  }, [formattedCompaniesCategories, companySlug]);
 
   if (!event) {
     return <h1 className={`w-full py-32 ${horizontalPadding}`}>Evento não disponível</h1>;
@@ -43,14 +62,11 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
     name,
     starts_at: startDate,
     ends_at: endDate,
-    ticket_sales_opens_at: ticketStartDate,
-    ticket_sales_closes_at: ticketEndDate,
-    address: {place, city, federal_unity: federalUnity},
+    address: {place, city, federal_unity: federalUnity, geolocation},
     banner_image: eventImage,
     description,
     schedule,
     status,
-    categories,
     event_policy: eventPolicyLink
   } = event;
   const location = `${city} - ${federalUnity}`;
@@ -79,7 +95,7 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
             color="info.main"
             sx={{boxShadow: 2}}
           >
-            {formatEnrollmentMessage(ticketStartDate, ticketEndDate)}
+            {formattedEnrollmentMessage}
           </Box>
         </div>
         <div className="flex flex-col">
@@ -105,7 +121,7 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
             {windowSize < parseInt(screenSizes.lg) && (
               <div className="relative">
                 <div className="pt-8">
-                  <Categories categories={categories} status={status as EventStatus} />
+                  <Categories categories={categoryArray} status={status as EventStatus} />
                 </div>
               </div>
             )}
@@ -129,7 +145,7 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
               <div className="flex flex-col gap-6">
                 <h2 className="text-2xl">Categorias disponíveis</h2>
                 <div className="flex flex-col gap-2">
-                  {categories.map(({name, minimum_age, maximum_age}, index) => (
+                  {categoryArray.map(({name, minimum_age, maximum_age}, index) => (
                     <p key={index}>{`${name} - ${categoryDescription(
                       minimum_age,
                       maximum_age
@@ -143,7 +159,9 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
                 <div className="flex flex-col">
                   <p>
                     Confira aqui os{' '}
-                    <Link href={eventPolicyLink}>documentos necessários para participação</Link>
+                    <MuiLink href={eventPolicyLink}>
+                      documentos necessários para participação
+                    </MuiLink>
                   </p>
                 </div>
               </div>
@@ -154,20 +172,28 @@ export default function EventPage({params: {slug}}: {params: {slug: string}}) {
                   <p>{name}</p>
                   <p>{location}</p>
                 </div>
-                <Button
-                  className="w-fit"
-                  variant="outlined"
-                  color="info"
-                  startIcon={<PlaceOutlinedIcon style={{fontSize: '16px'}} />}
-                >
-                  Ver no mapa
-                </Button>
+                {!!geolocation && (
+                  <Link
+                    href={`https://www.google.com/maps/search/?api=1&query=${geolocation.latitude},${geolocation.longitude}`}
+                    target="_blank"
+                    passHref
+                  >
+                    <Button
+                      className="w-fit"
+                      variant="outlined"
+                      color="info"
+                      startIcon={<PlaceOutlinedIcon style={{fontSize: '16px'}} />}
+                    >
+                      Ver no mapa
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
             {windowSize >= parseInt(screenSizes.lg) && (
               <div className="w-2/3 -mt-24">
                 <div className="sticky top-24 pb-12">
-                  <Categories categories={categories} status={status as EventStatus} />
+                  <Categories categories={categoryArray} status={status as EventStatus} />
                 </div>
               </div>
             )}

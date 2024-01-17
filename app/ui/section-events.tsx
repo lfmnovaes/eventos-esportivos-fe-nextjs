@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import Link from 'next/link';
 import {useParams} from 'next/navigation';
 import type {SwiperClass} from 'swiper/react';
@@ -13,8 +13,9 @@ import {
 } from '@mui/icons-material';
 import EventCard from './event-card';
 import {useAtomValue} from 'jotai';
-import type { EventData } from '@/app/lib/definitions';
 import {allEventsDataAtom, horizontalPaddingAtom} from '@/app/atoms';
+import type {EventData} from '@/app/lib/definitions';
+import {EventStatus} from '@/app/lib/utils';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 import useWindowSize from '@/app/lib/useWindowSize';
 
@@ -63,9 +64,13 @@ export default function SectionEvents({theme = 'light'}: {theme?: string}) {
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const eventsData = allEventsData.get(companySlug) as EventData[];
 
-  // TODO: Show only soon and open events
-  //const openEvents = eventsData.filter(e => e.status !== 'closed');
-  const openEvents = eventsData;
+  const openEvents = useMemo(() => {
+    const filteredEvents = eventsData.filter(
+      (e) => e.status === EventStatus.Open || e.status === EventStatus.OpenSoon
+    );
+
+    return filteredEvents.length > 0 ? filteredEvents : eventsData;
+  }, [eventsData]);
 
   const screenSizes = getScreenSizes();
   const windowSize = useWindowSize();
