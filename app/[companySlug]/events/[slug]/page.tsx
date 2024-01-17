@@ -20,7 +20,7 @@ import {
   splitText,
   formatEnrollmentMessage
 } from '@/app/lib/utils';
-import useWindowSize from '@/app/lib/useWidowSize';
+import useWindowSize from '@/app/lib/useWindowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 
 export default function EventPage({params: {slug}}: {params: {slug: string}}) {

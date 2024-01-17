@@ -20,7 +20,7 @@ import {
 } from '@mui/icons-material';
 import Image from 'next/image';
 import Link from 'next/link';
-import useWindowSize from '@/app/lib/useWidowSize';
+import useWindowSize from '@/app/lib/useWindowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 import {isValidEmail} from '@/app/lib/utils';
 

@@ -16,7 +16,7 @@ import {useAtomValue} from 'jotai';
 import type { EventData } from '@/app/lib/definitions';
 import {allEventsDataAtom, horizontalPaddingAtom} from '@/app/atoms';
 import getScreenSizes from '@/app/lib/getScreenSizes';
-import useWindowSize from '@/app/lib/useWidowSize';
+import useWindowSize from '@/app/lib/useWindowSize';
 
 import 'swiper/css';
 
