@@ -3,7 +3,7 @@
 import type {MouseEvent} from 'react';
 import type {FooterData, HomeTemplate} from '@/app/lib/definitions';
 import {useState} from 'react';
-import {useParams} from 'next/navigation';
+import {useParams, usePathname} from 'next/navigation';
 import Link from 'next/link';
 import {
   AppBar,
@@ -23,24 +23,21 @@ import {
   LogoutOutlined as LogoutOutlinedIcon
 } from '@mui/icons-material';
 import Image from 'next/image';
-import {useAtomValue, useAtom} from 'jotai';
-import {
-  loginAtom,
-  horizontalPaddingAtom,
-  allTemplateDataAtom,
-  allFooterDataAtom
-} from '@/app/atoms';
+import {useAtomValue} from 'jotai';
+import {horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
+import {useSession} from 'next-auth/react';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
+  const {data: session} = useSession();
   const {companySlug} = useParams<{companySlug: string}>();
   const allCompaniesTemplateData = useAtomValue(allTemplateDataAtom);
   const companyTemplateData = allCompaniesTemplateData.get(companySlug) as HomeTemplate;
   const allFooterData = useAtomValue(allFooterDataAtom);
   const footerData = allFooterData.get(companySlug) as FooterData;
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
-  const [login, setLogin] = useAtom(loginAtom);
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const pathname = usePathname();
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -50,21 +47,12 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   const {primary_color: primaryColor} = companyTemplateData;
   const {logo_image: logoImage} = footerData;
 
-  const handleLogin = () => {
-    setLogin(true);
-  };
-
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    setLogin(false);
-    handleClose();
   };
 
   return (
@@ -94,11 +82,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
         </Link>
       </div>
       <div className="flex items-center justify-end gap-4">
-        {!login ? (
-          <Button variant="outlined" color="inherit" onClick={handleLogin}>
-            Entrar
-          </Button>
-        ) : (
+        {session ? (
           <>
             <Button
               variant="text"
@@ -128,29 +112,39 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
-              onClose={handleClose}
+              onClose={handleCloseMenu}
               disableScrollLock={true}
             >
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <LocalPlayOutlinedIcon color="info" fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Meus ingressos</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <Link href="/dashboard">
+                <MenuItem onClick={handleCloseMenu}>
+                  <ListItemIcon>
+                    <LocalPlayOutlinedIcon color="info" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Meus ingressos</ListItemText>
+                </MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseMenu}>
                 <ListItemIcon>
                   <PersonOutlinedIcon color="info" fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Meu perfil</ListItemText>
               </MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <ListItemIcon>
-                  <LogoutOutlinedIcon color="info" fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Sair</ListItemText>
-              </MenuItem>
+              <Link href={`/logout?callbackUrl=${pathname}`} passHref>
+                <MenuItem>
+                  <ListItemIcon>
+                    <LogoutOutlinedIcon color="info" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Sair</ListItemText>
+                </MenuItem>
+              </Link>
             </Menu>
           </>
+        ) : (
+          <Link href={`/login?callbackUrl=${pathname}`} passHref>
+            <Button variant="outlined" color="inherit">
+              Entrar
+            </Button>
+          </Link>
         )}
         <IconButton color="inherit">
           <LocalGroceryStoreOutlinedIcon />

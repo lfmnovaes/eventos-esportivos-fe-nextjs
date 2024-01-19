@@ -1,6 +1,9 @@
 'use client';
 
+import type {ChangeEvent, FormEvent} from 'react';
 import {useState} from 'react';
+import {useRouter, useSearchParams} from 'next/navigation';
+import {signIn} from 'next-auth/react';
 import {
   TextField,
   Button,
@@ -15,132 +18,55 @@ import {
 } from '@mui/material';
 import {
   VisibilityOffOutlined as VisibilityOffOutlinedIcon,
-  VisibilityOutlined as VisibilityOutlinedIcon,
-  CloseOutlined as CloseIcon
+  VisibilityOutlined as VisibilityOutlinedIcon
 } from '@mui/icons-material';
 import Image from 'next/image';
 import Link from 'next/link';
 import useWindowSize from '@/app/lib/useWindowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
-import {isValidEmail} from '@/app/lib/utils';
-
-function ForgotPasswordContent({onClose}: {onClose: () => void}) {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [isConfirmed, setIsConfirmed] = useState(false);
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    if (error) setError('');
-  };
-
-  const handleButtonClick = () => {
-    if (isValidEmail(email)) {
-      setIsConfirmed(true);
-    } else {
-      setError('Por favor, digite um e-mail válido');
-    }
-  };
-
-  if (isConfirmed) {
-    return (
-      <div className="p-4 h-auto flex flex-col gap-6 relative pb-16 lg:pb-4">
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <Image
-          className="py-4 self-center"
-          src={'/kart-red.png'}
-          alt="no results red kart"
-          width={42}
-          height={28}
-        />
-        <h3 className="text-2xl font-medium text-center">Pronto!</h3>
-        <p className="text-center">
-          Verifique a sua caixa de entrada, te enviamos um email para você recadastrar sua senha.
-        </p>
-        <Button
-          onClick={onClose}
-          fullWidth
-          variant="contained"
-          color="info"
-          size="large"
-          sx={{height: '40px'}}
-        >
-          Fechar
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-4 h-auto flex flex-col gap-6 relative pb-16 lg:pb-4">
-      <IconButton
-        aria-label="close"
-        onClick={onClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
-      <Image
-        className="py-4 self-center"
-        src={'/kart-red.png'}
-        alt="no results red kart"
-        width={42}
-        height={28}
-      />
-      <h3 className="font-medium text-center">
-        Informe seu e-mail de cadastro abaixo e a seguir te enviaremos um link por e-mail para
-        recadastrar a senha.
-      </h3>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        fullWidth
-        id="forgot-email"
-        label="Endereço de e-mail"
-        name="email"
-        autoFocus
-        InputLabelProps={{shrink: true}}
-        placeholder="Digite seu e-mail"
-        value={email}
-        onChange={handleEmailChange}
-        error={!!error}
-        helperText={error}
-      />
-      <Button
-        onClick={handleButtonClick}
-        fullWidth
-        variant="contained"
-        color="info"
-        size="large"
-        sx={{height: '40px'}}
-      >
-        Enviar
-      </Button>
-    </div>
-  );
-}
+import ForgotPassword from './forgot-password';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showForgotPassModal, setShowForgotPassModal] = useState<boolean>(false);
   const [showForgotPassDrawer, setShowForgotPassDrawer] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loginError, setLoginError] = useState<string>('');
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    signIn('credentials', {
+      email,
+      password,
+      redirect: false
+    })
+      .then((result) => {
+        if (result?.error) {
+          setLoginError(result.error);
+        } else {
+          const callbackUrl = searchParams.get('callbackUrl');
+          router.push(callbackUrl || '/');
+        }
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
+      });
   };
 
   const screenSizes = getScreenSizes();
@@ -162,7 +88,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col lg:flex-row h-screen">
       <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center items-center py-12 px-4">
-        <div className="max-w-md w-full pb-12 flex flex-col gap-4">
+        <form className="max-w-md w-full pb-12 flex flex-col gap-4" onSubmit={handleLogin}>
           <Image
             src="/logo.png" // TODO: Replace with the Apex hub logo
             alt="login logo"
@@ -187,6 +113,8 @@ export default function LoginPage() {
               autoFocus
               InputLabelProps={{shrink: true}}
               placeholder="Digite seu e-mail"
+              value={email}
+              onChange={handleEmailChange}
             />
             <TextField
               variant="outlined"
@@ -200,6 +128,8 @@ export default function LoginPage() {
               autoComplete="current-password"
               InputLabelProps={{shrink: true}}
               placeholder="Digite sua senha"
+              value={password}
+              onChange={handlePasswordChange}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -214,12 +144,22 @@ export default function LoginPage() {
                 )
               }}
             />
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center">
               <FormControlLabel label="Lembrar-me" control={<Checkbox color="primary" />} />
-              <MuiLink component="button" color="primary" onClick={handleForgotPassClick}>
+              <MuiLink
+                component="button"
+                type="button"
+                color="primary"
+                onClick={handleForgotPassClick}
+              >
                 Esqueci minha senha
               </MuiLink>
             </div>
+            {loginError ? (
+              <div className="text-red-600 py-2">E-mail ou senha inválidos</div>
+            ) : (
+              <div className="text-transparent py-2">placeholder</div>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -231,7 +171,7 @@ export default function LoginPage() {
               Entrar
             </Button>
           </FormControl>
-        </div>
+        </form>
         <div className="flex gap-2">
           <span>Não possui uma conta?</span>
           <Link href="/signup" className="underline text-blue-600 hover:text-blue-800">
@@ -255,10 +195,10 @@ export default function LoginPage() {
         onClose={closeForgotPass}
         PaperProps={{sx: {borderRadius: '16px'}}}
       >
-        <ForgotPasswordContent onClose={closeForgotPass} />
+        <ForgotPassword onClose={closeForgotPass} />
       </Dialog>
       <Drawer anchor="bottom" open={showForgotPassDrawer} onClose={closeForgotPass}>
-        <ForgotPasswordContent onClose={closeForgotPass} />
+        <ForgotPassword onClose={closeForgotPass} />
       </Drawer>
     </div>
   );

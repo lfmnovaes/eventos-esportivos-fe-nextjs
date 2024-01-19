@@ -47,5 +47,3 @@ export const allFUParametersDataAtom = atom<Map<string, FederalUnityParameters>>
 export const allPeriodParametersDataAtom = atom<Map<string, string[]>>(
   getAllInitialPeriodParameters()
 );
-
-export const loginAtom = atom<boolean>(false);

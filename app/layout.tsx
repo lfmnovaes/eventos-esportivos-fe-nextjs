@@ -20,6 +20,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     allFUParametersData,
     allPeriodParametersData
   ] = await getData();
+
   return (
     <html lang="en">
       <body className={space_grotesk.className}>

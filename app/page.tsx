@@ -27,6 +27,9 @@ export default function Home() {
         <Link href="/signup" className="p-4 bg-slate-50 hover:bg-slate-200">
           Signup
         </Link>
+        <Link href="/dashboard" className="p-4 bg-green-50 hover:bg-green-200">
+          Dashboard
+        </Link>
       </div>
     </div>
   );
