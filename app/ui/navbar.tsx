@@ -2,8 +2,8 @@
 
 import type {MouseEvent} from 'react';
 import type {FooterData, HomeTemplate} from '@/app/lib/definitions';
-import {useState} from 'react';
-import {useParams, usePathname} from 'next/navigation';
+import {useEffect, useState} from 'react';
+import {useParams, usePathname, useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import {
   AppBar,
@@ -37,8 +37,16 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   const footerData = allFooterData.get(companySlug) as FooterData;
   const horizontalPadding = useAtomValue(horizontalPaddingAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [callbackUrl, setCallbackUrl] = useState<string>('');
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const queryString = searchParams.toString();
+    const newCallbackUrl = `${pathname}${queryString ? `?${queryString}` : ''}`;
+    setCallbackUrl(newCallbackUrl);
+  }, [pathname, searchParams]);
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -141,7 +149,7 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
             </Menu>
           </>
         ) : (
-          <Link href={`/login?callbackUrl=${pathname}`} passHref>
+          <Link href={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`} passHref>
             <Button variant="outlined" color="inherit">
               Entrar
             </Button>
