@@ -26,6 +26,7 @@ import Image from 'next/image';
 import {useAtomValue} from 'jotai';
 import {horizontalPaddingAtom, allTemplateDataAtom, allFooterDataAtom} from '@/app/atoms';
 import {useSession} from 'next-auth/react';
+import {useSignOut} from '@/app/lib/useSignout';
 
 export default function Navbar({solidBackground = false}: {solidBackground?: boolean}) {
   const {data: session} = useSession();
@@ -54,6 +55,8 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
+  const signOut = useSignOut();
 
   return (
     <AppBar
@@ -129,14 +132,12 @@ export default function Navbar({solidBackground = false}: {solidBackground?: boo
                 </ListItemIcon>
                 <ListItemText>Meu perfil</ListItemText>
               </MenuItem>
-              <Link href={`/logout?callbackUrl=${pathname}`} passHref>
-                <MenuItem>
-                  <ListItemIcon>
-                    <LogoutOutlinedIcon color="info" fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText>Sair</ListItemText>
-                </MenuItem>
-              </Link>
+              <MenuItem onClick={signOut}>
+                <ListItemIcon>
+                  <LogoutOutlinedIcon color="info" fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Sair</ListItemText>
+              </MenuItem>
             </Menu>
           </>
         ) : (

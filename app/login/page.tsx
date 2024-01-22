@@ -1,9 +1,7 @@
 'use client';
 
 import type {ChangeEvent, FormEvent} from 'react';
-import {useState} from 'react';
-import {useRouter, useSearchParams} from 'next/navigation';
-import {signIn} from 'next-auth/react';
+import {Suspense, useEffect, useState} from 'react';
 import {
   TextField,
   Button,
@@ -25,6 +23,7 @@ import Link from 'next/link';
 import useWindowSize from '@/app/lib/useWindowSize';
 import getScreenSizes from '@/app/lib/getScreenSizes';
 import ForgotPassword from './forgot-password';
+import LoginHandler from './login-handler';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -33,9 +32,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const [shouldLogin, setShouldLogin] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -51,22 +49,12 @@ export default function LoginPage() {
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signIn('credentials', {
-      email,
-      password,
-      redirect: false
-    })
-      .then((result) => {
-        if (result?.error) {
-          setLoginError(result.error);
-        } else {
-          const callbackUrl = searchParams.get('callbackUrl');
-          router.push(callbackUrl || '/');
-        }
-      })
-      .catch((error) => {
-        console.error('Login error:', error);
-      });
+    setShouldLogin(true);
+    if (rememberMe) {
+      localStorage.setItem('userEmail', email);
+    } else {
+      localStorage.removeItem('userEmail');
+    }
   };
 
   const screenSizes = getScreenSizes();
@@ -84,6 +72,18 @@ export default function LoginPage() {
     setShowForgotPassModal(false);
     setShowForgotPassDrawer(false);
   };
+
+  const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+  };
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('userEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row h-screen">
@@ -145,7 +145,16 @@ export default function LoginPage() {
               }}
             />
             <div className="flex justify-between items-center">
-              <FormControlLabel label="Lembrar-me" control={<Checkbox color="primary" />} />
+              <FormControlLabel
+                label="Lembrar-me"
+                control={
+                  <Checkbox
+                    color="primary"
+                    checked={rememberMe}
+                    onChange={handleRememberMeChange}
+                  />
+                }
+              />
               <MuiLink
                 component="button"
                 type="button"
@@ -172,6 +181,11 @@ export default function LoginPage() {
             </Button>
           </FormControl>
         </form>
+        {shouldLogin && (
+          <Suspense fallback={null}>
+            <LoginHandler email={email} password={password} setLoginError={setLoginError} />
+          </Suspense>
+        )}
         <div className="flex gap-2">
           <span>Não possui uma conta?</span>
           <Link href="/signup" className="underline text-blue-600 hover:text-blue-800">
